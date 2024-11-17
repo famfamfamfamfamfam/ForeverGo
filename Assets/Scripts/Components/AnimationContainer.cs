@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,11 @@ using UnityEngine;
 public class AnimationContainer
 {
     protected Animator animCotroller;
-    public AnimationContainer(Animator animator)
+    protected GameObject playerWeapon;
+    public AnimationContainer(Animator animator, GameObject weapon)
     {
         animCotroller = animator;
+        playerWeapon = weapon;
     }
 
     public void StartLoopAnimation(string transitionParamName)
@@ -36,9 +39,12 @@ public class AnimationContainer
 
     public void AnimateComboAttack()
     {
-
+        playerWeapon.SetActive(true);
     }
 
-    public virtual void UniqueSkill() { }
+    public virtual void UniqueSkill()
+    {
+        playerWeapon.SetActive(true);
+    }
 
 }

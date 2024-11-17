@@ -7,11 +7,13 @@ public class Test : MonoBehaviour
     PlayInput inputMoving;
     Animator animator;
     Rigidbody rb;
+    [SerializeField]
+    GameObject weapon;
     void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        AnimationContainer container = new WindAnimationContainer(animator);
+        AnimationContainer container = new WindAnimationContainer(animator, weapon);
         inputMoving = new PlayInput(container);
     }
     bool isOnGround;
@@ -29,12 +31,12 @@ public class Test : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isOnGround = true;
     }
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Environment"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isOnGround = false;
     }
 }
