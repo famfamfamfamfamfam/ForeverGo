@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimationContainer
 {
-    Animator animCotroller;
+    protected Animator animCotroller;
     public AnimationContainer(Animator animator)
     {
         animCotroller = animator;
@@ -18,7 +18,8 @@ public class AnimationContainer
 
     public void StopLoopAnimation(string transitionParamName)
     {
-        animCotroller.SetBool(transitionParamName, false);
+        if (animCotroller.GetBool(transitionParamName))
+            animCotroller.SetBool(transitionParamName, false);
     }
 
     public void TurnOnTemporaryAnimation(string transitionParamName, string stateName)
@@ -32,4 +33,12 @@ public class AnimationContainer
         if (animCotroller.GetCurrentAnimatorStateInfo(0).IsName(previousStateName))
             TurnOnTemporaryAnimation(transitionParamName, stateName);
     }
+
+    public void AnimateComboAttack()
+    {
+
+    }
+
+    public virtual void UniqueSkill() { }
+
 }

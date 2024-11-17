@@ -58,4 +58,10 @@ public class PlayInput
         else
             animationController.StopLoopAnimation("isSprinting");
     }
+
+    public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition)
+    {
+        if (turnOnUniqueSkillCondition)
+            animationController.UniqueSkill();
+    }
 }

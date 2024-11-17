@@ -11,7 +11,7 @@ public class Test : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        AnimationContainer container = new AnimationContainer(animator);
+        AnimationContainer container = new WindAnimationContainer(animator);
         inputMoving = new PlayInput(container);
     }
     bool isOnGround;
@@ -25,6 +25,7 @@ public class Test : MonoBehaviour
         inputMoving.ToJump(Input.GetKeyDown(KeyCode.Space), isOnGround);
         inputMoving.ToDash(Input.GetMouseButtonDown(1));
         inputMoving.ToSprint(Input.GetKey(KeyCode.LeftShift));
+        inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
     }
     private void OnCollisionEnter(Collision collision)
     {
