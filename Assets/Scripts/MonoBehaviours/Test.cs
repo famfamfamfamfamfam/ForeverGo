@@ -9,13 +9,12 @@ public class Test : MonoBehaviour
     [SerializeField]
     GameObject weapon;
 
-    AnimatorStateMachine[] animatorStateMachineClones;
     void Start()
     {
         animator = GetComponent<Animator>();
         AnimationContainer container = new FireAnimationContainer(animator);
         inputMoving = new PlayInput(container);
-        animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
+        AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
         {
             clone.playerWeapon = weapon;
@@ -34,7 +33,7 @@ public class Test : MonoBehaviour
         inputMoving.ToDash(Input.GetMouseButtonDown(1));
         inputMoving.ToSprint(Input.GetKey(KeyCode.LeftShift));
         inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q), weapon);
-        inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0));
+        inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0), weapon);
     }
     private void OnCollisionEnter(Collision collision)
     {

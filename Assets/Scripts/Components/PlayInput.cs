@@ -68,9 +68,14 @@ public class PlayInput
         }
     }
 
-    public void ToAnimateComboAttack(bool hasInput)
+    string[] stateNames = { "NormalAttack1", "NormalAttack2", "NormalAttack3" };
+    public void ToAnimateComboAttack(bool hasInput, GameObject playerWeapon)
     {
-        //if (hasInput)
+        if (hasInput)
+        {
+            playerWeapon.SetActive(true);
+            animationController.AnimateComboAttack("nAttack", stateNames);
+        }
     }
 
     public void DeactiveWeaponOnAnimationExit(GameObject playerWeapon)

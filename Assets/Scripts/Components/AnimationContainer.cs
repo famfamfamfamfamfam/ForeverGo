@@ -39,9 +39,20 @@ public class AnimationContainer
     public void AnimateComboAttack(string transitionParamName, string[] stateNames)
     {
         if (!animCotroller.GetCurrentAnimatorStateInfo(0).IsName(stateNames[stateNameIndex]))
+        {
             animCotroller.SetInteger(transitionParamName, intParamValue);
+            SetUpNextParamValue(stateNames.Length);
+        }
     }
 
+    void SetUpNextParamValue(int numberOfCombo)
+    {
+        if (stateNameIndex == numberOfCombo - 1)
+            stateNameIndex = 0;
+        else
+            stateNameIndex++;
+        intParamValue = stateNameIndex;
+    }
 
 
     public virtual void UniqueSkill() { Debug.Log("ttt"); }
