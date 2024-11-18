@@ -6,11 +6,9 @@ using UnityEngine;
 public class AnimationContainer
 {
     protected Animator animCotroller;
-    protected GameObject playerWeapon;
-    public AnimationContainer(Animator animator, GameObject weapon)
+    public AnimationContainer(Animator animator)
     {
         animCotroller = animator;
-        playerWeapon = weapon;
     }
 
     public void StartLoopAnimation(string transitionParamName)
@@ -37,14 +35,15 @@ public class AnimationContainer
             TurnOnTemporaryAnimation(transitionParamName, stateName);
     }
 
-    public void AnimateComboAttack()
+    int stateNameIndex, intParamValue;
+    public void AnimateComboAttack(string transitionParamName, string[] stateNames)
     {
-        playerWeapon.SetActive(true);
+        if (!animCotroller.GetCurrentAnimatorStateInfo(0).IsName(stateNames[stateNameIndex]))
+            animCotroller.SetInteger(transitionParamName, intParamValue);
     }
 
-    public virtual void UniqueSkill()
-    {
-        playerWeapon.SetActive(true);
-    }
+
+
+    public virtual void UniqueSkill() { Debug.Log("ttt"); }
 
 }

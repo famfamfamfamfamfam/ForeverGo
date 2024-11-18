@@ -6,15 +6,21 @@ public class Test : MonoBehaviour
 {
     PlayInput inputMoving;
     Animator animator;
-    Rigidbody rb;
     [SerializeField]
     GameObject weapon;
+
+    AnimatorStateMachine[] animatorStateMachineClones;
     void Start()
     {
         animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
-        AnimationContainer container = new WindAnimationContainer(animator, weapon);
+        AnimationContainer container = new FireAnimationContainer(animator);
         inputMoving = new PlayInput(container);
+        animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
+        foreach (AnimatorStateMachine clone in animatorStateMachineClones)
+        {
+            clone.playerWeapon = weapon;
+            clone.input = inputMoving;
+        }
     }
     bool isOnGround;
     void Update()
@@ -27,7 +33,8 @@ public class Test : MonoBehaviour
         inputMoving.ToJump(Input.GetKeyDown(KeyCode.Space), isOnGround);
         inputMoving.ToDash(Input.GetMouseButtonDown(1));
         inputMoving.ToSprint(Input.GetKey(KeyCode.LeftShift));
-        inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
+        inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q), weapon);
+        inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0));
     }
     private void OnCollisionEnter(Collision collision)
     {

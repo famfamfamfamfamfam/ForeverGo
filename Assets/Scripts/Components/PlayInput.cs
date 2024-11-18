@@ -59,9 +59,22 @@ public class PlayInput
             animationController.StopLoopAnimation("isSprinting");
     }
 
-    public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition)
+    public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition, GameObject playerWeapon)
     {
         if (turnOnUniqueSkillCondition)
+        {
+            playerWeapon.SetActive(true);
             animationController.UniqueSkill();
+        }
+    }
+
+    public void ToAnimateComboAttack(bool hasInput)
+    {
+        //if (hasInput)
+    }
+
+    public void DeactiveWeaponOnAnimationExit(GameObject playerWeapon)
+    {
+        playerWeapon.SetActive(false);
     }
 }
