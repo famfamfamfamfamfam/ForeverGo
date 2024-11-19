@@ -20,11 +20,11 @@ public class PlayInput
     }
 
     Vector3 direction;
-    public void SetDirection(GameObject obj)
+    public void SetDirection(GameObject obj, Transform objHead)
     {
         direction = new Vector3(horizontalValue, 0, verticalValue);
         if (direction != Vector3.zero)
-            obj.transform.forward = direction;
+            obj.transform.forward = objHead.rotation * direction;
     }
 
     public void ToWalk()
@@ -75,6 +75,10 @@ public class PlayInput
         {
             playerWeapon.SetActive(true);
             animationController.AnimateComboAttack("nAttack", stateNames);
+        }
+        else
+        {
+            animationController.ResetIntParam("nAttack");
         }
     }
 

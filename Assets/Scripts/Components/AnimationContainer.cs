@@ -41,11 +41,11 @@ public class AnimationContainer
         if (!animCotroller.GetCurrentAnimatorStateInfo(0).IsName(stateNames[stateNameIndex]))
         {
             animCotroller.SetInteger(transitionParamName, intParamValue);
-            SetUpNextParamValue(stateNames.Length);
+            SetUpNextParamValues(stateNames.Length);
         }
     }
 
-    void SetUpNextParamValue(int numberOfCombo)
+    void SetUpNextParamValues(int numberOfCombo)
     {
         if (stateNameIndex == numberOfCombo - 1)
             stateNameIndex = 0;
@@ -54,6 +54,10 @@ public class AnimationContainer
         intParamValue = stateNameIndex;
     }
 
+    public void ResetIntParam(string transitionParamName)
+    {
+        animCotroller.SetInteger(transitionParamName, -1);
+    }
 
     public virtual void UniqueSkill() { Debug.Log("ttt"); }
 

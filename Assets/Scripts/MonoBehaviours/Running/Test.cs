@@ -8,11 +8,13 @@ public class Test : MonoBehaviour
     Animator animator;
     [SerializeField]
     GameObject weapon;
+    [SerializeField]
+    Transform head;
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        AnimationContainer container = new FireAnimationContainer(animator);
+        AnimationContainer container = new WindAnimationContainer(animator);
         inputMoving = new PlayInput(container);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
@@ -27,7 +29,7 @@ public class Test : MonoBehaviour
         inputMoving.SetAxisInputValue
             (Input.GetAxis("Horizontal"),
             Input.GetAxis("Vertical"));
-        inputMoving.SetDirection(gameObject);
+        inputMoving.SetDirection(gameObject, head);
         inputMoving.ToWalk();
         inputMoving.ToJump(Input.GetKeyDown(KeyCode.Space), isOnGround);
         inputMoving.ToDash(Input.GetMouseButtonDown(1));
