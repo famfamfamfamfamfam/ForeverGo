@@ -41,24 +41,29 @@ public class AnimationContainer
         if (!animCotroller.GetCurrentAnimatorStateInfo(0).IsName(stateNames[stateNameIndex]))
         {
             animCotroller.SetInteger(transitionParamName, intParamValue);
-            SetUpNextParamValues(stateNames.Length);
+            SetUpNextValue(ref stateNameIndex, stateNames.Length);
+            intParamValue = stateNameIndex;
         }
     }
 
-    void SetUpNextParamValues(int numberOfCombo)
+    void SetUpNextValue(ref int currentValue, int numberOfCombo)
     {
-        if (stateNameIndex == numberOfCombo - 1)
-            stateNameIndex = 0;
+        if (currentValue == numberOfCombo - 1)
+            currentValue = 0;
         else
-            stateNameIndex++;
-        intParamValue = stateNameIndex;
+            currentValue++;
     }
 
-    public void ResetIntParam(string transitionParamName)
+    public void ResetIntParam(string transitionParamName, int firstValue)
     {
-        animCotroller.SetInteger(transitionParamName, -1);
+        animCotroller.SetInteger(transitionParamName, firstValue);
     }
 
-    public virtual void UniqueSkill() { Debug.Log("ttt"); }
+    public bool IsRunningState(string stateName)
+    {
+        return animCotroller.GetCurrentAnimatorStateInfo(0).IsName(stateName);
+    }
+
+    public virtual void UniqueSkill() { }
 
 }

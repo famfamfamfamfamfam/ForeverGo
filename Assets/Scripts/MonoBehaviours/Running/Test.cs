@@ -20,7 +20,6 @@ public class Test : MonoBehaviour
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
         {
             clone.playerWeapon = weapon;
-            clone.input = inputMoving;
         }
     }
     bool isOnGround;
@@ -29,13 +28,14 @@ public class Test : MonoBehaviour
         inputMoving.SetAxisInputValue
             (Input.GetAxis("Horizontal"),
             Input.GetAxis("Vertical"));
-        inputMoving.SetDirection(gameObject, head);
         inputMoving.ToWalk();
+        inputMoving.SetDirection(gameObject, head);
         inputMoving.ToJump(Input.GetKeyDown(KeyCode.Space), isOnGround);
         inputMoving.ToDash(Input.GetMouseButtonDown(1));
         inputMoving.ToSprint(Input.GetKey(KeyCode.LeftShift));
-        inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q), weapon);
-        inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0), weapon);
+        inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
+        inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0));
+        inputMoving.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
     }
     private void OnCollisionEnter(Collision collision)
     {

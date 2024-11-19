@@ -23,7 +23,9 @@ public class PlayInput
     public void SetDirection(GameObject obj, Transform objHead)
     {
         direction = new Vector3(horizontalValue, 0, verticalValue);
-        if (direction != Vector3.zero)
+        if (direction != Vector3.zero
+                && (animationController.IsRunningState("Walking")
+                || animationController.IsRunningState("Sprinting")))
             obj.transform.forward = objHead.rotation * direction;
     }
 
@@ -59,31 +61,27 @@ public class PlayInput
             animationController.StopLoopAnimation("isSprinting");
     }
 
-    public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition, GameObject playerWeapon)
+    public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition)
     {
         if (turnOnUniqueSkillCondition)
-        {
-            playerWeapon.SetActive(true);
             animationController.UniqueSkill();
-        }
     }
 
     string[] stateNames = { "NormalAttack1", "NormalAttack2", "NormalAttack3" };
-    public void ToAnimateComboAttack(bool hasInput, GameObject playerWeapon)
+    public void ToAnimateComboAttack(bool hasInput)
+    {
+        if (hasInput)
+            animationController.AnimateComboAttack("nAttack", stateNames);
+        else
+            animationController.ResetIntParam("nAttack", -1);
+    }
+
+    public void ToDoubleSuperAttack(bool hasInput)
     {
         if (hasInput)
         {
-            playerWeapon.SetActive(true);
-            animationController.AnimateComboAttack("nAttack", stateNames);
+            animationController.TurnOnTemporaryAnimation("sAttack", "SuperAttack1");
+            animationController.TurnOnSecondaryAnimation("sAttackx2", "SuperAttack2", "SuperAttack1");
         }
-        else
-        {
-            animationController.ResetIntParam("nAttack");
-        }
-    }
-
-    public void DeactiveWeaponOnAnimationExit(GameObject playerWeapon)
-    {
-        playerWeapon.SetActive(false);
     }
 }
