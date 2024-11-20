@@ -8,9 +8,11 @@ public class PlayInput
 {
     AnimationContainer animationController;
     float horizontalValue, verticalValue;
-    public PlayInput(AnimationContainer animationContainer)
+    //int[] stateHashes;
+    public PlayInput(AnimationContainer animationContainer/*, int[] stateHashes*/)
     {
         animationController = animationContainer;
+        //this.stateHashes = stateHashes;
     }
 
     public void SetAxisInputValue(float horizontalInput, float verticalInput)

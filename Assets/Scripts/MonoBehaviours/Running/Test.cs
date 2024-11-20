@@ -10,16 +10,37 @@ public class Test : MonoBehaviour
     GameObject weapon;
     [SerializeField]
     Transform head;
+    //string[] stateNames = { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
+    //    "Base Layer.Jumping", "Base Layer.Twisting", "Base Layer.Dashing",
+    //    "Base Layer.NormalAttack1", "Base Layer.NormalAttack2", "Base Layer.NormalAttack3",
+    //    "Base Layer.RisingWind", "Base Layer.RisingWater", "Base Layer.RisingFire",
+    //    "Base Layer.SuperAttack1", "Base Layer.SuperAttack2" };
+    //int[] stateHashes = new int[14];
+    string[] attackStateNames = {
+        "Base Layer.NormalAttack1", "Base Layer.NormalAttack2", "Base Layer.NormalAttack3",
+        "Base Layer.RisingWind", "Base Layer.RisingWater", "Base Layer.RisingFire",
+        "Base Layer.SuperAttack1", "Base Layer.SuperAttack2"
+    };
+    int[] attackStateNameHashes = new int[8];
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        //for (int i = 0; i < stateHashes.Length; i++)
+        //{
+        //    stateHashes[i] = Animator.StringToHash(stateNames[i]);
+        //}
         AnimationContainer container = new WindAnimationContainer(animator);
-        inputMoving = new PlayInput(container);
+        inputMoving = new PlayInput(container/*, stateHashes*/);
+        for (int i = 0; i < attackStateNameHashes.Length; i++)
+        {
+            attackStateNameHashes[i] = Animator.StringToHash(attackStateNames[i]);
+        }
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
         {
             clone.playerWeapon = weapon;
+            clone.stateHashes = attackStateNameHashes;
         }
     }
     bool isOnGround;
@@ -28,8 +49,8 @@ public class Test : MonoBehaviour
         inputMoving.SetAxisInputValue
             (Input.GetAxis("Horizontal"),
             Input.GetAxis("Vertical"));
-        inputMoving.ToWalk();
         inputMoving.SetDirection(gameObject, head);
+        inputMoving.ToWalk();
         inputMoving.ToJump(Input.GetKeyDown(KeyCode.Space), isOnGround);
         inputMoving.ToDash(Input.GetMouseButtonDown(1));
         inputMoving.ToSprint(Input.GetKey(KeyCode.LeftShift));
