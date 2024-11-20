@@ -4,31 +4,46 @@ using UnityEngine;
 
 public class WindAnimationContainer : AnimationContainer
 {
-    public WindAnimationContainer(Animator animator) : base(animator) { }
+    int risingWindState;
+    public WindAnimationContainer(Animator animator, int risingWindStateHash) : base(animator)
+    {
+        risingWindState = risingWindStateHash;
+    }
 
+    int riseWind = Animator.StringToHash("riseWind");
     public override void UniqueSkill()
     {
-        TurnOnTemporaryAnimation("riseWind", "RisingWind");
+        TurnOnTemporaryAnimation(riseWind, risingWindState);
     }
 }
 
 public class FireAnimationContainer : AnimationContainer
 {
-    public FireAnimationContainer(Animator animator) : base(animator) { }
+    int risingFireState;
+    public FireAnimationContainer(Animator animator, int risingFireStateHash) : base(animator)
+    {
+        risingFireState = risingFireStateHash;
+    }
 
+    int riseFire = Animator.StringToHash("riseFire");
     public override void UniqueSkill()
     {
-        TurnOnTemporaryAnimation("riseFire", "RisingFire");
+        TurnOnTemporaryAnimation(riseFire, risingFireState);
     }
 }
 
 public class WaterAnimationContainer : AnimationContainer
 {
-    public WaterAnimationContainer(Animator animator) : base(animator) { }
+    int risingWaterState;
+    public WaterAnimationContainer(Animator animator, int risingWaterStateHash) : base(animator)
+    {
+        risingWaterState = risingWaterStateHash;
+    }
 
+    int riseWater = Animator.StringToHash("riseWater");
     public override void UniqueSkill()
     {
-        TurnOnTemporaryAnimation("riseWater", "RisingWater");
+        TurnOnTemporaryAnimation(riseWater, risingWaterState);
     }
 }
 

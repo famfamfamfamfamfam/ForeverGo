@@ -10,37 +10,26 @@ public class Test : MonoBehaviour
     GameObject weapon;
     [SerializeField]
     Transform head;
-    //string[] stateNames = { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
-    //    "Base Layer.Jumping", "Base Layer.Twisting", "Base Layer.Dashing",
-    //    "Base Layer.NormalAttack1", "Base Layer.NormalAttack2", "Base Layer.NormalAttack3",
-    //    "Base Layer.RisingWind", "Base Layer.RisingWater", "Base Layer.RisingFire",
-    //    "Base Layer.SuperAttack1", "Base Layer.SuperAttack2" };
-    //int[] stateHashes = new int[14];
-    string[] attackStateNames = {
+    string[] stateNames = { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
+        "Base Layer.Jumping", "Base Layer.Twisting", "Base Layer.Dashing",
         "Base Layer.NormalAttack1", "Base Layer.NormalAttack2", "Base Layer.NormalAttack3",
         "Base Layer.RisingWind", "Base Layer.RisingWater", "Base Layer.RisingFire",
-        "Base Layer.SuperAttack1", "Base Layer.SuperAttack2"
-    };
-    int[] attackStateNameHashes = new int[8];
-
+        "Base Layer.SuperAttack1", "Base Layer.SuperAttack2" };
+    int[] stateHashes = new int[14];
     void Start()
     {
         animator = GetComponent<Animator>();
-        //for (int i = 0; i < stateHashes.Length; i++)
-        //{
-        //    stateHashes[i] = Animator.StringToHash(stateNames[i]);
-        //}
-        AnimationContainer container = new WindAnimationContainer(animator);
-        inputMoving = new PlayInput(container/*, stateHashes*/);
-        for (int i = 0; i < attackStateNameHashes.Length; i++)
+        for (int i = 0; i < stateHashes.Length; i++)
         {
-            attackStateNameHashes[i] = Animator.StringToHash(attackStateNames[i]);
+            stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
+        AnimationContainer container = new WindAnimationContainer(animator, stateHashes[10]);
+        inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
         {
             clone.playerWeapon = weapon;
-            clone.stateHashes = attackStateNameHashes;
+            clone.stateHashes = stateHashes;
         }
     }
     bool isOnGround;

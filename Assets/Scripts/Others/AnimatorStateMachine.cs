@@ -14,9 +14,9 @@ public class AnimatorStateMachine : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        foreach (int state in stateHashes)
+        for (int i = 6; i < stateHashes.Length; i++)
         {
-            if (state == animator.GetCurrentAnimatorStateInfo(0).fullPathHash)
+            if (stateHashes[i] == animator.GetCurrentAnimatorStateInfo(0).fullPathHash)
                 return;
         }
         playerWeapon.SetActive(false);

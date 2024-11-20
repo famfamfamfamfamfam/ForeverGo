@@ -8,11 +8,12 @@ public class PlayInput
 {
     AnimationContainer animationController;
     float horizontalValue, verticalValue;
-    //int[] stateHashes;
-    public PlayInput(AnimationContainer animationContainer/*, int[] stateHashes*/)
+    int[] stateHashes, subStateHashes;
+    public PlayInput(AnimationContainer animationContainer, int[] stateHashes)
     {
         animationController = animationContainer;
-        //this.stateHashes = stateHashes;
+        this.stateHashes = stateHashes;
+        subStateHashes = new int [3] { stateHashes[6], stateHashes[7], stateHashes[8] };
     }
 
     public void SetAxisInputValue(float horizontalInput, float verticalInput)
@@ -26,41 +27,46 @@ public class PlayInput
     {
         direction = new Vector3(horizontalValue, 0, verticalValue);
         if (direction != Vector3.zero
-                && (animationController.IsRunningState("Walking")
-                || animationController.IsRunningState("Sprinting")))
+                && (animationController.IsRunningState(stateHashes[1])
+                || animationController.IsRunningState(stateHashes[2])))
             obj.transform.forward = objHead.rotation * direction;
     }
 
+    int isWalking = Animator.StringToHash("isWalking");
     public void ToWalk()
     {
         if (direction != Vector3.zero)
-            animationController.StartLoopAnimation("isWalking");
+            animationController.StartLoopAnimation(isWalking);
         else
-            animationController.StopLoopAnimation("isWalking");
+            animationController.StopLoopAnimation(isWalking);
     }
 
+    int jump = Animator.StringToHash("jump");
+    int twist = Animator.StringToHash("twist");
     public void ToJump(bool hasInput, bool jumpCondition)
     {
         if (hasInput)
         {
             if (jumpCondition)
-                animationController.TurnOnTemporaryAnimation("jump", "Jumping");
-            animationController.TurnOnSecondaryAnimation("twist", "Twisting", "Jumping");
+                animationController.TurnOnTemporaryAnimation(jump, stateHashes[3]);
+            animationController.TurnOnSecondaryAnimation(twist, stateHashes[4], stateHashes[3]);
         }
     }
 
+    int dash = Animator.StringToHash("dash");
     public void ToDash(bool hasInput)
     {
         if (hasInput)
-            animationController.TurnOnTemporaryAnimation("dash", "Dashing");
+            animationController.TurnOnTemporaryAnimation(dash, stateHashes[5]);
     }
 
+    int isSprinting = Animator.StringToHash("isSprinting");
     public void ToSprint(bool hasInput)
     {
         if (hasInput)
-            animationController.StartLoopAnimation("isSprinting");
+            animationController.StartLoopAnimation(isSprinting);
         else
-            animationController.StopLoopAnimation("isSprinting");
+            animationController.StopLoopAnimation(isSprinting);
     }
 
     public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition)
@@ -69,21 +75,23 @@ public class PlayInput
             animationController.UniqueSkill();
     }
 
-    string[] stateNames = { "NormalAttack1", "NormalAttack2", "NormalAttack3" };
+    int nAttack = Animator.StringToHash("nAttack");
     public void ToAnimateComboAttack(bool hasInput)
     {
         if (hasInput)
-            animationController.AnimateComboAttack("nAttack", stateNames);
+            animationController.AnimateComboAttack(nAttack, subStateHashes);
         else
-            animationController.ResetIntParam("nAttack", -1);
+            animationController.ResetIntParam(nAttack, -1);
     }
 
+    int sAttack = Animator.StringToHash("sAttack");
+    int sAttackx2 = Animator.StringToHash("sAttackx2");
     public void ToDoubleSuperAttack(bool hasInput)
     {
         if (hasInput)
         {
-            animationController.TurnOnTemporaryAnimation("sAttack", "SuperAttack1");
-            animationController.TurnOnSecondaryAnimation("sAttackx2", "SuperAttack2", "SuperAttack1");
+            animationController.TurnOnTemporaryAnimation(sAttack, stateHashes[12]);
+            animationController.TurnOnSecondaryAnimation(sAttackx2, stateHashes[13], stateHashes[12]);
         }
     }
 }
