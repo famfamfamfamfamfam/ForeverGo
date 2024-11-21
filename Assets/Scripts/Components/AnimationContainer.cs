@@ -5,42 +5,42 @@ using UnityEngine;
 
 public class AnimationContainer
 {
-    protected Animator animCotroller;
+    protected Animator animController;
     public AnimationContainer(Animator animator)
     {
-        animCotroller = animator;
+        animController = animator;
     }
 
     public void StartLoopAnimation(int transitionHash)
     {
-        if (!animCotroller.GetBool(transitionHash))
-            animCotroller.SetBool(transitionHash, true);
+        if (!animController.GetBool(transitionHash))
+            animController.SetBool(transitionHash, true);
     }
 
     public void StopLoopAnimation(int transitionHash)
     {
-        if (animCotroller.GetBool(transitionHash))
-            animCotroller.SetBool(transitionHash, false);
+        if (animController.GetBool(transitionHash))
+            animController.SetBool(transitionHash, false);
     }
 
     public void TurnOnTemporaryAnimation(int transitionHash, int stateHash)
     {
-        if (animCotroller.GetCurrentAnimatorStateInfo(0).fullPathHash != stateHash)
-            animCotroller.SetTrigger(transitionHash);
+        if (animController.GetCurrentAnimatorStateInfo(0).fullPathHash != stateHash)
+            animController.SetTrigger(transitionHash);
     }
 
     public void TurnOnSecondaryAnimation(int transitionHash, int stateHash, int previousStateHash)
     {
-        if (animCotroller.GetCurrentAnimatorStateInfo(0).fullPathHash == previousStateHash)
+        if (animController.GetCurrentAnimatorStateInfo(0).fullPathHash == previousStateHash)
             TurnOnTemporaryAnimation(transitionHash, stateHash);
     }
 
     int stateIndex, intParamValue;
     public void AnimateComboAttack(int transitionHash, int[] stateHashes)
     {
-        if (animCotroller.GetCurrentAnimatorStateInfo(0).fullPathHash != stateHashes[stateIndex])
+        if (animController.GetCurrentAnimatorStateInfo(0).fullPathHash != stateHashes[stateIndex])
         {
-            animCotroller.SetInteger(transitionHash, intParamValue);
+            animController.SetInteger(transitionHash, intParamValue);
             SetUpNextValue(ref stateIndex, stateHashes.Length);
             intParamValue = stateIndex;
         }
@@ -56,12 +56,12 @@ public class AnimationContainer
 
     public void ResetIntParam(int transitionHash, int firstValue)
     {
-        animCotroller.SetInteger(transitionHash, firstValue);
+        animController.SetInteger(transitionHash, firstValue);
     }
 
     public bool IsRunningState(int stateHash)
     {
-        return animCotroller.GetCurrentAnimatorStateInfo(0).fullPathHash == stateHash;
+        return animController.GetCurrentAnimatorStateInfo(0).fullPathHash == stateHash;
     }
 
     public virtual void UniqueSkill() { }

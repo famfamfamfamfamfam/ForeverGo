@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    PowerData powerData;
+    [SerializeField]
+    NaturePowerKind powerKind;
     PlayInput inputMoving;
     Animator animator;
     [SerializeField]
@@ -23,7 +26,8 @@ public class Test : MonoBehaviour
         {
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
-        AnimationContainer container = new WindAnimationContainer(animator, stateHashes[10]);
+        powerData = new PowerData(animator, stateHashes);
+        AnimationContainer container = powerData.GetKindOfAnimationContainer(powerKind.powerKind);
         inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)

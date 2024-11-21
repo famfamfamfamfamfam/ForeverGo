@@ -512,6 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25b2a2eff7ea2dc469eb6a324c7291dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerKind: {fileID: 11400000, guid: 950c3a96a2e55ea46a64a40da00d83ca, type: 2}
   weapon: {fileID: 922511065}
   head: {fileID: 1021314821}
 --- !u!4 &783615537 stripped

@@ -13,7 +13,7 @@ public class PlayInput
     {
         animationController = animationContainer;
         this.stateHashes = stateHashes;
-        subStateHashes = new int [3] { stateHashes[6], stateHashes[7], stateHashes[8] };
+        subStateHashes = new int[3] { stateHashes[6], stateHashes[7], stateHashes[8] };
     }
 
     public void SetAxisInputValue(float horizontalInput, float verticalInput)
