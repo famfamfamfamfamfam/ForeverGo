@@ -97,14 +97,16 @@ public class PlayInput
     }
 
     int enumCount = Enum.GetValues(typeof(PlayerPowerKind)).Length;
-    public void ToChangeThePower(bool hasInput, PowerData powerData, ref PlayerPowerKind currentPowerKind)
+    public void ToChangeThePower(bool hasInput, PowerData powerData, ref PlayerPowerKind currentPowerKind, Renderer renderer)
     {
         if(hasInput)
         {
             int currentPowerKindIndex = (int)currentPowerKind;
             animationController.SetUpNextValue(ref currentPowerKindIndex, enumCount);
             currentPowerKind = (PlayerPowerKind)currentPowerKindIndex;
-            animationController = powerData.GetKindOfAnimationContainer(currentPowerKind);
+            PlayerData playerData = powerData.GetKindOfData(currentPowerKind);
+            animationController = playerData.playerCurrentAnimContainer;
+            renderer.material = playerData.currentMaterial;
         }
     }
 }

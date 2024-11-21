@@ -9,8 +9,9 @@ public class Test : MonoBehaviour
     NaturePowerKind powerKind;
     PlayInput inputMoving;
     Animator animator;
+    Renderer renderer;
     [SerializeField]
-    GameObject weapon;
+    GameObject weapon, body;
     [SerializeField]
     Transform head;
     string[] stateNames;
@@ -24,13 +25,15 @@ public class Test : MonoBehaviour
         "Base Layer.SuperAttack1", "Base Layer.SuperAttack2" };
         stateHashes = new int[14];
 
+        renderer = body.GetComponent<Renderer>();
         animator = GetComponent<Animator>();
         for (int i = 0; i < stateHashes.Length; i++)
         {
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
         powerData = new PowerData(animator, stateHashes);
-        AnimationContainer container = powerData.GetKindOfAnimationContainer(powerKind.powerKind);
+        AnimationContainer container = powerData.GetKindOfData(powerKind.powerKind).playerCurrentAnimContainer;
+        renderer.material = powerData.GetKindOfData(powerKind.powerKind).currentMaterial;
         inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
@@ -53,7 +56,7 @@ public class Test : MonoBehaviour
         inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
         inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0));
         inputMoving.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
-        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F), powerData, ref powerKind.powerKind);
+        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F), powerData, ref powerKind.powerKind, renderer);
     }
     private void OnCollisionEnter(Collision collision)
     {

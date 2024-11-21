@@ -16,19 +16,36 @@ public enum PlayerPowerKind
 
 public class PowerData
 {
-    Dictionary<PlayerPowerKind, AnimationContainer> kindsOfAnimationContainer;
+    Dictionary<PlayerPowerKind, PlayerData> kindsOfData;
     public PowerData(Animator animator, int[] stateHashes)
     {
-        kindsOfAnimationContainer = new Dictionary<PlayerPowerKind, AnimationContainer>()
+        kindsOfData = new Dictionary<PlayerPowerKind, PlayerData>()
         {
-            {PlayerPowerKind.Wind, new WindAnimationContainer(animator, stateHashes[9]) },
-            {PlayerPowerKind.Water, new WaterAnimationContainer(animator, stateHashes[10]) },
-            {PlayerPowerKind.Fire, new FireAnimationContainer(animator, stateHashes[11]) }
+            { PlayerPowerKind.Wind,
+                new PlayerData(new WindAnimationContainer(animator, stateHashes[9]),
+                    Resources.Load<Material>("PlayerMat/Wind")) },
+            { PlayerPowerKind.Water,
+                new PlayerData(new WaterAnimationContainer(animator, stateHashes[10]),
+                Resources.Load<Material>("PlayerMat/Water")) },
+            { PlayerPowerKind.Fire,
+                new PlayerData(new FireAnimationContainer(animator, stateHashes[11]),
+                    Resources.Load<Material>("PlayerMat/Fire")) }
         };
     }
 
-    public AnimationContainer GetKindOfAnimationContainer(PlayerPowerKind kindOfPower)
+    public PlayerData GetKindOfData(PlayerPowerKind kindOfPower)
     {
-        return kindsOfAnimationContainer[kindOfPower];
+        return kindsOfData[kindOfPower];
+    }
+}
+
+public class PlayerData
+{
+    public AnimationContainer playerCurrentAnimContainer {  get; private set; }
+    public Material currentMaterial {  get; private set; }
+    public PlayerData(AnimationContainer animationContainer, Material material)
+    {
+        playerCurrentAnimContainer = animationContainer;
+        currentMaterial = material;
     }
 }
