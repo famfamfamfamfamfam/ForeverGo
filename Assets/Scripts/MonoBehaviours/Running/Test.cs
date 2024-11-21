@@ -13,14 +13,17 @@ public class Test : MonoBehaviour
     GameObject weapon;
     [SerializeField]
     Transform head;
-    string[] stateNames = { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
+    string[] stateNames;
+    int[] stateHashes;
+    void Start()
+    {
+        stateNames = new string[14] { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
         "Base Layer.Jumping", "Base Layer.Twisting", "Base Layer.Dashing",
         "Base Layer.NormalAttack1", "Base Layer.NormalAttack2", "Base Layer.NormalAttack3",
         "Base Layer.RisingWind", "Base Layer.RisingWater", "Base Layer.RisingFire",
         "Base Layer.SuperAttack1", "Base Layer.SuperAttack2" };
-    int[] stateHashes = new int[14];
-    void Start()
-    {
+        stateHashes = new int[14];
+
         animator = GetComponent<Animator>();
         for (int i = 0; i < stateHashes.Length; i++)
         {
@@ -50,6 +53,7 @@ public class Test : MonoBehaviour
         inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
         inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0));
         inputMoving.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
+        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F), powerData, ref powerKind.powerKind);
     }
     private void OnCollisionEnter(Collision collision)
     {

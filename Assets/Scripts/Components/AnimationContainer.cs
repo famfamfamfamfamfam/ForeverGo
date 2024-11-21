@@ -46,7 +46,7 @@ public class AnimationContainer
         }
     }
 
-    void SetUpNextValue(ref int currentValue, int numberOfCombo)
+    public void SetUpNextValue(ref int currentValue, int numberOfCombo)
     {
         if (currentValue == numberOfCombo - 1)
             currentValue = 0;

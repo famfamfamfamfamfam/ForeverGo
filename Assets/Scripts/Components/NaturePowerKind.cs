@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Power Kind", menuName = "Power Kind")]
+[CreateAssetMenu(fileName = "New Kind", menuName = "Power Kind")]
 public class NaturePowerKind : ScriptableObject
 {
     public PlayerPowerKind powerKind;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -92,6 +93,18 @@ public class PlayInput
         {
             animationController.TurnOnTemporaryAnimation(sAttack, stateHashes[12]);
             animationController.TurnOnSecondaryAnimation(sAttackx2, stateHashes[13], stateHashes[12]);
+        }
+    }
+
+    int enumCount = Enum.GetValues(typeof(PlayerPowerKind)).Length;
+    public void ToChangeThePower(bool hasInput, PowerData powerData, ref PlayerPowerKind currentPowerKind)
+    {
+        if(hasInput)
+        {
+            int currentPowerKindIndex = (int)currentPowerKind;
+            animationController.SetUpNextValue(ref currentPowerKindIndex, enumCount);
+            currentPowerKind = (PlayerPowerKind)currentPowerKindIndex;
+            animationController = powerData.GetKindOfAnimationContainer(currentPowerKind);
         }
     }
 }
