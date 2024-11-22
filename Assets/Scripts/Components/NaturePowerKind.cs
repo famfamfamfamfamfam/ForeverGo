@@ -6,6 +6,7 @@ using UnityEngine;
 public class NaturePowerKind : ScriptableObject
 {
     public PlayerPowerKind powerKind;
+    public PlayerPowerKind unselectedKind;
 }
 public enum PlayerPowerKind
 {

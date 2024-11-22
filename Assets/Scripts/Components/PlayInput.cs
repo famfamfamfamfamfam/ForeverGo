@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -95,7 +95,7 @@ public class PlayInput
     Vector3 directionToMonster;
     void LookForwardAMonster(GameObject obj)
     {
-        if (Physics.OverlapSphereNonAlloc(obj.transform.position, 1.8f, monsterTargets, monsLayerMask) > 0)
+        if (Physics.OverlapSphereNonAlloc(obj.transform.position, 2f, monsterTargets, monsLayerMask) > 0)
         {
             directionToMonster = monsterTargets[0].gameObject.transform.position - obj.transform.position;
             directionToMonster.y = obj.transform.position.y;
@@ -116,13 +116,16 @@ public class PlayInput
     }
 
     int enumCount = Enum.GetValues(typeof(PlayerPowerKind)).Length;
-    public void ToChangeThePower(bool hasInput, PowerData powerData, ref PlayerPowerKind currentPowerKind, Renderer renderer)
+    public void ToChangeThePower(bool hasInput, PowerData powerData, ref PlayerPowerKind currentPowerKind, PlayerPowerKind unselectedKind, Renderer renderer)
     {
         if(hasInput)
         {
             int currentPowerKindIndex = (int)currentPowerKind;
-            animationController.SetUpNextValue(ref currentPowerKindIndex, enumCount);
-            currentPowerKind = (PlayerPowerKind)currentPowerKindIndex;
+            do
+            {
+                animationController.SetUpNextValue(ref currentPowerKindIndex, enumCount);
+                currentPowerKind = (PlayerPowerKind)currentPowerKindIndex;
+            } while (currentPowerKind == unselectedKind);
             PlayerData playerData = powerData.GetKindOfData(currentPowerKind);
             animationController = playerData.playerCurrentAnimContainer;
             renderer.material = playerData.currentMaterial;

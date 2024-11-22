@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PlayerPowerKind
   m_EditorClassIdentifier: 
   powerKind: 0
+  unselectedKind: 1
