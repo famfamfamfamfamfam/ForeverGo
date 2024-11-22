@@ -9,7 +9,7 @@ public class Test : MonoBehaviour
     NaturePowerKind powerKind;
     PlayInput inputMoving;
     Animator animator;
-    Renderer renderer;
+    Renderer playerRenderer;
     [SerializeField]
     GameObject weapon, body;
     [SerializeField]
@@ -25,7 +25,7 @@ public class Test : MonoBehaviour
         "Base Layer.SuperAttack1", "Base Layer.SuperAttack2" };
         stateHashes = new int[14];
 
-        renderer = body.GetComponent<Renderer>();
+        playerRenderer = body.GetComponent<Renderer>();
         animator = GetComponent<Animator>();
         for (int i = 0; i < stateHashes.Length; i++)
         {
@@ -33,7 +33,7 @@ public class Test : MonoBehaviour
         }
         powerData = new PowerData(animator, stateHashes);
         AnimationContainer container = powerData.GetKindOfData(powerKind.powerKind).playerCurrentAnimContainer;
-        renderer.material = powerData.GetKindOfData(powerKind.powerKind).currentMaterial;
+        playerRenderer.material = powerData.GetKindOfData(powerKind.powerKind).currentMaterial;
         inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
@@ -54,9 +54,9 @@ public class Test : MonoBehaviour
         inputMoving.ToDash(Input.GetMouseButtonDown(1));
         inputMoving.ToSprint(Input.GetKey(KeyCode.LeftShift));
         inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
-        inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0));
+        inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
         inputMoving.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
-        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F), powerData, ref powerKind.powerKind, renderer);
+        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F), powerData, ref powerKind.powerKind, playerRenderer);
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -67,5 +67,10 @@ public class Test : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isOnGround = false;
+    }
+
+    private void OnDestroy()
+    {
+        powerData.UnloadAssetsOnDestroy();
     }
 }

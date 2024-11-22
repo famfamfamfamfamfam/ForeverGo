@@ -77,13 +77,32 @@ public class PlayInput
     }
 
     int nAttack = Animator.StringToHash("nAttack");
-    public void ToAnimateComboAttack(bool hasInput)
+    public void ToAnimateComboAttack(bool hasInput, GameObject obj)
     {
         if (hasInput)
+        {
+            LookForwardAMonster(obj);
             animationController.AnimateComboAttack(nAttack, subStateHashes);
+        }
         else
+        {
             animationController.ResetIntParam(nAttack, -1);
+        }
     }
+
+    Collider[] monsterTargets = new Collider[1];
+    int monsLayerMask = LayerMask.GetMask("Monster");
+    Vector3 directionToMonster;
+    void LookForwardAMonster(GameObject obj)
+    {
+        if (Physics.OverlapSphereNonAlloc(obj.transform.position, 1.8f, monsterTargets, monsLayerMask) > 0)
+        {
+            directionToMonster = monsterTargets[0].gameObject.transform.position - obj.transform.position;
+            directionToMonster.y = obj.transform.position.y;
+            obj.transform.forward = directionToMonster.normalized;
+        }
+    }
+
 
     int sAttack = Animator.StringToHash("sAttack");
     int sAttackx2 = Animator.StringToHash("sAttackx2");

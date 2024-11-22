@@ -37,6 +37,16 @@ public class PowerData
     {
         return kindsOfData[kindOfPower];
     }
+
+    int kindIndex;
+    public void UnloadAssetsOnDestroy()
+    {
+        for (; kindIndex < kindsOfData.Count; kindIndex++)
+        {
+            Resources.UnloadAsset(kindsOfData[(PlayerPowerKind)kindIndex].currentMaterial);
+        }
+        kindIndex = 0;
+    }
 }
 
 public class PlayerData
