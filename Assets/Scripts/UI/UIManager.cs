@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
     [SerializeField]
     GameObject configScreen, goToGameScreen, doneButton;
-    public static UIManager instance;
+    [SerializeField]
     NaturePowerKind powerData;
     private void OnEnable()
     {
@@ -20,11 +21,10 @@ public class UIManager : MonoBehaviour
     {
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
-        powerData = GetComponent<NaturePowerKind>();
     }
 
-    bool hasAnotherSelected = false;
-    public void ToReceiveSelection(bool selected, PlayerPowerKind powerKind)
+    bool hasAnotherSelected;
+    public void ToReceiveSelection(bool selected, ref bool status, GameObject obj)
     {
         if (selected)
         {
@@ -34,22 +34,55 @@ public class UIManager : MonoBehaviour
                 doneButton.SetActive(true);
             else
                 hasAnotherSelected = true;
-            powerData.powerKind = powerKind;
+            status = true;
+            Debug.Log(obj + "selected");
         }
     }
 
-    public void ToUnselect(bool selected)
+    public void ToUnselect(bool selected, ref bool status, GameObject obj)
     {
         if (!selected)
         {
+            status = false;
             if (doneButton.activeSelf)
             {
-                if (hasAnotherSelected)
-                    return;
                 doneButton.SetActive(false);
+                Debug.Log(obj + "unselected");
                 return;
             }
             hasAnotherSelected = false;
+            Debug.Log(obj + "unselected");
         }
+    }
+
+    public bool DoneButtonIsActived()
+    {
+        return doneButton.activeSelf;
+    }
+
+    public void ToSetUpTheUnselectedPower(PlayerPowerKind powerKind)
+    {
+        powerData.unselectedKind = powerKind;
+    }
+
+    public void ToSetUpTheSelectedPower(PlayerPowerKind powerKind)
+    {
+        powerData.powerKind = powerKind;
+    }
+
+    public PlayerPowerKind ToGetKindOfPower(int id)
+    {
+        switch (id)
+        {
+            case 0: return PlayerPowerKind.Wind;
+            case 1: return PlayerPowerKind.Water;
+            default: return PlayerPowerKind.Fire;
+        }
+    }
+
+    public void OnPressDoneButton()
+    {
+        configScreen.SetActive(false);
+        goToGameScreen.SetActive(true);
     }
 }
