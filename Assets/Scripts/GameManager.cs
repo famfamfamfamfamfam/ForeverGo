@@ -21,4 +21,16 @@ public class GameManager
         else
             currentValue++;
     }
+
+
+    public PowerKind RandomMonsterKind(ref PowerKind unselectedKind)
+    {
+        int powerIndex = UnityEngine.Random.Range(0, 3);
+        int unselectedKindIndex = powerIndex;
+        GameManager.Instance.SetUpNextValue(ref unselectedKindIndex, GameManager.Instance.enumCount);
+        unselectedKind = (PowerKind)unselectedKindIndex;
+        return (PowerKind)powerIndex;
+    }
+
+
 }

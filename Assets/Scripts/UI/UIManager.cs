@@ -31,22 +31,13 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        monstersFirstPowerData.powerKind = RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
-        monstersSecondPowerData.powerKind = RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
+        monstersFirstPowerData.powerKind = GameManager.Instance.RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
+        monstersSecondPowerData.powerKind = GameManager.Instance.RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
         powerData = new PowerData();
         MonstersData firstKindMonsters = powerData.GetKindOfMonsterData(monstersFirstPowerData.powerKind);
         monsterPortrait.sprite = firstKindMonsters.portrait;
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
-    }
-
-    PowerKind RandomMonsterKind(ref PowerKind unselectedKind)
-    {
-        int powerIndex = Random.Range(0, 3);
-        int unselectedKindIndex = powerIndex;
-        GameManager.Instance.SetUpNextValue(ref unselectedKindIndex, GameManager.Instance.enumCount);
-        unselectedKind = (PowerKind)unselectedKindIndex;
-        return (PowerKind)powerIndex;
     }
 
     public bool hasAnotherSelected { get; private set; }
