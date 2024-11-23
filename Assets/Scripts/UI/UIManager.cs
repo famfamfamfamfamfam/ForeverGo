@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -13,8 +14,14 @@ public class UIManager : MonoBehaviour
     {
         instance = this;
     }
-    private void OnDisable()
+    [SerializeField]
+    List<GameObject> objRunningOnDisable;
+    void OnDestroy()
     {
+        foreach (GameObject obj in objRunningOnDisable)
+        {
+            Destroy(obj);
+        }
         instance = null;
     }
     private void Start()
@@ -80,9 +87,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void OnPressDoneButton()
+    public void ToSwitchScreen()
     {
-        configScreen.SetActive(false);
-        goToGameScreen.SetActive(true);
+        configScreen.SetActive(!configScreen.activeSelf);
+        goToGameScreen.SetActive(!goToGameScreen.activeSelf);
+    }
+
+    public void OnPressPlayButton()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void OnPressQuitButton()
+    {
+        Application.Quit();
     }
 }
