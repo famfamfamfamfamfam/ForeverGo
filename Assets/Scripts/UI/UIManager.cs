@@ -2,22 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     [SerializeField]
-    GameObject configScreen, goToGameScreen, doneButton, quitButton, monsterPortrait;
+    GameObject configScreen, goToGameScreen, doneButton, quitButton;
     [SerializeField]
-    NaturePowerKind powerData;
+    NaturePowerKind playerPowerData, monstersFirstPowerData, monstersSecondPowerData;
+    [SerializeField]
+    Image monsterPortrait;
     private void OnEnable()
     {
         instance = this;
     }
     [SerializeField]
     List<GameObject> objRunningOnDisable;
+    PowerData powerData;
     void OnDestroy()
     {
+        powerData.UnloadMonstersAssetsOnDestroy();
         foreach (GameObject obj in objRunningOnDisable)
         {
             Destroy(obj);
@@ -26,8 +31,22 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
+        monstersFirstPowerData.powerKind = RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
+        monstersSecondPowerData.powerKind = RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
+        powerData = new PowerData();
+        MonstersData firstKindMonsters = powerData.GetKindOfMonsterData(monstersFirstPowerData.powerKind);
+        monsterPortrait.sprite = firstKindMonsters.portrait;
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
+    }
+
+    PowerKind RandomMonsterKind(ref PowerKind unselectedKind)
+    {
+        int powerIndex = Random.Range(0, 3);
+        int unselectedKindIndex = powerIndex;
+        GameManager.Instance.SetUpNextValue(ref unselectedKindIndex, GameManager.Instance.enumCount);
+        unselectedKind = (PowerKind)unselectedKindIndex;
+        return (PowerKind)powerIndex;
     }
 
     public bool hasAnotherSelected { get; private set; }
@@ -67,23 +86,23 @@ public class UIManager : MonoBehaviour
         return doneButton.activeSelf;
     }
 
-    public void ToSetUpTheUnselectedPower(PlayerPowerKind powerKind)
+    public void ToSetUpTheUnselectedPower(PowerKind powerKind)
     {
-        powerData.unselectedKind = powerKind;
+        playerPowerData.unselectedKind = powerKind;
     }
 
-    public void ToSetUpTheSelectedPower(PlayerPowerKind powerKind)
+    public void ToSetUpTheSelectedPower(PowerKind powerKind)
     {
-        powerData.powerKind = powerKind;
+        playerPowerData.powerKind = powerKind;
     }
 
-    public PlayerPowerKind ToGetKindOfPower(int id)
+    public PowerKind ToGetKindOfPower(int id)
     {
         switch (id)
         {
-            case 0: return PlayerPowerKind.Wind;
-            case 1: return PlayerPowerKind.Water;
-            default: return PlayerPowerKind.Fire;
+            case 0: return PowerKind.Wind;
+            case 1: return PowerKind.Water;
+            default: return PowerKind.Fire;
         }
     }
 

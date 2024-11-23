@@ -1964,8 +1964,10 @@ MonoBehaviour:
   goToGameScreen: {fileID: 1404234223}
   doneButton: {fileID: 1344309152}
   quitButton: {fileID: 83216386}
-  monsterPortrait: {fileID: 1717278274}
-  powerData: {fileID: 11400000, guid: 950c3a96a2e55ea46a64a40da00d83ca, type: 2}
+  playerPowerData: {fileID: 11400000, guid: 950c3a96a2e55ea46a64a40da00d83ca, type: 2}
+  monstersFirstPowerData: {fileID: 11400000, guid: e08661d611888324dae3672b2048efc5, type: 2}
+  monstersSecondPowerData: {fileID: 11400000, guid: f28792bcca81bf0499e946d0106c75fa, type: 2}
+  monsterPortrait: {fileID: 1717278276}
   objRunningOnDisable:
   - {fileID: 116767129}
   - {fileID: 18293668}

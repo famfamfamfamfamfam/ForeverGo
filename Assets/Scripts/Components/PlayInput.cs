@@ -115,18 +115,17 @@ public class PlayInput
         }
     }
 
-    int enumCount = Enum.GetValues(typeof(PlayerPowerKind)).Length;
-    public void ToChangeThePower(bool hasInput, PowerData powerData, ref PlayerPowerKind currentPowerKind, PlayerPowerKind unselectedKind, Renderer renderer)
+    public void ToChangeThePower(bool hasInput, PowerData powerData, ref PowerKind currentPowerKind, PowerKind unselectedKind, Renderer renderer)
     {
         if(hasInput)
         {
             int currentPowerKindIndex = (int)currentPowerKind;
             do
             {
-                GameManager.Instance.SetUpNextValue(ref currentPowerKindIndex, enumCount);
-                currentPowerKind = (PlayerPowerKind)currentPowerKindIndex;
+                GameManager.Instance.SetUpNextValue(ref currentPowerKindIndex, GameManager.Instance.enumCount);
+                currentPowerKind = (PowerKind)currentPowerKindIndex;
             } while (currentPowerKind == unselectedKind);
-            PlayerData playerData = powerData.GetKindOfData(currentPowerKind);
+            PlayerData playerData = powerData.GetKindOfPlayerData(currentPowerKind);
             animationController = playerData.playerCurrentAnimContainer;
             renderer.material = playerData.currentMaterial;
         }

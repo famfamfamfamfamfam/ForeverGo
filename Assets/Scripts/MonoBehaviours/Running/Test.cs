@@ -32,8 +32,8 @@ public class Test : MonoBehaviour
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
         powerData = new PowerData(animator, stateHashes);
-        AnimationContainer container = powerData.GetKindOfData(powerKind.powerKind).playerCurrentAnimContainer;
-        playerRenderer.material = powerData.GetKindOfData(powerKind.powerKind).currentMaterial;
+        AnimationContainer container = powerData.GetKindOfPlayerData(powerKind.powerKind).playerCurrentAnimContainer;
+        playerRenderer.material = powerData.GetKindOfPlayerData(powerKind.powerKind).currentMaterial;
         inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
@@ -71,6 +71,6 @@ public class Test : MonoBehaviour
 
     private void OnDestroy()
     {
-        powerData.UnloadAssetsOnDestroy();
+        powerData.UnloadPlayerAssetsOnDestroy();
     }
 }

@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Kind", menuName = "Power Kind")]
 public class NaturePowerKind : ScriptableObject
 {
-    public PlayerPowerKind powerKind;
-    public PlayerPowerKind unselectedKind;
+    public PowerKind powerKind;
+    public PowerKind unselectedKind;
 }
-public enum PlayerPowerKind
+public enum PowerKind
 {
     Wind,
     Water,
@@ -17,34 +18,59 @@ public enum PlayerPowerKind
 
 public class PowerData
 {
-    Dictionary<PlayerPowerKind, PlayerData> kindsOfData;
+    Dictionary<PowerKind, PlayerData> kindsOfPlayerData;
     public PowerData(Animator animator, int[] stateHashes)
     {
-        kindsOfData = new Dictionary<PlayerPowerKind, PlayerData>()
+        kindsOfPlayerData = new Dictionary<PowerKind, PlayerData>()
         {
-            { PlayerPowerKind.Wind,
+            { PowerKind.Wind,
                 new PlayerData(new WindAnimationContainer(animator, stateHashes[9]),
                     Resources.Load<Material>("PlayerMat/Wind")) },
-            { PlayerPowerKind.Water,
+            { PowerKind.Water,
                 new PlayerData(new WaterAnimationContainer(animator, stateHashes[10]),
                 Resources.Load<Material>("PlayerMat/Water")) },
-            { PlayerPowerKind.Fire,
+            { PowerKind.Fire,
                 new PlayerData(new FireAnimationContainer(animator, stateHashes[11]),
                     Resources.Load<Material>("PlayerMat/Fire")) }
         };
     }
 
-    public PlayerData GetKindOfData(PlayerPowerKind kindOfPower)
+    Dictionary<PowerKind, MonstersData> kindsOfMonstersData;
+    public PowerData()
     {
-        return kindsOfData[kindOfPower];
+        kindsOfMonstersData = new Dictionary<PowerKind, MonstersData>()
+        {
+            { PowerKind.Wind, new MonstersData(Resources.Load<Sprite>("Wind")) },
+            { PowerKind.Water, new MonstersData(Resources.Load<Sprite>("Water")) },
+            { PowerKind.Fire, new MonstersData(Resources.Load<Sprite>("Fire")) },
+        };
+    }
+
+    public PlayerData GetKindOfPlayerData(PowerKind kindOfPower)
+    {
+        return kindsOfPlayerData[kindOfPower];
     }
 
     int kindIndex;
-    public void UnloadAssetsOnDestroy()
+    public void UnloadPlayerAssetsOnDestroy()
     {
-        for (; kindIndex < kindsOfData.Count; kindIndex++)
+        for (; kindIndex < kindsOfPlayerData.Count; kindIndex++)
         {
-            Resources.UnloadAsset(kindsOfData[(PlayerPowerKind)kindIndex].currentMaterial);
+            Resources.UnloadAsset(kindsOfPlayerData[(PowerKind)kindIndex].currentMaterial);
+        }
+        kindIndex = 0;
+    }
+
+    public MonstersData GetKindOfMonsterData(PowerKind kindOfPower)
+    {
+        return kindsOfMonstersData[kindOfPower];
+    }
+
+    public void UnloadMonstersAssetsOnDestroy()
+    {
+        for (; kindIndex < kindsOfMonstersData.Count; kindIndex++)
+        {
+            Resources.UnloadAsset(kindsOfMonstersData[(PowerKind)kindIndex].portrait);
         }
         kindIndex = 0;
     }
@@ -58,5 +84,14 @@ public class PlayerData
     {
         playerCurrentAnimContainer = animationContainer;
         currentMaterial = material;
+    }
+}
+
+public class MonstersData
+{
+    public Sprite portrait {  get; private set; }
+    public MonstersData(Sprite monsterPortrait)
+    {
+        portrait = monsterPortrait;
     }
 }

@@ -8,7 +8,7 @@ public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField]
     int id;
-    PlayerPowerKind powerKind;
+    PowerKind powerKind;
     Image image;
 
     void Start()
