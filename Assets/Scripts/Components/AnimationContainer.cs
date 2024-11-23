@@ -41,17 +41,9 @@ public class AnimationContainer
         if (animController.GetCurrentAnimatorStateInfo(0).fullPathHash != stateHashes[stateIndex])
         {
             animController.SetInteger(transitionHash, intParamValue);
-            SetUpNextValue(ref stateIndex, stateHashes.Length);
+            GameManager.Instance.SetUpNextValue(ref stateIndex, stateHashes.Length);
             intParamValue = stateIndex;
         }
-    }
-
-    public void SetUpNextValue(ref int currentValue, int numberOfCombo)
-    {
-        if (currentValue == numberOfCombo - 1)
-            currentValue = 0;
-        else
-            currentValue++;
     }
 
     public void ResetIntParam(int transitionHash, int firstValue)

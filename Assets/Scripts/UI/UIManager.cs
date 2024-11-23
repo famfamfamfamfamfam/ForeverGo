@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     [SerializeField]
-    GameObject configScreen, goToGameScreen, doneButton;
+    GameObject configScreen, goToGameScreen, doneButton, quitButton, monsterPortrait;
     [SerializeField]
     NaturePowerKind powerData;
     private void OnEnable()
@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
         doneButton.SetActive(false);
     }
 
-    bool hasAnotherSelected;
+    public bool hasAnotherSelected { get; private set; }
     public void ToReceiveSelection(bool selected, ref bool status, GameObject obj)
     {
         if (selected)
@@ -101,5 +101,13 @@ public class UIManager : MonoBehaviour
     public void OnPressQuitButton()
     {
         Application.Quit();
+    }
+
+    public void ToDisplayQuitButton()
+    {
+        if (doneButton.activeSelf)
+            quitButton.SetActive(false);
+        else if (!hasAnotherSelected)
+            quitButton.SetActive(true);
     }
 }
