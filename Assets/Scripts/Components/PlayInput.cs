@@ -122,7 +122,7 @@ public class PlayInput
             int currentPowerKindIndex = (int)currentPowerKind;
             do
             {
-                GameManager.Instance.SetUpNextValue(ref currentPowerKindIndex, GameManager.Instance.enumCount);
+                CommonMethods.Instance.SetUpNextValue(ref currentPowerKindIndex, CommonMethods.Instance.enumCount);
                 currentPowerKind = (PowerKind)currentPowerKindIndex;
             } while (currentPowerKind == unselectedKind);
             PlayerData playerData = (PlayerData)powerData.GetKindOfData(currentPowerKind);

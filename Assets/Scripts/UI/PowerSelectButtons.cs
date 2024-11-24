@@ -26,7 +26,7 @@ public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler
         UIManager.instance.ToReceiveSelection(turn, ref status, gameObject);
         UIManager.instance.ToUnselect(turn, ref status, gameObject);
         UIManager.instance.ToDisplayQuitButton();
-        if (!status)
+        if (status)
             image.color = Color.white;
         else
             image.color = Color.gray;

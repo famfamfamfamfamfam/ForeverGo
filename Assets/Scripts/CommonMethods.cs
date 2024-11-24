@@ -3,19 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager
+public class CommonMethods
 {
-    static GameManager instance = new GameManager();
-    public static GameManager Instance { get => instance; }
-    private GameManager()
+    static CommonMethods instance = new CommonMethods();
+    public static CommonMethods Instance { get => instance; }
+    private CommonMethods()
     {
         enumCount = Enum.GetValues(typeof(PowerKind)).Length;
     }
 
     public int enumCount { get; private set; }
-
-    public bool gameOver { get; private set; }
-    public bool gamePause { get; private set; }
 
     public void SetUpNextValue(ref int currentValue, int numberOfCombo)
     {
@@ -25,12 +22,11 @@ public class GameManager
             currentValue++;
     }
 
-
     public PowerKind RandomMonsterKind(ref PowerKind unselectedKind)
     {
         int powerIndex = UnityEngine.Random.Range(0, 3);
         int unselectedKindIndex = powerIndex;
-        GameManager.Instance.SetUpNextValue(ref unselectedKindIndex, GameManager.Instance.enumCount);
+        SetUpNextValue(ref unselectedKindIndex, enumCount);
         unselectedKind = (PowerKind)unselectedKindIndex;
         return (PowerKind)powerIndex;
     }

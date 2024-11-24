@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,42 +18,54 @@ public enum PowerKind
     Fire
 }
 
-public class PowerData //chua toi uu, lap code, lang phi bo nho
+public class PowerData
 {
     Dictionary<PowerKind, CharacterData> kindsOfData;
-    public PowerData(Animator animator, int[] stateHashes)
+    public PowerData(Animator animator, int[] stateHashes, PowerKind unselectedKind)
+    {
+        CharacterData windData = new PlayerData(new WindAnimationContainer(animator, stateHashes[9]),
+                                                    Resources.Load<Material>("PlayerMat/Wind"));
+        CharacterData waterData = new PlayerData(new WaterAnimationContainer(animator, stateHashes[10]),
+                                                    Resources.Load<Material>("PlayerMat/Water"));
+        CharacterData fireData = new PlayerData(new FireAnimationContainer(animator, stateHashes[11]),
+                                                    Resources.Load<Material>("PlayerMat/Fire"));
+        InitData(windData, waterData, fireData);
+        ToRemoveUselessElement(unselectedKind);
+    }
+
+    public PowerData(PowerKind selectedKind)
+    {
+        CharacterData windData = new MonstersData(Resources.Load<Sprite>("Wind"));
+        CharacterData waterData = new MonstersData(Resources.Load<Sprite>("Water"));
+        CharacterData fireData = new MonstersData(Resources.Load<Sprite>("Fire"));
+        InitData(windData, waterData, fireData);
+        ToRemoveUselessElement(selectedKind);
+    }
+
+    void InitData(CharacterData windData, CharacterData waterData, CharacterData fireData)
     {
         kindsOfData = new Dictionary<PowerKind, CharacterData>()
         {
-            { PowerKind.Wind,
-                new PlayerData(new WindAnimationContainer(animator,
-                    stateHashes[9]),
-                    Resources.Load<Material>("PlayerMat/Wind")) },
-            { PowerKind.Water,
-                new PlayerData(new WaterAnimationContainer(animator,
-                    stateHashes[10]),
-                    Resources.Load<Material>("PlayerMat/Water")) },
-            { PowerKind.Fire,
-                new PlayerData(new FireAnimationContainer(animator,
-                    stateHashes[11]),
-                    Resources.Load<Material>("PlayerMat/Fire")) }
+            { PowerKind.Wind, windData },
+            { PowerKind.Water, waterData },
+            { PowerKind.Fire, fireData },
         };
     }
 
-    public PowerData()
+    void ToRemoveUselessElement(PowerKind theKeyKind)
     {
-        kindsOfData = new Dictionary<PowerKind, CharacterData>()
+        if (GetKindOfData(theKeyKind) is PlayerData)
+            kindsOfData.Remove(theKeyKind);
+        else
         {
-            { PowerKind.Wind,
-                new MonstersData(Resources.Load<Sprite>("Wind"),
-                    Resources.Load<Material>("MonsterMat/Wind")) },
-            { PowerKind.Water,
-                new MonstersData(Resources.Load<Sprite>("Water"),
-                    Resources.Load<Material>("MonsterMat/Water")) },
-            { PowerKind.Fire,
-                new MonstersData(Resources.Load<Sprite>("Fire"),
-                    Resources.Load<Material>("MonsterMat/Fire")) },
-        };
+            PowerKind[] keys = kindsOfData.Keys.ToArray();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                if (keys[i] == theKeyKind)
+                    continue;
+                kindsOfData.Remove(keys[i]);
+            }
+        }
     }
 
     public CharacterData GetKindOfData(PowerKind kindOfPower)
@@ -83,10 +97,10 @@ public class PlayerData : CharacterData
 public class MonstersData : CharacterData
 {
     public Sprite portrait {  get; private set; }
-    public MonstersData(Sprite monsterPortrait, Material monsterMat)
+    public MonstersData(Sprite monsterPortrait)
     {
         portrait = monsterPortrait;
-        material = monsterMat;
+        //material = monsterMat;
     }
 }
 

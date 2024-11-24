@@ -31,7 +31,7 @@ public class Test : MonoBehaviour
         {
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
-        powerData = new PowerData(animator, stateHashes);
+        powerData = new PowerData(animator, stateHashes, powerKind.unselectedKind);
         PlayerData playerData = (PlayerData)powerData.GetKindOfData(powerKind.powerKind);
         AnimationContainer container = playerData.playerCurrentAnimContainer;
         playerRenderer.material = playerData.material;
@@ -46,7 +46,7 @@ public class Test : MonoBehaviour
     bool isOnGround;
     void Update()
     {
-        if (GameManager.Instance.gameOver || GameManager.Instance.gamePause)
+        if (GameManager.instance.gameOver || GameManager.instance.gamePause)
             return;
         inputMoving.SetAxisInputValue
             (Input.GetAxis("Horizontal"),

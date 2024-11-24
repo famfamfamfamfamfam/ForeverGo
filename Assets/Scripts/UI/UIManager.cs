@@ -13,6 +13,13 @@ public class UIManager : MonoBehaviour
     NaturePowerKind playerPowerData, monstersFirstPowerData, monstersSecondPowerData;
     [SerializeField]
     Image monsterPortrait;
+
+    private void Awake()
+    {
+        if (GameManager.instance != null)
+            Destroy(GameManager.instance.gameObject);
+    }
+
     private void OnEnable()
     {
         instance = this;
@@ -31,9 +38,9 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        monstersFirstPowerData.powerKind = GameManager.Instance.RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
-        monstersSecondPowerData.powerKind = GameManager.Instance.RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
-        powerData = new PowerData();
+        monstersFirstPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
+        monstersSecondPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
+        powerData = new PowerData(monstersFirstPowerData.powerKind);
         MonstersData firstKindMonsters = (MonstersData)powerData.GetKindOfData(monstersFirstPowerData.powerKind);
         monsterPortrait.sprite = firstKindMonsters.portrait;
         goToGameScreen.SetActive(false);
@@ -101,11 +108,6 @@ public class UIManager : MonoBehaviour
     {
         configScreen.SetActive(!configScreen.activeSelf);
         goToGameScreen.SetActive(!goToGameScreen.activeSelf);
-    }
-
-    public void OnPressPlayButton()
-    {
-        SceneManager.LoadScene(1);
     }
 
     public void OnPressQuitButton()

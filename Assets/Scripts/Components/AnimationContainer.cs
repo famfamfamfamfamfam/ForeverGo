@@ -41,7 +41,7 @@ public class AnimationContainer
         if (animController.GetCurrentAnimatorStateInfo(0).fullPathHash != stateHashes[stateIndex])
         {
             animController.SetInteger(transitionHash, intParamValue);
-            GameManager.Instance.SetUpNextValue(ref stateIndex, stateHashes.Length);
+            CommonMethods.Instance.SetUpNextValue(ref stateIndex, stateHashes.Length);
             intParamValue = stateIndex;
         }
     }
