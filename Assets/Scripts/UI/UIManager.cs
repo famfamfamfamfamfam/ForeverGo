@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
     {
         monstersFirstPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
         monstersSecondPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
-        powerData = new PowerData(monstersFirstPowerData.powerKind);
+        powerData = new PowerData(monstersFirstPowerData.powerKind, CommonMethods.Instance.linksToMonsterSprites, typeof(Sprite));
         MonstersData firstKindMonsters = (MonstersData)powerData.GetKindOfData(monstersFirstPowerData.powerKind);
         monsterPortrait.sprite = firstKindMonsters.portrait;
         goToGameScreen.SetActive(false);

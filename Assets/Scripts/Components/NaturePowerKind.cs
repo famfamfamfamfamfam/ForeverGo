@@ -33,11 +33,11 @@ public class PowerData
         ToRemoveUselessElement(unselectedKind);
     }
 
-    public PowerData(PowerKind selectedKind)
+    public PowerData(PowerKind selectedKind, string[] linkToAssets, Type T)
     {
-        CharacterData windData = new MonstersData(Resources.Load<Sprite>("Wind"));
-        CharacterData waterData = new MonstersData(Resources.Load<Sprite>("Water"));
-        CharacterData fireData = new MonstersData(Resources.Load<Sprite>("Fire"));
+        CharacterData windData = new MonstersData(Resources.Load(linkToAssets[0], T));
+        CharacterData waterData = new MonstersData(Resources.Load(linkToAssets[1], T));
+        CharacterData fireData = new MonstersData(Resources.Load(linkToAssets[2], T));
         InitData(windData, waterData, fireData);
         ToRemoveUselessElement(selectedKind);
     }
@@ -66,6 +66,7 @@ public class PowerData
                 kindsOfData.Remove(keys[i]);
             }
         }
+        Resources.UnloadUnusedAssets();
     }
 
     public CharacterData GetKindOfData(PowerKind kindOfPower)
@@ -97,10 +98,12 @@ public class PlayerData : CharacterData
 public class MonstersData : CharacterData
 {
     public Sprite portrait {  get; private set; }
-    public MonstersData(Sprite monsterPortrait)
+    public MonstersData(UnityEngine.Object monsterAsset)
     {
-        portrait = monsterPortrait;
-        //material = monsterMat;
+        if (monsterAsset is Sprite)
+            portrait = (Sprite)monsterAsset;
+        if (monsterAsset is Material)
+            material = (Material)monsterAsset;
     }
 }
 

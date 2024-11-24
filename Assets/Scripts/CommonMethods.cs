@@ -10,9 +10,13 @@ public class CommonMethods
     private CommonMethods()
     {
         enumCount = Enum.GetValues(typeof(PowerKind)).Length;
+        linksToMonsterSprites = new string[3] { "Wind", "Water", "Fire" };
+        linksToMonsterMats = new string[3] { "MonsterMat/Wind", "MonsterMat/Water", "MonsterMat/Fire" };
     }
 
     public int enumCount { get; private set; }
+    public string[] linksToMonsterSprites { get; private set; }
+    public string[] linksToMonsterMats { get; private set; }
 
     public void SetUpNextValue(ref int currentValue, int numberOfCombo)
     {
