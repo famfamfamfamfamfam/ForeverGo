@@ -16,82 +16,81 @@ public enum PowerKind
     Fire
 }
 
-public class PowerData
+public class PowerData //chua toi uu, lap code, lang phi bo nho
 {
-    Dictionary<PowerKind, PlayerData> kindsOfPlayerData;
+    Dictionary<PowerKind, CharacterData> kindsOfData;
     public PowerData(Animator animator, int[] stateHashes)
     {
-        kindsOfPlayerData = new Dictionary<PowerKind, PlayerData>()
+        kindsOfData = new Dictionary<PowerKind, CharacterData>()
         {
             { PowerKind.Wind,
-                new PlayerData(new WindAnimationContainer(animator, stateHashes[9]),
+                new PlayerData(new WindAnimationContainer(animator,
+                    stateHashes[9]),
                     Resources.Load<Material>("PlayerMat/Wind")) },
             { PowerKind.Water,
-                new PlayerData(new WaterAnimationContainer(animator, stateHashes[10]),
-                Resources.Load<Material>("PlayerMat/Water")) },
+                new PlayerData(new WaterAnimationContainer(animator,
+                    stateHashes[10]),
+                    Resources.Load<Material>("PlayerMat/Water")) },
             { PowerKind.Fire,
-                new PlayerData(new FireAnimationContainer(animator, stateHashes[11]),
+                new PlayerData(new FireAnimationContainer(animator,
+                    stateHashes[11]),
                     Resources.Load<Material>("PlayerMat/Fire")) }
         };
     }
 
-    Dictionary<PowerKind, MonstersData> kindsOfMonstersData;
     public PowerData()
     {
-        kindsOfMonstersData = new Dictionary<PowerKind, MonstersData>()
+        kindsOfData = new Dictionary<PowerKind, CharacterData>()
         {
-            { PowerKind.Wind, new MonstersData(Resources.Load<Sprite>("Wind")) },
-            { PowerKind.Water, new MonstersData(Resources.Load<Sprite>("Water")) },
-            { PowerKind.Fire, new MonstersData(Resources.Load<Sprite>("Fire")) },
+            { PowerKind.Wind,
+                new MonstersData(Resources.Load<Sprite>("Wind"),
+                    Resources.Load<Material>("MonsterMat/Wind")) },
+            { PowerKind.Water,
+                new MonstersData(Resources.Load<Sprite>("Water"),
+                    Resources.Load<Material>("MonsterMat/Water")) },
+            { PowerKind.Fire,
+                new MonstersData(Resources.Load<Sprite>("Fire"),
+                    Resources.Load<Material>("MonsterMat/Fire")) },
         };
     }
 
-    public PlayerData GetKindOfPlayerData(PowerKind kindOfPower)
+    public CharacterData GetKindOfData(PowerKind kindOfPower)
     {
-        return kindsOfPlayerData[kindOfPower];
+        return kindsOfData[kindOfPower];
     }
 
-    int kindIndex;
-    public void UnloadPlayerAssetsOnDestroy()
+    public void UnloadAssetsOnDestroy()
     {
-        for (; kindIndex < kindsOfPlayerData.Count; kindIndex++)
+        foreach (CharacterData data in kindsOfData.Values)
         {
-            Resources.UnloadAsset(kindsOfPlayerData[(PowerKind)kindIndex].currentMaterial);
+            Resources.UnloadAsset(data.material);
+            if (data is MonstersData mon)
+                Resources.UnloadAsset(mon.portrait);
         }
-        kindIndex = 0;
-    }
-
-    public MonstersData GetKindOfMonsterData(PowerKind kindOfPower)
-    {
-        return kindsOfMonstersData[kindOfPower];
-    }
-
-    public void UnloadMonstersAssetsOnDestroy()
-    {
-        for (; kindIndex < kindsOfMonstersData.Count; kindIndex++)
-        {
-            Resources.UnloadAsset(kindsOfMonstersData[(PowerKind)kindIndex].portrait);
-        }
-        kindIndex = 0;
     }
 }
 
-public class PlayerData
+public class PlayerData : CharacterData
 {
     public AnimationContainer playerCurrentAnimContainer {  get; private set; }
-    public Material currentMaterial {  get; private set; }
-    public PlayerData(AnimationContainer animationContainer, Material material)
+    public PlayerData(AnimationContainer animationContainer, Material playerMaterial)
     {
         playerCurrentAnimContainer = animationContainer;
-        currentMaterial = material;
+        material = playerMaterial;
     }
 }
 
-public class MonstersData
+public class MonstersData : CharacterData
 {
     public Sprite portrait {  get; private set; }
-    public MonstersData(Sprite monsterPortrait)
+    public MonstersData(Sprite monsterPortrait, Material monsterMat)
     {
         portrait = monsterPortrait;
+        material = monsterMat;
     }
+}
+
+public class CharacterData
+{
+    public Material material { get; protected set; }
 }

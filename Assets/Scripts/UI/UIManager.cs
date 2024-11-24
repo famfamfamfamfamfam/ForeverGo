@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     PowerData powerData;
     void OnDestroy()
     {
-        powerData.UnloadMonstersAssetsOnDestroy();
+        powerData.UnloadAssetsOnDestroy();
         foreach (GameObject obj in objRunningOnDisable)
         {
             Destroy(obj);
@@ -34,7 +34,7 @@ public class UIManager : MonoBehaviour
         monstersFirstPowerData.powerKind = GameManager.Instance.RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
         monstersSecondPowerData.powerKind = GameManager.Instance.RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
         powerData = new PowerData();
-        MonstersData firstKindMonsters = powerData.GetKindOfMonsterData(monstersFirstPowerData.powerKind);
+        MonstersData firstKindMonsters = (MonstersData)powerData.GetKindOfData(monstersFirstPowerData.powerKind);
         monsterPortrait.sprite = firstKindMonsters.portrait;
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);

@@ -14,6 +14,9 @@ public class GameManager
 
     public int enumCount { get; private set; }
 
+    public bool gameOver { get; private set; }
+    public bool gamePause { get; private set; }
+
     public void SetUpNextValue(ref int currentValue, int numberOfCombo)
     {
         if (currentValue == numberOfCombo - 1)

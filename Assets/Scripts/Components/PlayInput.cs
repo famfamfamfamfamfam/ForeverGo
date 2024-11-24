@@ -125,9 +125,9 @@ public class PlayInput
                 GameManager.Instance.SetUpNextValue(ref currentPowerKindIndex, GameManager.Instance.enumCount);
                 currentPowerKind = (PowerKind)currentPowerKindIndex;
             } while (currentPowerKind == unselectedKind);
-            PlayerData playerData = powerData.GetKindOfPlayerData(currentPowerKind);
+            PlayerData playerData = (PlayerData)powerData.GetKindOfData(currentPowerKind);
             animationController = playerData.playerCurrentAnimContainer;
-            renderer.material = playerData.currentMaterial;
+            renderer.material = playerData.material;
         }
     }
 }
