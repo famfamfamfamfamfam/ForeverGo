@@ -27,10 +27,8 @@ public class UIManager : MonoBehaviour
     }
     [SerializeField]
     List<GameObject> objRunningOnDisable;
-    PowerData powerData;
     void OnDestroy()
     {
-        powerData.UnloadAssetsOnDestroy();
         foreach (GameObject obj in objRunningOnDisable)
         {
             Destroy(obj);
@@ -41,9 +39,7 @@ public class UIManager : MonoBehaviour
     {
         monstersFirstPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
         monstersSecondPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
-        powerData = new PowerData(monstersFirstPowerData.powerKind, CommonMethods.Instance.linksToMonsterSprites, typeof(Sprite));
-        MonstersData firstKindMonsters = (MonstersData)powerData.GetKindOfData(monstersFirstPowerData.powerKind);
-        monsterPortrait.sprite = firstKindMonsters.portrait;
+        monsterPortrait.sprite = RefToAssets.refs.avtsDictionary[monstersFirstPowerData.powerKind];
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
     }

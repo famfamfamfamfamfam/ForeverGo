@@ -115,7 +115,7 @@ public class PlayInput
         }
     }
 
-    public void ToChangeThePower(bool hasInput, PowerData powerData, ref PowerKind currentPowerKind, PowerKind unselectedKind, Renderer renderer)
+    public void ToChangeThePower(bool hasInput, ref PowerKind currentPowerKind, PowerKind unselectedKind, PlayerData playerData, Renderer renderer)
     {
         if(hasInput)
         {
@@ -125,9 +125,8 @@ public class PlayInput
                 CommonMethods.Instance.SetUpNextValue(ref currentPowerKindIndex, CommonMethods.Instance.enumCount);
                 currentPowerKind = (PowerKind)currentPowerKindIndex;
             } while (currentPowerKind == unselectedKind);
-            PlayerData playerData = (PlayerData)powerData.GetKindOfData(currentPowerKind);
-            animationController = playerData.playerCurrentAnimContainer;
-            renderer.material = playerData.material;
+            animationController = playerData.GetYourAnimationContainer(currentPowerKind, unselectedKind);
+            renderer.material = RefToAssets.refs.skinsDictionary[(currentPowerKind, CharacterKind.Player)];
         }
     }
 }

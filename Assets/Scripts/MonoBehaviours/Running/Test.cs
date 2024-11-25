@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    PowerData powerData;
     [SerializeField]
     NaturePowerKind powerKind;
     PlayInput inputMoving;
+    PlayerData playerData;
     Animator animator;
     Renderer playerRenderer;
     [SerializeField]
@@ -31,10 +31,9 @@ public class Test : MonoBehaviour
         {
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
-        powerData = new PowerData(animator, stateHashes, powerKind.unselectedKind);
-        PlayerData playerData = (PlayerData)powerData.GetKindOfData(powerKind.powerKind);
-        AnimationContainer container = playerData.playerCurrentAnimContainer;
-        playerRenderer.material = playerData.material;
+        playerData = new PlayerData(animator, stateHashes);
+        AnimationContainer container = playerData.GetYourAnimationContainer(powerKind.powerKind, powerKind.unselectedKind);
+        playerRenderer.material = RefToAssets.refs.skinsDictionary[(powerKind.powerKind, CharacterKind.Player)];
         inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
@@ -59,7 +58,7 @@ public class Test : MonoBehaviour
         inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
         inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
         inputMoving.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
-        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F), powerData, ref powerKind.powerKind, powerKind.unselectedKind, playerRenderer);
+        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F), ref powerKind.powerKind, powerKind.unselectedKind, playerData, playerRenderer);
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -70,10 +69,5 @@ public class Test : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isOnGround = false;
-    }
-
-    private void OnDestroy()
-    {
-        powerData.UnloadAssetsOnDestroy();
     }
 }
