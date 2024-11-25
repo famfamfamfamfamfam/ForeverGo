@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    [SerializeField]
+    List<ScriptableObject> dataSavingThroughScenes;
     private void Awake()
     {
         if (instance == null)
