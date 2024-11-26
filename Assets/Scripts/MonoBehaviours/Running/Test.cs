@@ -58,7 +58,7 @@ public class Test : MonoBehaviour
         inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
         inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
         inputMoving.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
-        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F), ref powerKind.powerKind, powerKind.unselectedKind, playerData, playerRenderer);
+        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonMethods.Instance.onlyOneMode, ref powerKind.powerKind, powerKind.unselectedKind, playerData, playerRenderer);
     }
     private void OnCollisionEnter(Collision collision)
     {

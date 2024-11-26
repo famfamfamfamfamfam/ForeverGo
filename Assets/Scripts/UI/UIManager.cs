@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     {
         if (GameManager.instance != null)
             Destroy(GameManager.instance.gameObject);
+        CommonMethods.Instance.onlyOneMode = false;
     }
 
     private void OnEnable()
@@ -63,6 +64,8 @@ public class UIManager : MonoBehaviour
 
     public void ToUnselect(bool selected, ref bool status, GameObject obj)
     {
+        if (CommonMethods.Instance.onlyOneMode)
+            CommonMethods.Instance.onlyOneMode = false;
         if (!selected)
         {
             status = false;
@@ -119,5 +122,14 @@ public class UIManager : MonoBehaviour
             quitButton.SetActive(false);
         else if (!hasAnotherSelected)
             quitButton.SetActive(true);
+    }
+
+    public void ToChooseOnlyOne(ref bool status)
+    {
+        status = true;
+        hasAnotherSelected = false;
+        doneButton.SetActive(true);
+        CommonMethods.Instance.onlyOneMode = true;
+        ToDisplayQuitButton();
     }
 }

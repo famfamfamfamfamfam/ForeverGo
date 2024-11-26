@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler
+public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField]
     int id;
+    Vector3 startPosition;
     PowerKind powerKind;
     Image image;
 
@@ -15,6 +16,7 @@ public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler
     {
         powerKind = UIManager.instance.ToGetKindOfPower(id);
         image = GetComponent<Image>();
+        startPosition = transform.position;
     }
 
     bool turn, status;
@@ -38,5 +40,16 @@ public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler
             UIManager.instance.ToSetUpTheSelectedPower(powerKind);
         else
             UIManager.instance.ToSetUpTheUnselectedPower(powerKind);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.position = eventData.position;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        transform.position = startPosition;
+        UIManager.instance.ToChooseOnlyOne(ref status);
     }
 }

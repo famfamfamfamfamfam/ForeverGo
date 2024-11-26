@@ -14,6 +14,8 @@ public class CommonMethods
         linksToMonsterMats = new string[3] { "MonsterMat/Wind", "MonsterMat/Water", "MonsterMat/Fire" };
     }
 
+    public bool onlyOneMode;
+
     public int enumCount { get; private set; }
     public string[] linksToMonsterSprites { get; private set; }
     public string[] linksToMonsterMats { get; private set; }
