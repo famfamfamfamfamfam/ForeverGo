@@ -122,6 +122,65 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &218307036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 218307037}
+  - component: {fileID: 218307038}
+  m_Layer: 0
+  m_Name: Temp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &218307037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218307036}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.7833431, z: -10.55}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &218307038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218307036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e176707ca8ec844fbd7fa1cc03dc559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skins:
+  - {fileID: 11400000, guid: d4933d5a9fcfc1e49b219eded9b82b0f, type: 2}
+  - {fileID: 11400000, guid: 619df17130b5f6c47917482b6865a015, type: 2}
+  - {fileID: 11400000, guid: 697033808627fd147939e53acfe469ff, type: 2}
+  - {fileID: 11400000, guid: 1e03a090944f68240bc1ce5441f7a7a1, type: 2}
+  - {fileID: 11400000, guid: 27fd290f491676c4eba46e8f48c7f2c5, type: 2}
+  - {fileID: 11400000, guid: 26b5b415aab078b44a711153ebcd4974, type: 2}
+  avatars:
+  - {fileID: 11400000, guid: 2caf80cdba3ba6a4eab1855b20beabbf, type: 2}
+  - {fileID: 11400000, guid: 572582c9d55ad654ca2ee99003e35e4d, type: 2}
+  - {fileID: 11400000, guid: 643215c0bb0f2e64e9c7849836afad26, type: 2}
+  damageData:
+  - {fileID: 11400000, guid: dfe98b6657861b041a4f2d324f708118, type: 2}
+  - {fileID: 11400000, guid: 0f54d3077ad0dc549867f85b895e6bd9, type: 2}
+  - {fileID: 11400000, guid: 3b73b21676496d540bce4229490747db, type: 2}
 --- !u!1 &332332581
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,7 +604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc3c1ca9d2e4ccb4eb1d5a5806f6b0d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPowerKindSO: {fileID: 11400000, guid: 950c3a96a2e55ea46a64a40da00d83ca, type: 2}
 --- !u!4 &922511072
 Transform:
   m_ObjectHideFlags: 0
@@ -72285,3 +72343,4 @@ SceneRoots:
   - {fileID: 332332582}
   - {fileID: 543450652225515676}
   - {fileID: 1292958496}
+  - {fileID: 218307037}

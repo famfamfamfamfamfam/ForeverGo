@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWeaponDamage : MonoBehaviour
+public class DamageProcess : MonoBehaviour
 {
-    NaturePowerKind playerPowerKindSO;
-    PowerKind playerPowerKind;
+    NaturePowerKind selfPowerKind;
+    PowerKind thisCharPowerKind;
     private void OnTriggerEnter(Collider other)
     {
-        playerPowerKind = playerPowerKindSO.powerKind;
+        thisCharPowerKind = selfPowerKind.powerKind;
         //other.gameObject.GetComponent<NaturePowerKind>()?.powerKind
+    }
+
+    void ToPickTheDamage()
+    {
+
     }
 }

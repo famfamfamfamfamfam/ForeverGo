@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -30,7 +27,7 @@ public class UIManager : MonoBehaviour
     List<GameObject> objRunningOnDisable;
     void OnDestroy()
     {
-        RefToAssets.refs.avtsDictionary.Clear();
+        RefToAssets.refs._avtsDictionary.Clear();
         foreach (GameObject obj in objRunningOnDisable)
         {
             Destroy(obj);
@@ -41,7 +38,7 @@ public class UIManager : MonoBehaviour
     {
         monstersFirstPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
         monstersSecondPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
-        monsterPortrait.sprite = RefToAssets.refs.avtsDictionary[monstersFirstPowerData.powerKind];
+        monsterPortrait.sprite = RefToAssets.refs._avtsDictionary[monstersFirstPowerData.powerKind];
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
     }

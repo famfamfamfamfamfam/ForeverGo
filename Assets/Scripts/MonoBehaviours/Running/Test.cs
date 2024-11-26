@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Test : MonoBehaviour
@@ -33,7 +31,7 @@ public class Test : MonoBehaviour
         }
         playerData = new PlayerData(animator, stateHashes, powerKind.unselectedKind);
         AnimationContainer container = playerData.GetYourAnimationContainer(powerKind.powerKind);
-        playerRenderer.material = RefToAssets.refs.skinsDictionary[(powerKind.powerKind, CharacterKind.Player)];
+        playerRenderer.material = RefToAssets.refs._skinsDictionary[(powerKind.powerKind, CharacterKind.Player)];
         inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)

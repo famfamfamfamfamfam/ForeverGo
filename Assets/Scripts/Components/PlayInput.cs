@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
-using UnityEngine;
-using UnityEngine.Scripting.APIUpdating;
+﻿using UnityEngine;
 
 public class PlayInput
 {
@@ -27,9 +22,7 @@ public class PlayInput
     public void SetDirection(GameObject obj, Transform objHead)
     {
         direction = new Vector3(horizontalValue, 0, verticalValue);
-        if (direction != Vector3.zero
-                && (animationController.IsRunningState(stateHashes[1])
-                || animationController.IsRunningState(stateHashes[2])))
+        if (direction != Vector3.zero)
             obj.transform.forward = objHead.rotation * direction;
     }
 
@@ -126,7 +119,7 @@ public class PlayInput
                 currentPowerKind = (PowerKind)currentPowerKindIndex;
             } while (currentPowerKind == unselectedKind);
             animationController = playerData.GetYourAnimationContainer(currentPowerKind);
-            renderer.material = RefToAssets.refs.skinsDictionary[(currentPowerKind, CharacterKind.Player)];
+            renderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, CharacterKind.Player)];
         }
     }
 }

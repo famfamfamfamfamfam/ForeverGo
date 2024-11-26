@@ -15,7 +15,7 @@ public class PlayerData
             { PowerKind.Fire, new FireAnimationContainer(animator, stateHashes[11]) },
         };
         animContainerDictionary.Remove(unselectedKind);
-        RefToAssets.refs.skinsDictionary.Remove((unselectedKind, CharacterKind.Player));
+        RefToAssets.refs._skinsDictionary.Remove((unselectedKind, CharacterKind.Player));
     }
 
     public AnimationContainer GetYourAnimationContainer(PowerKind powerKind)

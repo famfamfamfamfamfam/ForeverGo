@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationContainer
@@ -49,11 +46,6 @@ public class AnimationContainer
     public void ResetIntParam(int transitionHash, int firstValue)
     {
         animController.SetInteger(transitionHash, firstValue);
-    }
-
-    public bool IsRunningState(int stateHash)
-    {
-        return animController.GetCurrentAnimatorStateInfo(0).fullPathHash == stateHash;
     }
 
     public virtual void UniqueSkill() { }
