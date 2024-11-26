@@ -31,8 +31,8 @@ public class Test : MonoBehaviour
         {
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
-        playerData = new PlayerData(animator, stateHashes);
-        AnimationContainer container = playerData.GetYourAnimationContainer(powerKind.powerKind, powerKind.unselectedKind);
+        playerData = new PlayerData(animator, stateHashes, powerKind.unselectedKind);
+        AnimationContainer container = playerData.GetYourAnimationContainer(powerKind.powerKind);
         playerRenderer.material = RefToAssets.refs.skinsDictionary[(powerKind.powerKind, CharacterKind.Player)];
         inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
@@ -69,5 +69,10 @@ public class Test : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isOnGround = false;
+    }
+
+    private void OnDestroy()
+    {
+        stateNames = null;
     }
 }

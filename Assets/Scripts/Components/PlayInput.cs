@@ -125,7 +125,7 @@ public class PlayInput
                 CommonMethods.Instance.SetUpNextValue(ref currentPowerKindIndex, CommonMethods.Instance.enumCount);
                 currentPowerKind = (PowerKind)currentPowerKindIndex;
             } while (currentPowerKind == unselectedKind);
-            animationController = playerData.GetYourAnimationContainer(currentPowerKind, unselectedKind);
+            animationController = playerData.GetYourAnimationContainer(currentPowerKind);
             renderer.material = RefToAssets.refs.skinsDictionary[(currentPowerKind, CharacterKind.Player)];
         }
     }

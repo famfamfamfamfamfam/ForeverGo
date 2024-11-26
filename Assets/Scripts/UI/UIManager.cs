@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     List<GameObject> objRunningOnDisable;
     void OnDestroy()
     {
+        RefToAssets.refs.avtsDictionary.Clear();
         foreach (GameObject obj in objRunningOnDisable)
         {
             Destroy(obj);

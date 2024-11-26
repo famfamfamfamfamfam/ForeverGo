@@ -34,6 +34,4 @@ public class CommonMethods
         unselectedKind = (PowerKind)unselectedKindIndex;
         return (PowerKind)powerIndex;
     }
-
-
 }

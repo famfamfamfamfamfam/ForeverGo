@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class RefToAssets : MonoBehaviour
@@ -20,13 +22,22 @@ public class RefToAssets : MonoBehaviour
         DontDestroyOnLoad(this);
         skinsDictionary = new Dictionary<(PowerKind, CharacterKind), Material>();
         avtsDictionary = new Dictionary<PowerKind, Sprite>();
-        foreach (Skin skin in skins)
+        ConvertListToDictionary<Skin, (PowerKind, CharacterKind), Material>(skins, skinsDictionary,
+            skin => (skin.kind, skin.character),
+            skin => skin.material);
+        ConvertListToDictionary<Avatar, PowerKind, Sprite>(avatars, avtsDictionary,
+            avt => avt.kind,
+            avt => avt.portrait);
+    }
+
+    void ConvertListToDictionary<ListType, KeysType, ValuesType>
+        (List<ListType> elements, Dictionary<KeysType, ValuesType> dictionary,
+        Func<ListType, KeysType> GetKeys, Func<ListType, ValuesType> GetValues)
+    {
+        foreach (ListType element in elements)
         {
-            skinsDictionary.Add((skin.kind, skin.character), skin.material);
+            dictionary.Add(GetKeys(element), GetValues(element));
         }
-        foreach (Avatar avatar in avatars)
-        {
-            avtsDictionary.Add(avatar.kind, avatar.portrait);
-        }
+        elements.Clear();
     }
 }

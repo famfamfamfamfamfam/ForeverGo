@@ -6,7 +6,7 @@ using System;
 public class PlayerData
 {
     Dictionary<PowerKind, AnimationContainer> animContainerDictionary;
-    public PlayerData(Animator animator, int[] stateHashes)
+    public PlayerData(Animator animator, int[] stateHashes, PowerKind unselectedKind)
     {
         animContainerDictionary = new Dictionary<PowerKind, AnimationContainer>()
         {
@@ -14,11 +14,12 @@ public class PlayerData
             { PowerKind.Water, new WaterAnimationContainer(animator, stateHashes[10]) },
             { PowerKind.Fire, new FireAnimationContainer(animator, stateHashes[11]) },
         };
+        animContainerDictionary.Remove(unselectedKind);
+        RefToAssets.refs.skinsDictionary.Remove((unselectedKind, CharacterKind.Player));
     }
 
-    public AnimationContainer GetYourAnimationContainer(PowerKind powerKind, PowerKind unselectedKind)
+    public AnimationContainer GetYourAnimationContainer(PowerKind powerKind)
     {
-        animContainerDictionary.Remove(unselectedKind);
         return animContainerDictionary[powerKind];
     }
 }
