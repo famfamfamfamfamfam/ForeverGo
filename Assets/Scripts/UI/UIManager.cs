@@ -124,9 +124,11 @@ public class UIManager : MonoBehaviour
 
     public void ToChooseOnlyOne()
     {
-        CommonMethods.Instance.onlyOneMode = !CommonMethods.Instance.onlyOneMode;
-        doneButton.SetActive(!doneButton.activeSelf);
-        ToDisplayQuitButton();
-
+        if (hasAnotherSelected)
+        {
+            CommonMethods.Instance.onlyOneMode = !CommonMethods.Instance.onlyOneMode;
+            doneButton.SetActive(!doneButton.activeSelf);
+            ToDisplayQuitButton();
+        }
     }
 }
