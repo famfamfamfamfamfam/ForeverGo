@@ -64,8 +64,6 @@ public class UIManager : MonoBehaviour
 
     public void ToUnselect(bool selected, ref bool status, GameObject obj)
     {
-        if (CommonMethods.Instance.onlyOneMode)
-            CommonMethods.Instance.onlyOneMode = false;
         if (!selected)
         {
             status = false;
@@ -124,12 +122,11 @@ public class UIManager : MonoBehaviour
             quitButton.SetActive(true);
     }
 
-    public void ToChooseOnlyOne(ref bool status)
+    public void ToChooseOnlyOne()
     {
-        status = true;
-        hasAnotherSelected = false;
-        doneButton.SetActive(true);
-        CommonMethods.Instance.onlyOneMode = true;
+        CommonMethods.Instance.onlyOneMode = !CommonMethods.Instance.onlyOneMode;
+        doneButton.SetActive(!doneButton.activeSelf);
         ToDisplayQuitButton();
+
     }
 }
