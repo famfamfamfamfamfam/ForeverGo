@@ -13,4 +13,6 @@ public class DamageCalculator
     {
         return NormalDamage(ingredientHealth, percentage) + bonusDamage;
     }
+
+
 }

@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+public class Test : MonoBehaviour, IOnAttackable
 {
     [SerializeField]
     NaturePowerKind powerKind;
+    PowerKind? mark;
     PlayInput inputMoving;
     PlayerData playerData;
     Animator animator;
@@ -29,6 +31,7 @@ public class Test : MonoBehaviour
         {
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
+        stateNames = null;
         playerData = new PlayerData(animator, stateHashes, powerKind.unselectedKind);
         AnimationContainer container = playerData.GetYourAnimationContainer(powerKind.powerKind);
         playerRenderer.material = RefToAssets.refs._skinsDictionary[(powerKind.powerKind, CharacterKind.Player)];
@@ -69,8 +72,18 @@ public class Test : MonoBehaviour
             isOnGround = false;
     }
 
-    private void OnDestroy()
+    public void OnBeAttacked(PowerKind enemyCurrentPower)
     {
-        stateNames = null;
+        if (mark == null)
+        {
+            mark = enemyCurrentPower;
+            StartCoroutine(ResetTheMark());
+        }
+
+    }
+    private IEnumerator ResetTheMark()
+    {
+        yield return new WaitForSeconds(3);
+        mark = null;
     }
 }

@@ -22,5 +22,9 @@ public class GameManager : MonoBehaviour
     public bool gameOver { get; private set; }
     public bool gamePause { get; private set; }
 
-
+    public void OnBeAttacked(GameObject attacker, GameObject damageTaker)
+    {
+        PowerKind attackerPowerKind = attacker.GetComponent<NaturePowerKind>().powerKind;
+        damageTaker.GetComponent<IOnAttackable>()?.OnBeAttacked(attackerPowerKind);
+    }
 }
