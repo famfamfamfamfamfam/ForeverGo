@@ -7,7 +7,7 @@ public class Test : MonoBehaviour, IOnAttackable
     NaturePowerKind powerKind;
     PowerKind? mark;
     PlayInput inputMoving;
-    PlayerData playerData;
+    SwitchData playerData;
     Animator animator;
     Renderer playerRenderer;
     [SerializeField]
@@ -16,6 +16,11 @@ public class Test : MonoBehaviour, IOnAttackable
     Transform head;
     string[] stateNames;
     int[] stateHashes;
+
+    float health;
+    [SerializeField]
+    CharacterProperties playerOnSwitchModeProperties, playerOnOnlyModeProperties;
+
     void Start()
     {
         stateNames = new string[14] { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
@@ -32,7 +37,12 @@ public class Test : MonoBehaviour, IOnAttackable
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
         stateNames = null;
-        playerData = new PlayerData(animator, stateHashes, powerKind.unselectedKind);
+
+        if (CommonMethods.Instance.onlyOneMode)
+            health = playerOnOnlyModeProperties.properties._health;
+        else
+            health = playerOnSwitchModeProperties.properties._health;
+        playerData = new SwitchData(animator, stateHashes, powerKind.unselectedKind, health);
         AnimationContainer container = playerData.GetYourAnimationContainer(powerKind.powerKind);
         playerRenderer.material = RefToAssets.refs._skinsDictionary[(powerKind.powerKind, CharacterKind.Player)];
         inputMoving = new PlayInput(container, stateHashes);
@@ -59,7 +69,8 @@ public class Test : MonoBehaviour, IOnAttackable
         inputMoving.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
         inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
         inputMoving.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
-        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonMethods.Instance.onlyOneMode, ref powerKind.powerKind, powerKind.unselectedKind, playerData, playerRenderer);
+        inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonMethods.Instance.onlyOneMode,
+                                    ref powerKind.powerKind, ref health, powerKind.unselectedKind, playerData, playerRenderer);
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -79,7 +90,10 @@ public class Test : MonoBehaviour, IOnAttackable
             mark = enemyCurrentPower;
             StartCoroutine(ResetTheMark());
         }
+        if (mark != enemyCurrentPower)
+        {
 
+        }
     }
     private IEnumerator ResetTheMark()
     {

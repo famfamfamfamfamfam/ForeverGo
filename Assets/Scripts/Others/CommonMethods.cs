@@ -29,4 +29,15 @@ public class CommonMethods
         unselectedKind = (PowerKind)unselectedKindIndex;
         return (PowerKind)powerIndex;
     }
+
+    public float NormalDamage(int ingredientHealth, float percentage)
+    {
+        return ingredientHealth * percentage;
+    }
+
+    public float ResonanceDamage(int ingredientHealth, float percentage, int bonusDamage)
+    {
+        return NormalDamage(ingredientHealth, percentage) + bonusDamage;
+    }
+
 }
