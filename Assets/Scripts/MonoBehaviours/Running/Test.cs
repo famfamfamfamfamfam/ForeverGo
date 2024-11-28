@@ -92,7 +92,7 @@ public class Test : MonoBehaviour, IOnAttackable
         }
         if (mark != enemyCurrentPower)
         {
-
+            //CommonMethods.Instance.ToDealResonanceDamage(mark, CharacterKind.Player, );
         }
     }
     private IEnumerator ResetTheMark()

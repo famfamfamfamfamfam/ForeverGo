@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class CommonMethods
 {
@@ -28,6 +29,25 @@ public class CommonMethods
         SetUpNextValue(ref unselectedKindIndex, enumCount);
         unselectedKind = (PowerKind)unselectedKindIndex;
         return (PowerKind)powerIndex;
+    }
+
+    public void ToDealResonanceDamage(PowerKind powerKind, CharacterKind character, int ingredientHealth, float percentage)
+    {
+        int bonusDamage = 0;
+        DamageData damageData = RefToAssets.refs._damageDictionary[(powerKind, character)];
+        switch (powerKind)
+        {
+            case PowerKind.Wind:
+                bonusDamage = damageData._bonusDamageToWindCharacter;
+                break;
+            case PowerKind.Water:
+                bonusDamage = damageData._bonusDamageToWaterCharacter;
+                break;
+            case PowerKind.Fire:
+                bonusDamage = damageData._bonusDamageToFireCharacter;
+                break;
+        }
+        ResonanceDamage(ingredientHealth, percentage, bonusDamage);
     }
 
     public float NormalDamage(int ingredientHealth, float percentage)
