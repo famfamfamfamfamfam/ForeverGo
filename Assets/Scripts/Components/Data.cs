@@ -27,6 +27,12 @@ public class SwitchData
     {
         return data[powerKind].playerHealth;
     }
+
+    public void SetHealth(PowerKind powerKind, float currentHealth)
+    {
+        data[powerKind].SetPlayerHealth(currentHealth);
+    }
+
 }
 
 public class PlayerData
@@ -38,6 +44,11 @@ public class PlayerData
     {
         animContainer = animationContainer;
         playerHealth = health;
+    }
+
+    public void SetPlayerHealth(float newHealth)
+    {
+        playerHealth = newHealth;
     }
 }
 

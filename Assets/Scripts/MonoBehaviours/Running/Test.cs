@@ -6,6 +6,7 @@ public class Test : MonoBehaviour, IOnAttackable
     [SerializeField]
     NaturePowerKind powerKind;
     PowerKind? mark;
+    CharacterKind playerChar = CharacterKind.Player;
     PlayInput inputMoving;
     SwitchData playerData;
     Animator animator;
@@ -44,7 +45,7 @@ public class Test : MonoBehaviour, IOnAttackable
             health = playerOnSwitchModeProperties.properties._health;
         playerData = new SwitchData(animator, stateHashes, powerKind.unselectedKind, health);
         AnimationContainer container = playerData.GetYourAnimationContainer(powerKind.powerKind);
-        playerRenderer.material = RefToAssets.refs._skinsDictionary[(powerKind.powerKind, CharacterKind.Player)];
+        playerRenderer.material = RefToAssets.refs._skinsDictionary[(powerKind.powerKind, playerChar)];
         inputMoving = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
@@ -70,7 +71,8 @@ public class Test : MonoBehaviour, IOnAttackable
         inputMoving.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
         inputMoving.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
         inputMoving.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonMethods.Instance.onlyOneMode,
-                                    ref powerKind.powerKind, ref health, powerKind.unselectedKind, playerData, playerRenderer);
+                                        ref powerKind.powerKind, playerChar, powerKind.unselectedKind,
+                                        ref health, playerData, playerRenderer);
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -92,7 +94,8 @@ public class Test : MonoBehaviour, IOnAttackable
         }
         if (mark != enemyCurrentPower)
         {
-            //CommonMethods.Instance.ToDealResonanceDamage(mark, CharacterKind.Player, );
+            CommonMethods.Instance.ToDealResonanceDamage(mark, enemyCurrentPower, CharacterKind.Player, ref health, 0);
+            playerData.SetHealth(powerKind.powerKind, health);
         }
     }
     private IEnumerator ResetTheMark()

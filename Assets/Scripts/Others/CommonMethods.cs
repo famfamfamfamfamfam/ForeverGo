@@ -31,11 +31,11 @@ public class CommonMethods
         return (PowerKind)powerIndex;
     }
 
-    public void ToDealResonanceDamage(PowerKind powerKind, CharacterKind character, int ingredientHealth, float percentage)
+    public void ToDealResonanceDamage(PowerKind? damageTakerPower, PowerKind attackerPower, CharacterKind attacker, ref float ingredientHealth, float percentage)
     {
         int bonusDamage = 0;
-        DamageData damageData = RefToAssets.refs._damageDictionary[(powerKind, character)];
-        switch (powerKind)
+        DamageData damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
+        switch (damageTakerPower)
         {
             case PowerKind.Wind:
                 bonusDamage = damageData._bonusDamageToWindCharacter;
@@ -47,15 +47,15 @@ public class CommonMethods
                 bonusDamage = damageData._bonusDamageToFireCharacter;
                 break;
         }
-        ResonanceDamage(ingredientHealth, percentage, bonusDamage);
+        ingredientHealth -= ResonanceDamage(ingredientHealth, percentage, bonusDamage);
     }
 
-    public float NormalDamage(int ingredientHealth, float percentage)
+    float NormalDamage(float ingredientHealth, float percentage)
     {
         return ingredientHealth * percentage;
     }
 
-    public float ResonanceDamage(int ingredientHealth, float percentage, int bonusDamage)
+    float ResonanceDamage(float ingredientHealth, float percentage, int bonusDamage)
     {
         return NormalDamage(ingredientHealth, percentage) + bonusDamage;
     }

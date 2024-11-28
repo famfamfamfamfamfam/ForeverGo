@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayInput
 {
@@ -108,12 +109,12 @@ public class PlayInput
         }
     }
 
-    public void ToChangeThePower(bool hasInput, ref PowerKind currentPowerKind, ref float health, PowerKind unselectedKind, SwitchData playerData, Renderer renderer)
+    public void ToChangeThePower(bool hasInput, ref PowerKind currentPowerKind, CharacterKind character, PowerKind unselectedKind, ref float health, SwitchData playerData, Renderer renderer)
     {
         if(hasInput)
         {
             ProcessSwitching(ref currentPowerKind, unselectedKind);
-            SetUpStateAfterSwitch(ref health, currentPowerKind, playerData, renderer);
+            SetUpStateAfterSwitch(currentPowerKind, playerData, ref health, renderer, character);
         }
     }
 
@@ -126,10 +127,10 @@ public class PlayInput
             currentPowerKind = (PowerKind)currentPowerKindIndex;
         } while (currentPowerKind == unselectedKind);
     }
-    void SetUpStateAfterSwitch(ref float health, PowerKind currentPowerKind, SwitchData playerData, Renderer renderer)
+    void SetUpStateAfterSwitch(PowerKind currentPowerKind, SwitchData playerData, ref float health, Renderer renderer, CharacterKind character)
     {
         animationController = playerData.GetYourAnimationContainer(currentPowerKind);
         health = playerData.GetHealth(currentPowerKind);
-        renderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, CharacterKind.Player)];
+        renderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, character)];
     }
 }
