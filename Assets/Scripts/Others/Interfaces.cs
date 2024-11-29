@@ -12,3 +12,8 @@ public interface IAttackStateSettable
 {
     void SetAttackState(AttackSate? newAttackState);
 }
+
+public interface IPowerKindGettable
+{
+    PowerKind GetPowerKind();
+}

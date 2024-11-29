@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Test : MonoBehaviour, IOnAttackable, IAttackStateSettable
+public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPowerKindGettable
 {
     [SerializeField]
     NaturePowerKind powerKind;
@@ -135,13 +135,17 @@ public class Test : MonoBehaviour, IOnAttackable, IAttackStateSettable
     }
 
 
-    AttackSate? playerCurrentAttack;
+    public AttackSate? playerCurrentAttack { get; private set; }
 
     public void SetAttackState(AttackSate? newAttackState)
     {
         playerCurrentAttack = newAttackState;
     }
 
+    public PowerKind GetPowerKind()
+    {
+        return powerKind.powerKind;
+    }
 }
 public enum AttackSate
 {

@@ -25,7 +25,10 @@ public class GameManager : MonoBehaviour
 
     public void OnAttack(GameObject attacker, GameObject damageTaker)
     {
-        PowerKind attackerPowerKind = attacker.GetComponent<NaturePowerKind>().powerKind;
+        IPowerKindGettable iAttacker = attacker.GetComponent<IPowerKindGettable>();
+        if (iAttacker == null)
+            return;
+        PowerKind attackerPowerKind = iAttacker.GetPowerKind();
         damageTaker.GetComponent<IOnAttackable>()?.OnBeAttacked(attackerPowerKind);
     }
 
