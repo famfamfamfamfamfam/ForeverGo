@@ -10,7 +10,7 @@ public interface IOnAttackable
 
 public interface IAttackStateSettable
 {
-    void SetAttackState(AttackSate? newAttackState);
+    void SetAttackState(AttackState? newAttackState);
 }
 
 public interface IPowerKindGettable

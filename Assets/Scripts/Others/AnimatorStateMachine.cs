@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimatorStateMachine : StateMachineBehaviour
 {
     [SerializeField]
-    AttackSate attackState;
+    AttackState attackState;
     public GameObject playerWeapon { get; set; }
     public int[] stateHashes {  get; set; }
 

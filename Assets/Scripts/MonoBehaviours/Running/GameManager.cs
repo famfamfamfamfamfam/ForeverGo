@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
         damageTaker.GetComponent<IOnAttackable>()?.OnBeAttacked(attackerPowerKind);
     }
 
-    public void SetCurrentAttackState(AttackSate? newAttackState, GameObject settableObj)
+    public void SetCurrentAttackState(AttackState? newAttackState, GameObject settableObj)
     {
         settableObj.GetComponent<IAttackStateSettable>()?.SetAttackState(newAttackState);
     }

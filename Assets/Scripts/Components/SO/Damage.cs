@@ -32,4 +32,25 @@ public class DamageData
     public int _bonusDamageToWindCharacter { get => bonusDamageToWindCharacter; }
     public int _bonusDamageToWaterCharacter { get => bonusDamageToWaterCharacter; }
     public int _bonusDamageToFireCharacter { get => bonusDamageToFireCharacter; }
+
+    public Dictionary<PowerKind, int> bonusDamageDictionary { get; private set; }
+    public Dictionary<AttackState, float> percentageDamageDictionary { get; private set; }
+    public void InitBonusDamageDictionary()
+    {
+        bonusDamageDictionary = new Dictionary<PowerKind, int>()
+        {
+            { PowerKind.Wind, bonusDamageToWindCharacter},
+            { PowerKind.Water, bonusDamageToWaterCharacter},
+            { PowerKind.Fire, bonusDamageToFireCharacter},
+        };
+    }
+    public void InitPercentageDamageDictionary()
+    {
+        percentageDamageDictionary = new Dictionary<AttackState, float>()
+        {
+            { AttackState.NormalAttack, percentageDamageOnNormalAttack },
+            { AttackState.SuperAttack, percentageDamageOnSuperAttack },
+            { AttackState.UniqueSkill, percentageDamageOnUniqueSkill },
+        };
+    }
 }

@@ -34,6 +34,11 @@ public class RefToAssets : MonoBehaviour
         ConvertListToDictionary<Damage, (PowerKind, CharacterKind), DamageData>(damageData, ref damageDictionary,
             damage => (damage.powerKind, damage.character),
             damage => damage.data);
+        foreach (DamageData damageData in damageDictionary.Values)
+        {
+            damageData.InitBonusDamageDictionary();
+            damageData.InitPercentageDamageDictionary();
+        }
     }
 
     void ConvertListToDictionary<ListType, KeysType, ValuesType>

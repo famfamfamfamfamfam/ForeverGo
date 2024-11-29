@@ -99,9 +99,9 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             mark = enemyCurrentPower;
             StartCoroutine(ResetTheMark());
         }
-        if (mark != enemyCurrentPower)
+        if (mark != enemyCurrentPower && mark != null)
         {
-            CommonMethods.Instance.ToDealDamage(mark, enemyCurrentPower, CharacterKind.Monster, ref health, 0);
+            CommonMethods.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 0);
             playerData.SetHealth(powerKind.powerKind, health);
         }
         ToReact();
@@ -135,9 +135,9 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     }
 
 
-    public AttackSate? playerCurrentAttack { get; private set; }
+    public AttackState? playerCurrentAttack { get; private set; }
 
-    public void SetAttackState(AttackSate? newAttackState)
+    public void SetAttackState(AttackState? newAttackState)
     {
         playerCurrentAttack = newAttackState;
     }
@@ -147,7 +147,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         return powerKind.powerKind;
     }
 }
-public enum AttackSate
+public enum AttackState
 {
     NormalAttack,
     SuperAttack,
