@@ -6,6 +6,6 @@ public class DamageProcess : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        //GameManager.instance.OnBeAttacked(gameObject, other.gameObject);
+        //GameManager.instance.OnAttack(gameObject, other.gameObject);
     }
 }

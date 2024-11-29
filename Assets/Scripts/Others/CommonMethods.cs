@@ -31,7 +31,7 @@ public class CommonMethods
         return (PowerKind)powerIndex;
     }
 
-    public void ToDealResonanceDamage(PowerKind? damageTakerPower, PowerKind attackerPower, CharacterKind attacker, ref float ingredientHealth, float percentage)
+    public void ToDealDamage(PowerKind? damageTakerPower, PowerKind attackerPower, CharacterKind attacker, ref float ingredientHealth, float percentage)
     {
         int bonusDamage = 0;
         DamageData damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
@@ -48,6 +48,21 @@ public class CommonMethods
                 break;
         }
         ingredientHealth -= ResonanceDamage(ingredientHealth, percentage, bonusDamage);
+    }
+
+    public float GetPercentage(AttackSate? attackSate, PowerKind attackerPower, CharacterKind attacker)
+    {
+        DamageData damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
+        switch (attackSate)
+        {
+            case AttackSate.NormalAttack:
+                return damageData._percentageDamageOnNormalAttack;
+            case AttackSate.SuperAttack:
+                return damageData._percentageDamageOnSuperAttack;
+            case AttackSate.UniqueSkill:
+                return damageData._percentageDamageOnUniqueSkill;
+        }
+        return 0;
     }
 
     float NormalDamage(float ingredientHealth, float percentage)

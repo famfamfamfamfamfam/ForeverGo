@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8bf64c6c8a95064bb05f499a56ddfa3, type: 3}
+  m_Name: WaterMonsterDamage
+  m_EditorClassIdentifier: 
+  powerKind: 1
+  character: 1
+  data:
+    percentageDamageOnNormalAttack: 0
+    percentageDamageOnSuperAttack: 0
+    percentageDamageOnUniqueSkill: 0
+    bonusDamageToWindCharacter: 10
+    bonusDamageToWaterCharacter: 0
+    bonusDamageToFireCharacter: 10

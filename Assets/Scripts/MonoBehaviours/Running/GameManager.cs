@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField]
     List<ScriptableObject> dataSavingThroughScenes;
+
     private void Awake()
     {
         if (instance == null)
@@ -22,9 +23,14 @@ public class GameManager : MonoBehaviour
     public bool gameOver { get; private set; }
     public bool gamePause { get; private set; }
 
-    public void OnBeAttacked(GameObject attacker, GameObject damageTaker)
+    public void OnAttack(GameObject attacker, GameObject damageTaker)
     {
         PowerKind attackerPowerKind = attacker.GetComponent<NaturePowerKind>().powerKind;
         damageTaker.GetComponent<IOnAttackable>()?.OnBeAttacked(attackerPowerKind);
+    }
+
+    public void SetCurrentAttackState(AttackSate? newAttackState, GameObject settableObj)
+    {
+        settableObj.GetComponent<IAttackStateSettable>()?.SetAttackState(newAttackState);
     }
 }

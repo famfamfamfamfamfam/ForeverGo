@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class Test : MonoBehaviour, IOnAttackable
+public class Test : MonoBehaviour, IOnAttackable, IAttackStateSettable
 {
     [SerializeField]
     NaturePowerKind powerKind;
     PowerKind? mark;
     CharacterKind playerChar = CharacterKind.Player;
+    int playerCount;
     PlayInput inputMoving;
     SwitchData playerData;
     Animator animator;
@@ -40,9 +41,15 @@ public class Test : MonoBehaviour, IOnAttackable
         stateNames = null;
 
         if (CommonMethods.Instance.onlyOneMode)
+        {
             health = playerOnOnlyModeProperties.properties._health;
+            playerCount = 1;
+        }
         else
+        {
             health = playerOnSwitchModeProperties.properties._health;
+            playerCount = 2;
+        }
         playerData = new SwitchData(animator, stateHashes, powerKind.unselectedKind, health);
         AnimationContainer container = playerData.GetYourAnimationContainer(powerKind.powerKind);
         playerRenderer.material = RefToAssets.refs._skinsDictionary[(powerKind.powerKind, playerChar)];
@@ -94,13 +101,51 @@ public class Test : MonoBehaviour, IOnAttackable
         }
         if (mark != enemyCurrentPower)
         {
-            CommonMethods.Instance.ToDealResonanceDamage(mark, enemyCurrentPower, CharacterKind.Player, ref health, 0);
+            CommonMethods.Instance.ToDealDamage(mark, enemyCurrentPower, CharacterKind.Monster, ref health, 0);
             playerData.SetHealth(powerKind.powerKind, health);
         }
+        ToReact();
     }
     private IEnumerator ResetTheMark()
     {
         yield return new WaitForSeconds(3);
         mark = null;
     }
+
+    void ToReact()
+    {
+        if (health <= 0)
+        {
+            ToDie();
+            return;
+        }
+        //animate react
+    }
+
+    void ToDie()
+    {
+        playerCount--;
+        if (playerCount == 1)
+            CommonMethods.Instance.onlyOneMode = true;
+        //else: losing
+        //animate die
+        inputMoving.ToChangeThePower(true,
+                                    ref powerKind.powerKind, playerChar, powerKind.unselectedKind,
+                                    ref health, playerData, playerRenderer);
+    }
+
+
+    AttackSate? playerCurrentAttack;
+
+    public void SetAttackState(AttackSate? newAttackState)
+    {
+        playerCurrentAttack = newAttackState;
+    }
+
+}
+public enum AttackSate
+{
+    NormalAttack,
+    SuperAttack,
+    UniqueSkill
 }

@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class AnimatorStateMachine : StateMachineBehaviour
 {
+    [SerializeField]
+    AttackSate attackState;
     public GameObject playerWeapon { get; set; }
     public int[] stateHashes {  get; set; }
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        GameManager.instance.SetCurrentAttackState(attackState, animator.gameObject);
         playerWeapon.SetActive(true);
     }
 
@@ -20,5 +23,6 @@ public class AnimatorStateMachine : StateMachineBehaviour
                 return;
         }
         playerWeapon.SetActive(false);
+        GameManager.instance.SetCurrentAttackState(null, animator.gameObject);
     }
 }
