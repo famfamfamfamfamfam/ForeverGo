@@ -6,11 +6,11 @@ public class Damage : ScriptableObject
 {
     public PowerKind powerKind;
     public CharacterKind character;
-    public DamageData data;
+    public DamageConfig data;
 }
 
 [System.Serializable]
-public class DamageData
+public class DamageConfig
 {
     [SerializeField]
     float percentageDamageOnNormalAttack;

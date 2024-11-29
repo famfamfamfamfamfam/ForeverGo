@@ -4,7 +4,7 @@ using UnityEngine;
 public class SwitchData
 {
     Dictionary<PowerKind, PlayerData> data;
-    public SwitchData(Animator animator, int[] stateHashes, PowerKind unselectedKind, float health)
+    public SwitchData(Animator animator, int[] stateHashes, float health)
     {
         data = new Dictionary<PowerKind, PlayerData>()
         {
@@ -12,8 +12,6 @@ public class SwitchData
             { PowerKind.Water, new PlayerData(new WaterAnimationContainer(animator, stateHashes[10]), health) },
             { PowerKind.Fire, new PlayerData(new FireAnimationContainer(animator, stateHashes[11]), health) },
         };
-        data.Remove(unselectedKind);
-        RefToAssets.refs._skinsDictionary.Remove((unselectedKind, CharacterKind.Player));
     }
 
     public AnimationContainer GetYourAnimationContainer(PowerKind powerKind)
@@ -51,7 +49,7 @@ public class PlayerData
 }
 
 [System.Serializable]
-public class GeneralData
+public class GeneralConfig
 {
     [SerializeField]
     float health;

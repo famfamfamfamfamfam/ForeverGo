@@ -1,15 +1,18 @@
 using System;
 
-public class CommonMethods
+public class CommonUtils
 {
-    static CommonMethods instance = new CommonMethods();
-    public static CommonMethods Instance { get => instance; }
-    private CommonMethods()
+    static CommonUtils instance = new CommonUtils();
+    public static CommonUtils Instance { get => instance; }
+    private CommonUtils()
     {
         enumCount = Enum.GetValues(typeof(PowerKind)).Length;
     }
 
-    public bool onlyOneMode;
+    public SelectedPowerKind playerPower { get; set; }
+    public SelectedPowerKind monstersPower { get; set; }
+
+    public bool onlyOneMode { get; set; }
 
     public int enumCount { get; private set; }
 
@@ -21,26 +24,25 @@ public class CommonMethods
             currentValue++;
     }
 
-    public PowerKind RandomMonsterKind(ref PowerKind unselectedKind)
+    public PowerKind RandomMonsterKind()
     {
         int powerIndex = UnityEngine.Random.Range(0, 3);
         int unselectedKindIndex = powerIndex;
         SetUpNextValue(ref unselectedKindIndex, enumCount);
-        unselectedKind = (PowerKind)unselectedKindIndex;
         return (PowerKind)powerIndex;
     }
 
     public void ToDealDamage(PowerKind damageTakerPower, PowerKind attackerPower, CharacterKind attacker, ref float ingredientHealth, float percentage)
     {
         int bonusDamage = 0;
-        DamageData damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
+        DamageConfig damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
         bonusDamage = damageData.bonusDamageDictionary[damageTakerPower];
         ingredientHealth -= ResonanceDamage(ingredientHealth, percentage, bonusDamage);
     }
 
     public float GetPercentage(AttackState attackSate, PowerKind attackerPower, CharacterKind attacker)
     {
-        DamageData damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
+        DamageConfig damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
         return damageData.percentageDamageDictionary[attackSate];
     }
 

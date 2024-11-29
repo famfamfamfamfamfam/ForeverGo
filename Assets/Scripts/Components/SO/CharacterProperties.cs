@@ -4,5 +4,5 @@ using UnityEngine;
 public class CharacterProperties : ScriptableObject
 {
     public CharacterKind character;
-    public GeneralData properties;
+    public GeneralConfig properties;
 }

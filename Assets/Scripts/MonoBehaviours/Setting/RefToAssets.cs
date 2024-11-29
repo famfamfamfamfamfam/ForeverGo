@@ -17,8 +17,8 @@ public class RefToAssets : MonoBehaviour
 
     Dictionary<PowerKind, Sprite> avtsDictionary;
     public Dictionary<PowerKind, Sprite> _avtsDictionary { get => avtsDictionary; }
-    Dictionary<(PowerKind, CharacterKind), DamageData> damageDictionary;
-    public Dictionary<(PowerKind, CharacterKind), DamageData> _damageDictionary { get => damageDictionary; }
+    Dictionary<(PowerKind, CharacterKind), DamageConfig> damageDictionary;
+    public Dictionary<(PowerKind, CharacterKind), DamageConfig> _damageDictionary { get => damageDictionary; }
     private void Awake()
     {
         if (refs != null)
@@ -31,10 +31,10 @@ public class RefToAssets : MonoBehaviour
         ConvertListToDictionary<Avatar, PowerKind, Sprite>(avatars, ref avtsDictionary,
             avt => avt.kind,
             avt => avt.portrait);
-        ConvertListToDictionary<Damage, (PowerKind, CharacterKind), DamageData>(damageData, ref damageDictionary,
+        ConvertListToDictionary<Damage, (PowerKind, CharacterKind), DamageConfig>(damageData, ref damageDictionary,
             damage => (damage.powerKind, damage.character),
             damage => damage.data);
-        foreach (DamageData damageData in damageDictionary.Values)
+        foreach (DamageConfig damageData in damageDictionary.Values)
         {
             damageData.InitBonusDamageDictionary();
             damageData.InitPercentageDamageDictionary();

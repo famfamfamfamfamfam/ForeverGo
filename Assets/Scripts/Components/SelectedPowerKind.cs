@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class SelectedPowerKind
 {
-    public PowerKind[] selectedPowerKind {  get; private set; }
+    public PowerKind[] selectedPowerKinds {  get; private set; }
     public SelectedPowerKind()
     {
-        selectedPowerKind = new PowerKind[2];
+        selectedPowerKinds = new PowerKind[2];
     }
+}
+public enum PowerKind
+{
+    Wind,
+    Water,
+    Fire
 }

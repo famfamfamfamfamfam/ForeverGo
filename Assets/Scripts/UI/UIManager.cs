@@ -8,15 +8,13 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     GameObject configScreen, goToGameScreen, doneButton, quitButton;
     [SerializeField]
-    NaturePowerKind playerPowerData, monstersFirstPowerData, monstersSecondPowerData;
-    [SerializeField]
     Image monsterPortrait;
 
     private void Awake()
     {
         if (GameManager.instance != null)
             Destroy(GameManager.instance.gameObject);
-        CommonMethods.Instance.onlyOneMode = false;
+        CommonUtils.Instance.onlyOneMode = false;
     }
 
     private void OnEnable()
@@ -36,9 +34,11 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        monstersFirstPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersFirstPowerData.unselectedKind);
-        monstersSecondPowerData.powerKind = CommonMethods.Instance.RandomMonsterKind(ref monstersSecondPowerData.unselectedKind);
-        monsterPortrait.sprite = RefToAssets.refs._avtsDictionary[monstersFirstPowerData.powerKind];
+        CommonUtils.Instance.playerPower = new SelectedPowerKind();
+        CommonUtils.Instance.monstersPower = new SelectedPowerKind();
+        CommonUtils.Instance.monstersPower.selectedPowerKinds[0] = CommonUtils.Instance.RandomMonsterKind();
+        CommonUtils.Instance.monstersPower.selectedPowerKinds[1] = CommonUtils.Instance.RandomMonsterKind();
+        monsterPortrait.sprite = RefToAssets.refs._avtsDictionary[CommonUtils.Instance.monstersPower.selectedPowerKinds[0]];
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
     }
@@ -80,14 +80,12 @@ public class UIManager : MonoBehaviour
         return doneButton.activeSelf;
     }
 
-    public void ToSetUpTheUnselectedPower(PowerKind powerKind)
-    {
-        playerPowerData.unselectedKind = powerKind;
-    }
-
+    int index = 0;
     public void ToSetUpTheSelectedPower(PowerKind powerKind)
     {
-        playerPowerData.powerKind = powerKind;
+        CommonUtils.Instance.playerPower.selectedPowerKinds[index] = powerKind;
+        CommonUtils.Instance.SetUpNextValue(ref index, CommonUtils.Instance.playerPower.selectedPowerKinds.Length);
+        Debug.Log(CommonUtils.Instance.playerPower.selectedPowerKinds[0] + "" + CommonUtils.Instance.playerPower.selectedPowerKinds[1]);
     }
 
     public PowerKind ToGetKindOfPower(int id)
@@ -123,7 +121,7 @@ public class UIManager : MonoBehaviour
     {
         if (hasAnotherSelected)
         {
-            CommonMethods.Instance.onlyOneMode = !CommonMethods.Instance.onlyOneMode;
+            CommonUtils.Instance.onlyOneMode = !CommonUtils.Instance.onlyOneMode;
             doneButton.SetActive(!doneButton.activeSelf);
             ToDisplayQuitButton();
         }

@@ -108,23 +108,20 @@ public class PlayInput
         }
     }
 
-    public void ToChangeThePower(bool hasInput, ref PowerKind currentPowerKind, CharacterKind character, PowerKind unselectedKind, ref float health, SwitchData playerData, Renderer renderer)
+    public void ToChangeThePower(bool hasInput, ref PowerKind currentPowerKind, PowerKind[] powerKinds, CharacterKind character, ref float health, SwitchData playerData, Renderer renderer)
     {
         if(hasInput)
         {
-            ProcessSwitching(ref currentPowerKind, unselectedKind);
+            ProcessSwitching(ref currentPowerKind, powerKinds);
             SetUpStateAfterSwitch(currentPowerKind, playerData, ref health, renderer, character);
         }
     }
 
-    void ProcessSwitching(ref PowerKind currentPowerKind, PowerKind unselectedKind)
+    int currentPowerKindIndex = 0;
+    void ProcessSwitching(ref PowerKind currentPowerKind, PowerKind[] powerKinds)
     {
-        int currentPowerKindIndex = (int)currentPowerKind;
-        do
-        {
-            CommonMethods.Instance.SetUpNextValue(ref currentPowerKindIndex, CommonMethods.Instance.enumCount);
-            currentPowerKind = (PowerKind)currentPowerKindIndex;
-        } while (currentPowerKind == unselectedKind);
+        CommonUtils.Instance.SetUpNextValue(ref currentPowerKindIndex, powerKinds.Length);
+        currentPowerKind = powerKinds[currentPowerKindIndex];
     }
     void SetUpStateAfterSwitch(PowerKind currentPowerKind, SwitchData playerData, ref float health, Renderer renderer, CharacterKind character)
     {
