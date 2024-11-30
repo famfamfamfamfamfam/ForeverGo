@@ -25,13 +25,6 @@ public class DamageConfig
     [SerializeField]
     int bonusDamageToFireCharacter;
 
-    public float _percentageDamageOnNormalAttack { get => percentageDamageOnNormalAttack; }
-    public float _percentageDamageOnSuperAttack { get => percentageDamageOnSuperAttack; }
-    public float _percentageDamageOnUniqueSkill { get => percentageDamageOnUniqueSkill; }
-    public int _bonusDamageToWindCharacter { get => bonusDamageToWindCharacter; }
-    public int _bonusDamageToWaterCharacter { get => bonusDamageToWaterCharacter; }
-    public int _bonusDamageToFireCharacter { get => bonusDamageToFireCharacter; }
-
     public Dictionary<PowerKind, int> bonusDamageDictionary { get; private set; }
     public Dictionary<AttackState, float> percentageDamageDictionary { get; private set; }
     public void InitBonusDamageDictionary()

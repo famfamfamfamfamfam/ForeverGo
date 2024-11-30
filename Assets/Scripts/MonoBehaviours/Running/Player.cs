@@ -26,6 +26,11 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     void Start()
     {
         powerKind = CommonUtils.Instance.playerPower;
+        #region Temp
+        powerKind = new SelectedPowerKind();
+        powerKind.selectedPowerKinds[0] = PowerKind.Wind;
+        powerKind.selectedPowerKinds[1] = PowerKind.Water;
+        #endregion
         currentPowerKind = powerKind.selectedPowerKinds[0];
 
         stateNames = new string[14] { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
