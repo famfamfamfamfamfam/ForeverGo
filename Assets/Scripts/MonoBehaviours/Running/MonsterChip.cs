@@ -8,6 +8,13 @@ public class MonsterChip : MonoBehaviour
 {
     [SerializeField]
     GameObject body;
+    [SerializeField]
+    Transform laserStartPoint;
+    [SerializeField]
+    CharacterProperties monsterProperties;
+
+    public Transform _laserStartPoint { get => laserStartPoint; }
+    public CharacterProperties _monsterProperties { get => monsterProperties; }
 
     void OnEnable()
     {
@@ -20,6 +27,6 @@ public class MonsterChip : MonoBehaviour
         MonsterPower powerProcessor = gameObject.AddComponent<MonsterPower>();
         powerProcessor.Init(powerKind, renderers);
         MonsterController controller = (MonsterController)gameObject.AddComponent(monsterFightType);
-        controller.SetAnimatorController(monsterAnimatorController);
+        controller.Init(monsterAnimatorController);
     }
 }

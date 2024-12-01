@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPowerKindGettable
+public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPowerKindGettable, IAttackStateGettable
 {
     SelectedPowerKind powerKind;
     PowerKind currentPowerKind;
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             isOnGround = false;
     }
 
-    public void OnBeAttacked(PowerKind enemyCurrentPower)
+    public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
         if (mark == null)
         {
@@ -143,7 +143,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     }
 
 
-    public AttackState? playerCurrentAttack { get; private set; }
+    AttackState? playerCurrentAttack;
 
     public void SetAttackState(AttackState? newAttackState)
     {
@@ -153,6 +153,11 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     public PowerKind GetPowerKind()
     {
         return currentPowerKind;
+    }
+
+    public AttackState? GetAttackState()
+    {
+        return playerCurrentAttack;
     }
 }
 public enum AttackState

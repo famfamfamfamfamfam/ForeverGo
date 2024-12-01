@@ -9,4 +9,13 @@ public class RangedMonsterController : MonsterController
         base.Awake();
     }
 
+    LineRenderer lineRenderer;
+    Transform laserStartPoint;
+
+    private void Start()
+    {
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        laserStartPoint = GetComponent<MonsterChip>()._laserStartPoint;
+    }
+
 }

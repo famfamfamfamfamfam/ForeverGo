@@ -26,7 +26,9 @@ public class GameManager : MonoBehaviour
         if (iAttacker == null)
             return;
         PowerKind attackerPowerKind = iAttacker.GetPowerKind();
-        damageTaker.GetComponent<IOnAttackable>()?.OnBeAttacked(attackerPowerKind);
+        IAttackStateGettable iAttack = attacker.GetComponent<IAttackStateGettable>();
+        AttackState? attackerAttackState = iAttack?.GetAttackState();
+        damageTaker.GetComponent<IOnAttackable>()?.OnBeAttacked(attackerPowerKind, attackerAttackState);
     }
 
     public void SetCurrentAttackState(AttackState? newAttackState, GameObject settableObj)
