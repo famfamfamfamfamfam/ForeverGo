@@ -478,7 +478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cae1d3d6b5cf0c9428b1d7c13c93febc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerKind: {fileID: 11400000, guid: 950c3a96a2e55ea46a64a40da00d83ca, type: 2}
   weapon: {fileID: 922511065}
   body: {fileID: 5220239111676587712}
   head: {fileID: 1021314821}
@@ -5845,7 +5844,7 @@ Transform:
   m_GameObject: {fileID: 919132148490529318}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 15.69, y: 0, z: 7.89}
+  m_LocalPosition: {x: 0.94, y: 0, z: -2.42}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -47628,7 +47627,7 @@ Animator:
   m_GameObject: {fileID: 919132148490529318}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: cfbfb95b5f2b90949be0b5faab2775fb, type: 3}
-  m_Controller: {fileID: 9100000, guid: f4117a49476a3764a8a9243203cd0f46, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -47639,27 +47638,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &5866666020431129319
-BoxCollider:
+--- !u!114 &5866666020431129319
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919132148490529318}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4, y: 0.05, z: 4}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d1cf7c36731fc4c8992106f541d58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &5869534680658509472
 MeshFilter:
   m_ObjectHideFlags: 0

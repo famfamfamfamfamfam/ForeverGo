@@ -8,7 +8,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     PowerKind? mark;
     CharacterKind playerChar = CharacterKind.Player;
     int playerCount;
-    PlayInput inputProcessing;
+    PlayInput inputProcessor;
     SwitchData playerData;
     Animator animator;
     Renderer playerRenderer;
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         playerData = new SwitchData(animator, stateHashes, health);
         AnimationContainer container = playerData.GetYourAnimationContainer(currentPowerKind);
         playerRenderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, playerChar)];
-        inputProcessing = new PlayInput(container, stateHashes);
+        inputProcessor = new PlayInput(container, stateHashes);
         AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
         foreach (AnimatorStateMachine clone in animatorStateMachineClones)
         {
@@ -74,18 +74,18 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     {
         if (GameManager.instance.gameOver || GameManager.instance.gamePause)
             return;
-        inputProcessing.SetAxisInputValue
+        inputProcessor.SetAxisInputValue
             (Input.GetAxis("Horizontal"),
             Input.GetAxis("Vertical"));
-        inputProcessing.SetDirection(gameObject, head);
-        inputProcessing.ToWalk();
-        inputProcessing.ToJump(Input.GetKeyDown(KeyCode.Space), isOnGround);
-        inputProcessing.ToDash(Input.GetMouseButtonDown(1));
-        inputProcessing.ToSprint(Input.GetKey(KeyCode.LeftShift));
-        inputProcessing.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
-        inputProcessing.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
-        inputProcessing.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
-        inputProcessing.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonUtils.Instance.onlyOneMode,
+        inputProcessor.SetDirection(gameObject, head);
+        inputProcessor.ToWalk();
+        inputProcessor.ToJump(Input.GetKeyDown(KeyCode.Space), isOnGround);
+        inputProcessor.ToDash(Input.GetMouseButtonDown(1));
+        inputProcessor.ToSprint(Input.GetKey(KeyCode.LeftShift));
+        inputProcessor.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
+        inputProcessor.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
+        inputProcessor.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
+        inputProcessor.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonUtils.Instance.onlyOneMode,
                                         ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
                                         ref health, playerData, playerRenderer);
     }
@@ -137,7 +137,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             CommonUtils.Instance.onlyOneMode = true;
         //else: losing
         //animate die
-        inputProcessing.ToChangeThePower(true,
+        inputProcessor.ToChangeThePower(true,
                                         ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
                                         ref health, playerData, playerRenderer);
     }
