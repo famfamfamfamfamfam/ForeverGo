@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class MeleeMonsterController : MonsterController
 {
-    [SerializeField]
-    RuntimeAnimatorController animatorController;
-
-    private void Awake()
+    private new void Awake()
     {
-        animator.runtimeAnimatorController = animatorController;
+        base.Awake();
     }
 
 }

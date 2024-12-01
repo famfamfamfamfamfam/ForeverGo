@@ -6,27 +6,20 @@ using UnityEngine;
 
 public class MonsterChip : MonoBehaviour
 {
-    MonsterPower powerProcessor;
-    Type controllerType;
-
-    PowerKind? powerKind;
-    Renderer[] renderers;
-
-    public void SetPowerKind(PowerKind newKind)
-    {
-        powerKind = newKind;
-    }
+    [SerializeField]
+    GameObject body;
 
     void OnEnable()
     {
         MonstersManager.instance.monsters.Add(gameObject);
     }
 
-    public void Init()
+    public void Init(PowerKind powerKind, Type monsterFightType, RuntimeAnimatorController monsterAnimatorController)
     {
-        renderers = GetComponentsInChildren<Renderer>();
-        powerProcessor = gameObject.AddComponent<MonsterPower>();
-        powerProcessor.Init(powerKind.Value, renderers);
-        gameObject.AddComponent(controllerType);
+        Renderer[] renderers = body.GetComponentsInChildren<Renderer>();
+        MonsterPower powerProcessor = gameObject.AddComponent<MonsterPower>();
+        powerProcessor.Init(powerKind, renderers);
+        MonsterController controller = (MonsterController)gameObject.AddComponent(monsterFightType);
+        controller.SetAnimatorController(monsterAnimatorController);
     }
 }

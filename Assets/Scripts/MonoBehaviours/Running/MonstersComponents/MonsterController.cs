@@ -5,8 +5,14 @@ using UnityEngine;
 public class MonsterController : MonoBehaviour
 {
     protected Animator animator;
-    private void Awake()
+
+    protected void Awake()
     {
         animator = GetComponent<Animator>();
+    }
+
+    public void SetAnimatorController(RuntimeAnimatorController animatorController)
+    {
+        animator.runtimeAnimatorController = animatorController;
     }
 }

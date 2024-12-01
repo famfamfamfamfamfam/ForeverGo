@@ -976,10 +976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566b18a40dafac340b55b2b93afe49ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataSavingThroughScenes:
-  - {fileID: 11400000, guid: e08661d611888324dae3672b2048efc5, type: 2}
-  - {fileID: 11400000, guid: f28792bcca81bf0499e946d0106c75fa, type: 2}
-  - {fileID: 11400000, guid: 950c3a96a2e55ea46a64a40da00d83ca, type: 2}
 --- !u!1 &1401503851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,6 +1158,97 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.075, y: 0.75, z: 26}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1954821506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1954821507}
+  - component: {fileID: 1954821508}
+  m_Layer: 0
+  m_Name: MonsterManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1954821507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954821506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.0012986306, y: 1.4613022, z: -4.8905506}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1954821508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954821506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5737c9624e8cde4e9a575165b7266f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animatorControllers:
+  - {fileID: 9100000, guid: 8589ffbcca4fabb4baed6670920dd0e1, type: 2}
+  - {fileID: 9100000, guid: f4117a49476a3764a8a9243203cd0f46, type: 2}
+--- !u!1 &2058076355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2058076356}
+  - component: {fileID: 2058076357}
+  m_Layer: 0
+  m_Name: LaserStartPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2058076356
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058076355}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2905553421977049063}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &2058076357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058076355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47533fbf0792bf847ab9b827bd851f72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1599208041681287
 Transform:
   m_ObjectHideFlags: 0
@@ -22011,6 +22098,7 @@ Transform:
   - {fileID: 8475653007318788245}
   - {fileID: 1403033926181435501}
   - {fileID: 829052623736730358}
+  - {fileID: 2058076356}
   m_Father: {fileID: 5728996633981849873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &2906950637451138228
@@ -47650,6 +47738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d1cf7c36731fc4c8992106f541d58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body: {fileID: 5808344117307120700}
 --- !u!33 &5869534680658509472
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -72339,3 +72428,4 @@ SceneRoots:
   - {fileID: 543450652225515676}
   - {fileID: 1292958496}
   - {fileID: 218307037}
+  - {fileID: 1954821507}

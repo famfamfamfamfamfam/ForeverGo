@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - animatorController: {fileID: 9100000, guid: 8589ffbcca4fabb4baed6670920dd0e1, type: 2}
+  - animatorController: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

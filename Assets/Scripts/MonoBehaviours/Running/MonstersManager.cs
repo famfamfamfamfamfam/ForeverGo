@@ -6,6 +6,10 @@ using System;
 public class MonstersManager : MonoBehaviour
 {
     public static MonstersManager instance;
+
+    [SerializeField]
+    List<RuntimeAnimatorController> animatorControllers;
+
     public List<GameObject> monsters { get; private set; }
 
     Type[] monsterFightTypes;
@@ -15,7 +19,7 @@ public class MonstersManager : MonoBehaviour
     {
         instance = this;
         monsters = new List<GameObject>();
-        monsterPowerKinds = CommonUtils.Instance.monstersPower.selectedPowerKinds;
+        //monsterPowerKinds = CommonUtils.Instance.monstersPower.selectedPowerKinds;
         monsterFightTypes = new Type[2]
         {
             typeof(MeleeMonsterController),
@@ -30,12 +34,12 @@ public class MonstersManager : MonoBehaviour
 
     private void Start()
     {
+        int i = 0;
         foreach (GameObject monster in monsters)
         {
             MonsterChip monsterChip = monster.GetComponent<MonsterChip>();
-            monsterChip?.SetPowerKind(PowerKind.Wind);
-
-            monsterChip?.Init();
+            monsterChip?.Init(PowerKind.Fire, monsterFightTypes[i], animatorControllers[i]);
+            CommonUtils.Instance.SetUpNextValue(ref i, 2);
         }
     }
 }
