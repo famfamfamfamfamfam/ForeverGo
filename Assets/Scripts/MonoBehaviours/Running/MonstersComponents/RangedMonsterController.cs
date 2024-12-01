@@ -18,4 +18,13 @@ public class RangedMonsterController : MonsterController
         laserStartPoint = GetComponent<MonsterChip>()._laserStartPoint;
     }
 
+    IEnumerator Roar()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5);
+            //animate
+        }
+    }
+
 }

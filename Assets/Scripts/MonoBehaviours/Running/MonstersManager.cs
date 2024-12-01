@@ -9,6 +9,10 @@ public class MonstersManager : MonoBehaviour
 
     [SerializeField]
     List<RuntimeAnimatorController> animatorControllers;
+    [SerializeField]
+    Transform[] wayPoints;
+
+    public Transform[] _wayPoints { get => wayPoints; }
 
     public List<GameObject> monsters { get; private set; }
 
@@ -39,7 +43,7 @@ public class MonstersManager : MonoBehaviour
         {
             MonsterChip monsterChip = monster.GetComponent<MonsterChip>();
             monsterChip?.Init(PowerKind.Fire, monsterFightTypes[i], animatorControllers[i]);
-            CommonUtils.Instance.SetUpNextValue(ref i, 2);
+            CommonUtils.Instance.SetUpNextValue(ref i, monsterFightTypes.Length);
         }
     }
 }
