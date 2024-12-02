@@ -27,7 +27,7 @@ public class RangedMonsterController : MonsterController
 
     IEnumerator Roar()
     {
-        while (true)
+        while (true)//condition: stay at one of waypoints
         {
             yield return new WaitForSeconds(5);
             //animate

@@ -102,15 +102,15 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
 
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
-        if (mark == null)
-        {
-            mark = enemyCurrentPower;
-            StartCoroutine(ResetTheMark());
-        }
-        if (mark != enemyCurrentPower && mark != null)
+        if (mark != null)
         {
             CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 0);
             playerData.SetHealth(currentPowerKind, health);
+        }
+        else
+        {
+            mark = enemyCurrentPower;
+            StartCoroutine(ResetTheMark());
         }
         ToReact();
     }
@@ -152,7 +152,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
 
     public PowerKind GetPowerKind()
     {
-        return currentPowerKind;
+        return currentPowerKind;//adjust
     }
 
     public AttackState? GetAttackState()

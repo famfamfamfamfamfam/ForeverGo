@@ -36,7 +36,10 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             //animate react
             currentResistance = resistanceToReact;
         }
+        // if enemyCurrentPower == null
+
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
+        //add a method to change the below PowerKind
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
         //if (health <= 0)
             //animate die
