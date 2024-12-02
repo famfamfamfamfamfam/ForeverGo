@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AnimatorStateMachine : StateMachineBehaviour
+public class PlayerAttackAnimationsStateMachine : StateMachineBehaviour
 {
     [SerializeField]
     AttackState attackState;

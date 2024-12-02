@@ -62,8 +62,8 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         AnimationContainer container = playerData.GetYourAnimationContainer(currentPowerKind);
         playerRenderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, playerChar)];
         inputProcessor = new PlayInput(container, stateHashes);
-        AnimatorStateMachine[] animatorStateMachineClones = animator.GetBehaviours<AnimatorStateMachine>();
-        foreach (AnimatorStateMachine clone in animatorStateMachineClones)
+        PlayerAttackAnimationsStateMachine[] animatorStateMachineClones = animator.GetBehaviours<PlayerAttackAnimationsStateMachine>();
+        foreach (PlayerAttackAnimationsStateMachine clone in animatorStateMachineClones)
         {
             clone.playerWeapon = weapon;
             clone.stateHashes = stateHashes;
