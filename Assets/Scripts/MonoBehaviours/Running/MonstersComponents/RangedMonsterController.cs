@@ -8,7 +8,7 @@ public class RangedMonsterController : MonsterController
         base.Awake();
     }
 
-    int startToRunDistance = 7;
+    int startToRunDistance = 6;
     int checkDistance;
 
     public int transformSign { get; set; }

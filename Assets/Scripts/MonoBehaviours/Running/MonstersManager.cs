@@ -33,7 +33,7 @@ public class MonstersManager : MonoBehaviour
             typeof(RangedMonsterController)
         };
     }
-    private void OnDestroy()
+    private void OnDisable()
     {
         for (int i = 0; i < monsters.Count; i++)
         {
@@ -53,11 +53,14 @@ public class MonstersManager : MonoBehaviour
         }
 
         int index = 0;
+        int subIndex = index;
         foreach (GameObject monster in monsters)
         {
             MonsterChip monsterChip = monster.GetComponent<MonsterChip>();
-            monsterChip?.Init(monsterPowerKinds[index], monsterFightTypes[index], animatorControllers[index]);
+            monsterChip?.Init(monsterPowerKinds[subIndex], monsterFightTypes[index], animatorControllers[index]);
             CommonUtils.Instance.SetUpNextValue(ref index, monsterFightTypes.Length);
+            if (index % 2 == 0)
+                CommonUtils.Instance.SetUpNextValue(ref subIndex, monsterPowerKinds.Length);
         }
     }
 

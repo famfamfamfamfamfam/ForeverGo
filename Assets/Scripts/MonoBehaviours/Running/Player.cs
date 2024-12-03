@@ -112,7 +112,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     }
     private IEnumerator ResetTheMark()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         mark = null;
     }
 
