@@ -8,6 +8,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     PowerKind? mark;
     CharacterKind playerChar = CharacterKind.Player;
     int playerCount;
+    AnimationContainer container;
     PlayInput inputProcessor;
     SwitchData playerData;
     Animator animator;
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             playerCount = 2;
         }
         playerData = new SwitchData(animator, stateHashes, health);
-        AnimationContainer container = playerData.GetYourAnimationContainer(currentPowerKind);
+        container = playerData.GetYourAnimationContainer(currentPowerKind);
         playerRenderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, playerChar)];
         inputProcessor = new PlayInput(container, stateHashes);
         PlayerAttackAnimationsStateMachine[] animatorStateMachineClones = animator.GetBehaviours<PlayerAttackAnimationsStateMachine>();
@@ -120,6 +121,8 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         mark = null;
     }
 
+    int reactTransitionHash = Animator.StringToHash("react");
+    int reactStateHash = Animator.StringToHash("Base Layer.Reacting");
     void ToReact()
     {
         if (health <= 0)
@@ -127,13 +130,15 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             ToDie();
             return;
         }
-        //animate react
+        container.TurnOnTemporaryAnimation(reactTransitionHash, reactStateHash);
     }
 
+    int dieTransitionHash = Animator.StringToHash("die");
+    int dieStateHash = Animator.StringToHash("Base Layer.Dying");
     void ToDie()
     {
         playerCount--;
-        //animate die
+        container.TurnOnTemporaryAnimation(dieTransitionHash, dieStateHash);
         if (playerCount == 1)
         {
             CommonUtils.Instance.onlyOneMode = true;

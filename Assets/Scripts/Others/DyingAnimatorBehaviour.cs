@@ -25,5 +25,7 @@ public class DyingAnimatorBehaviour : StateMachineBehaviour
     {
         animator.gameObject.GetComponent<Player>()?.AutoChangePlayerCharacterAsDie();
         animator.gameObject.GetComponent<MonsterChip>()?.gameObject.SetActive(false);
+        if (MonstersManager.instance.monsters.Count == 0)
+            GameManager.instance.gameOver = true;
     }
 }

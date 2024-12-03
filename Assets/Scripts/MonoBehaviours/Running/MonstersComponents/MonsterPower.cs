@@ -42,7 +42,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
         if (health <= 0)
         {
-            //to die
+            gameObject.GetComponent<MonsterController>().ToDie();
         }
     }
 

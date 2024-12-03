@@ -31,4 +31,11 @@ public class MonsterController : MonoBehaviour
     {
         container.TurnOnTemporaryAnimation(reactTransitionHash, reactStateHash);
     }
+
+    int dieTransitionHash = Animator.StringToHash("die");
+    int dieStateHash = Animator.StringToHash("Base Layer.Dying");
+    public void ToDie()
+    {
+        container.TurnOnTemporaryAnimation(dieTransitionHash, dieStateHash);
+    }
 }
