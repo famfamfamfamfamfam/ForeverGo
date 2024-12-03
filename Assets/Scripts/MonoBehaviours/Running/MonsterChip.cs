@@ -29,6 +29,7 @@ public class MonsterChip : MonoBehaviour
 
     private void OnDisable()
     {
-        MonstersManager.instance.monsters.Remove(gameObject);
+        if (MonstersManager.instance != null)
+            MonstersManager.instance.monsters.Remove(gameObject);
     }
 }

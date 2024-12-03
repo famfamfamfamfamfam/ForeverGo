@@ -35,10 +35,6 @@ public class MonstersManager : MonoBehaviour
     }
     private void OnDisable()
     {
-        for (int i = 0; i < monsters.Count; i++)
-        {
-            Destroy(monsters[i]);
-        }
         instance = null;
     }
 

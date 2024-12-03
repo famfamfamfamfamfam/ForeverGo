@@ -10,6 +10,7 @@ public class RangedMonstersRoundAttackStateMachine : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        laserStartPoint.rotation = MonstersManager.instance.RotationLookingToCenterPoint(laserStartPoint.position);
         lineRenderer.enabled = true;
     }
 
