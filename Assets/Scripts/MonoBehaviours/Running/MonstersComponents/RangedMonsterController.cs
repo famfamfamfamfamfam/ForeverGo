@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RangedMonsterController : MonsterController
@@ -8,7 +7,12 @@ public class RangedMonsterController : MonsterController
     {
         base.Awake();
     }
- 
+
+    int startToRunDistance = 7;
+    int checkDistance;
+
+    public int transformSign { get; set; }
+
     private void Start()
     {
         LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -23,15 +27,35 @@ public class RangedMonsterController : MonsterController
         instance.lineRenderer.enabled = false;
         instance.laserStartPoint = laserStartPoint;
         instance.layerMask = LayerMask.GetMask("Player");
+        checkDistance = startToRunDistance * startToRunDistance;
     }
 
-    IEnumerator Roar()
+    int roundAttackTransitionHash = Animator.StringToHash("roundAttack");
+    int roundAttackStateHash = Animator.StringToHash("RoundAttacking");
+    public IEnumerator Roar()
     {
-        while (true)//condition: stay at one of waypoints
+        while (true)
         {
             yield return new WaitForSeconds(5);
-            //animate
+            container.TurnOnTemporaryAnimation(roundAttackTransitionHash, roundAttackStateHash);
         }
     }
 
+    private void Update()
+    {
+        if (MonstersManager.instance.CheckDistanceToPlayer(transform, checkDistance))
+        {
+            MonstersManager.instance.ToTurnTheRangedMonsters();
+        }
+    }
+
+    int runTransitionHash = Animator.StringToHash("isRunning");
+    public void ToRun()
+    {
+        container.StartLoopAnimation(runTransitionHash);
+    }
+    public void ToStopRunning()
+    {
+        container.StopLoopAnimation(runTransitionHash);
+    }
 }

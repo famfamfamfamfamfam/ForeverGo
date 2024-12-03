@@ -11,8 +11,10 @@ public class MonstersManager : MonoBehaviour
     List<RuntimeAnimatorController> animatorControllers;
     [SerializeField]
     Transform[] wayPoints;
-
-    public Transform[] _wayPoints { get => wayPoints; }
+    [SerializeField]
+    Transform player;
+    [SerializeField]
+    GameObject prefab;
 
     public List<GameObject> monsters { get; private set; }
 
@@ -33,17 +35,54 @@ public class MonstersManager : MonoBehaviour
     private void OnDestroy()
     {
         instance = null;
-        //release collections
     }
 
+    int monstersCountInLevel = 4;
     private void Start()
     {
-        int i = 0;
+        Vector3 standPosition;
+        for (int i = 0; i < monstersCountInLevel; i++)
+        {
+            standPosition = wayPoints[i].position;
+            Instantiate(prefab, standPosition, RotationLookingToCenterPoint(standPosition));
+        }
+
+        int index = 0;
         foreach (GameObject monster in monsters)
         {
             MonsterChip monsterChip = monster.GetComponent<MonsterChip>();
-            monsterChip?.Init(PowerKind.Fire, monsterFightTypes[i], animatorControllers[i]);
-            CommonUtils.Instance.SetUpNextValue(ref i, monsterFightTypes.Length);
+            monsterChip?.Init(PowerKind.Fire, monsterFightTypes[index], animatorControllers[index]);
+            CommonUtils.Instance.SetUpNextValue(ref index, monsterFightTypes.Length);
+        }
+
+        playerPosition = player.position;
+    }
+
+    public Quaternion RotationLookingToCenterPoint(Vector3 currentPosition)
+    {
+        Vector3 centerPoint = wayPoints[4].position;
+        return Quaternion.LookRotation(currentPosition - centerPoint);
+    }
+
+    Vector3 playerPosition;
+    public bool CheckDistanceToPlayer(Transform checkedCharacter, int checkDistance)
+    {
+        return Vector3.SqrMagnitude(checkedCharacter.position - playerPosition) <= checkDistance;
+    }
+
+    int centerPointCount = 1;
+    public void ToTurnTheRangedMonsters()
+    {
+        foreach (GameObject monster in monsters)
+        {
+            RangedMonsterController rangedMonster = monster.GetComponent<RangedMonsterController>();
+            if (rangedMonster != null)
+            {
+                int index = rangedMonster.transformSign;
+                CommonUtils.Instance.SetUpNextValue(ref index, wayPoints.Length - centerPointCount);
+                rangedMonster.transform.forward = wayPoints[index].position - rangedMonster.transform.position;
+                rangedMonster.ToRun();
+            }
         }
     }
 }

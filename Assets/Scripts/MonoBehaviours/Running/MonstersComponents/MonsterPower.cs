@@ -20,7 +20,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         CharacterProperties monsterProperties = GetComponent<MonsterChip>()._monsterProperties;
         health = monsterProperties.properties._health;
@@ -33,16 +33,17 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         currentResistance--;
         if (currentResistance == 0)
         {
-            //animate react
+            gameObject.GetComponent<MonsterController>().ToReact();
             currentResistance = resistanceToReact;
         }
-        // if enemyCurrentPower == null
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
-        //add a method to change the below PowerKind
+        //need to add a method that changes the below PowerKind of enemy to minus the resonance damage
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
-        //if (health <= 0)
-            //animate die
+        if (health <= 0)
+        {
+            //to die
+        }
     }
 
     public PowerKind GetPowerKind()

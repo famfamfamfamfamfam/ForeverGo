@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageProcess : MonoBehaviour
+public class JumpAttack : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        GameManager.instance.OnAttack(gameObject.transform.root.gameObject, other.gameObject);
+        gameObject.transform.root.gameObject.GetComponent<MonsterController>()?.ToJumpAttack();
     }
 }

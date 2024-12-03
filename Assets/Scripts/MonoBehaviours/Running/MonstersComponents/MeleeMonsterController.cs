@@ -9,4 +9,5 @@ public class MeleeMonsterController : MonsterController
         base.Awake();
     }
 
+
 }

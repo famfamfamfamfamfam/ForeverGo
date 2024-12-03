@@ -26,4 +26,9 @@ public class MonsterChip : MonoBehaviour
         MonsterController controller = (MonsterController)gameObject.AddComponent(monsterFightType);
         controller.Init(monsterAnimatorController);
     }
+
+    private void OnDisable()
+    {
+        MonstersManager.instance.monsters.Remove(gameObject);
+    }
 }

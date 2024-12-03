@@ -133,13 +133,17 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     void ToDie()
     {
         playerCount--;
-        if (playerCount == 1)
-            CommonUtils.Instance.onlyOneMode = true;
-        //else: losing
         //animate die
-        inputProcessor.ToChangeThePower(true,
-                                        ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
-                                        ref health, playerData, playerRenderer);
+        if (playerCount == 1)
+        {
+            CommonUtils.Instance.onlyOneMode = true;
+        }
+        else
+        {
+            GameManager.instance.gameOver = true;
+            return;
+        }
+        GameManager.instance.gamePause = true;
     }
 
 
@@ -152,12 +156,24 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
 
     public PowerKind GetPowerKind()
     {
-        return currentPowerKind;//adjust
+        return currentPowerKind;
     }
 
     public AttackState? GetAttackState()
     {
         return playerCurrentAttack;
+    }
+
+    public void AutoChangePlayerCharacterAsDie()
+    {
+        inputProcessor.ToChangeThePower(true,
+                                ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
+                                ref health, playerData, playerRenderer);
+        GameManager.instance.gamePause = false;
+    }
+    void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 }
 public enum AttackState
