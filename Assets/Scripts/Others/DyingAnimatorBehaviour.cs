@@ -16,7 +16,7 @@ public class DyingAnimatorBehaviour : StateMachineBehaviour
             animator.runtimeAnimatorController = newController;
             foreach (string name in needToActiveTransitionNames)
             {
-                animator.SetBool(name, true);
+                animator.SetBool(name, false);
             }
         }
     }

@@ -40,6 +40,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
         //need to add a method that changes the below PowerKind of enemy to minus the resonance damage
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
+        Debug.Log(percentage + "  " + health);
         if (health <= 0)
         {
             gameObject.GetComponent<MonsterController>().ToDie();

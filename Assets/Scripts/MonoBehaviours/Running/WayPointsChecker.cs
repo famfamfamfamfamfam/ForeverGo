@@ -9,6 +9,7 @@ public class WayPointsChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("jj");
         rangedMonsterController = other.gameObject.GetComponent<RangedMonsterController>();
         if (rangedMonsterController != null)
         {
@@ -28,5 +29,4 @@ public class WayPointsChecker : MonoBehaviour
             rangedMonsterController.StopAllCoroutines();
         }
     }
-
 }

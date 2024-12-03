@@ -17,10 +17,8 @@ public class RangedMonsterController : MonsterController
     {
         LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = 0.2f;
-        lineRenderer.endWidth = 0.2f;
-        lineRenderer.startColor = Color.red;
-        lineRenderer.endColor = Color.gray;
+        lineRenderer.startWidth = 0.025f;
+        lineRenderer.endWidth = 0.025f;
         Transform laserStartPoint = GetComponent<MonsterChip>()._laserStartPoint;
         RangedMonstersRoundAttackStateMachine instance = animator.GetBehaviour<RangedMonstersRoundAttackStateMachine>();
         instance.lineRenderer = lineRenderer;
@@ -31,7 +29,7 @@ public class RangedMonsterController : MonsterController
     }
 
     int roundAttackTransitionHash = Animator.StringToHash("roundAttack");
-    int roundAttackStateHash = Animator.StringToHash("RoundAttacking");
+    int roundAttackStateHash = Animator.StringToHash("Base Layer.RoundAttacking");
     public IEnumerator Roar()
     {
         while (true)
@@ -43,7 +41,8 @@ public class RangedMonsterController : MonsterController
 
     private void Update()
     {
-        if (MonstersManager.instance.CheckDistanceToPlayer(transform, checkDistance))
+        Vector3 playerPosition = MonstersManager.instance._player.transform.position;
+        if (Vector3.SqrMagnitude(transform.position - playerPosition) <= checkDistance)
         {
             MonstersManager.instance.ToTurnTheRangedMonsters();
         }
@@ -57,5 +56,10 @@ public class RangedMonsterController : MonsterController
     public void ToStopRunning()
     {
         container.StopLoopAnimation(runTransitionHash);
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 }

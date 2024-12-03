@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class CommonUtils
 {
@@ -48,7 +49,7 @@ public class CommonUtils
 
     float NormalDamage(float ingredientHealth, float percentage)
     {
-        return ingredientHealth * percentage;
+        return ingredientHealth * (percentage / 100);
     }
 
     float ResonanceDamage(float ingredientHealth, float percentage, int bonusDamage)

@@ -12,11 +12,12 @@ public class MonstersManager : MonoBehaviour
     [SerializeField]
     Transform[] wayPoints;
     [SerializeField]
-    Transform player;
+    GameObject player;
     [SerializeField]
     GameObject prefab;
 
     public List<GameObject> monsters { get; private set; }
+    public GameObject _player { get => player; }
 
     Type[] monsterFightTypes;
     PowerKind[] monsterPowerKinds;
@@ -25,7 +26,7 @@ public class MonstersManager : MonoBehaviour
     {
         instance = this;
         monsters = new List<GameObject>();
-        //monsterPowerKinds = CommonUtils.Instance.monstersPower.selectedPowerKinds;
+        monsterPowerKinds = CommonUtils.Instance.monstersPower.selectedPowerKinds;
         monsterFightTypes = new Type[2]
         {
             typeof(MeleeMonsterController),
@@ -34,6 +35,10 @@ public class MonstersManager : MonoBehaviour
     }
     private void OnDestroy()
     {
+        for (int i = 0; i < monsters.Count; i++)
+        {
+            Destroy(monsters[i]);
+        }
         instance = null;
     }
 
@@ -51,23 +56,15 @@ public class MonstersManager : MonoBehaviour
         foreach (GameObject monster in monsters)
         {
             MonsterChip monsterChip = monster.GetComponent<MonsterChip>();
-            monsterChip?.Init(PowerKind.Fire, monsterFightTypes[index], animatorControllers[index]);
+            monsterChip?.Init(monsterPowerKinds[index], monsterFightTypes[index], animatorControllers[index]);
             CommonUtils.Instance.SetUpNextValue(ref index, monsterFightTypes.Length);
         }
-
-        playerPosition = player.position;
     }
 
     public Quaternion RotationLookingToCenterPoint(Vector3 currentPosition)
     {
         Vector3 centerPoint = wayPoints[4].position;
-        return Quaternion.LookRotation(currentPosition - centerPoint);
-    }
-
-    Vector3 playerPosition;
-    public bool CheckDistanceToPlayer(Transform checkedCharacter, int checkDistance)
-    {
-        return Vector3.SqrMagnitude(checkedCharacter.position - playerPosition) <= checkDistance;
+        return Quaternion.LookRotation(centerPoint - currentPosition);
     }
 
     int centerPointCount = 1;
