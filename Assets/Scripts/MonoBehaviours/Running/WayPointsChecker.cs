@@ -13,6 +13,7 @@ public class WayPointsChecker : MonoBehaviour
         if (rangedMonsterController != null)
         {
             Transform monsterTransform = rangedMonsterController.transform;
+            MonstersManager.instance.ToAttachToWayPoint(monsterTransform, indexInWayPointsList);
             rangedMonsterController.ToStopRunning();
             rangedMonsterController.transformSign = indexInWayPointsList;
             monsterTransform.rotation = MonstersManager.instance.RotationLookingToCenterPoint(monsterTransform.position);
@@ -25,7 +26,7 @@ public class WayPointsChecker : MonoBehaviour
         rangedMonsterController = other.gameObject.GetComponent<RangedMonsterController>();
         if (rangedMonsterController != null)
         {
-            rangedMonsterController.StopAllCoroutines();
+            StopAllCoroutines();
         }
     }
 }

@@ -16,6 +16,7 @@ public class MonsterController : MonoBehaviour
     {
         animator.runtimeAnimatorController = animatorController;
         container = new AnimationContainer(animator);
+        animator.SetBool("isDying", false);
     }
 
     int jumpAttackTransitionHash = Animator.StringToHash("jumpAttack");

@@ -35,7 +35,7 @@ public class RangedMonsterController : MonsterController
         while (true)
         {
             yield return new WaitForSeconds(5);
-
+            
             container.TurnOnTemporaryAnimation(roundAttackTransitionHash, roundAttackStateHash);
         }
     }

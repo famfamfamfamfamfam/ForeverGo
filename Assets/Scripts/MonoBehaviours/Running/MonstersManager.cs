@@ -66,6 +66,11 @@ public class MonstersManager : MonoBehaviour
         return Quaternion.LookRotation(centerPoint - currentPosition);
     }
 
+    public void ToAttachToWayPoint(Transform attachedChar, int wayPointIndex)
+    {
+        attachedChar.position = wayPoints[wayPointIndex].position;
+    }
+
     int centerPointCount = 1;
     public void ToTurnTheRangedMonsters()
     {
