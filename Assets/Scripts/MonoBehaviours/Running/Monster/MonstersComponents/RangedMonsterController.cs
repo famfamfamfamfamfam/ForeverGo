@@ -47,7 +47,10 @@ public class RangedMonsterController : MonsterController
     int screamStateHash = Animator.StringToHash("Base Layer.Screaming");
     public void ToScream(Vector3 playerPosition)
     {
-        transform.forward = playerPosition - transform.position;
-        container.TurnOnTemporaryAnimation(screamTransitionHash, screamStateHash);
+        if (MonstersManager.instance.rangedMonstersHitTakableCount == 0)
+        {
+            transform.forward = playerPosition - transform.position;
+            container.TurnOnTemporaryAnimation(screamTransitionHash, screamStateHash);
+        }
     }
 }

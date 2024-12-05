@@ -19,14 +19,12 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             renderer.material = RefToAssets.refs._skinsDictionary[(kind, monsterChar)];
         }
     }
-    RangedMonsterController rangedMonster;
     private void OnEnable()
     {
         CharacterProperties monsterProperties = GetComponent<MonsterChip>()._monsterProperties;
         health = monsterProperties.properties._health;
         resistanceToReact = monsterProperties.properties._resistanceToReact;
         currentResistance = resistanceToReact;
-        rangedMonster = GetComponent<RangedMonsterController>();
     }
 
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
@@ -38,7 +36,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             currentResistance = resistanceToReact;
         }
         
-        if (rangedMonster != null && MonstersManager.instance.rangedMonstersHitTakableCount > 0)
+        if (gameObject.GetComponent<RangedMonsterController>() != null && MonstersManager.instance.rangedMonstersHitTakableCount > 0)
             MonstersManager.instance.rangedMonstersHitTakableCount--;
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);

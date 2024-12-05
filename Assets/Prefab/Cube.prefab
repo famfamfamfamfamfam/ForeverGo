@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8765993449769561765}
   - component: {fileID: 438438589273200395}
   - component: {fileID: 3463604996991483269}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 1, z: 1.0000001}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3463604996991483269
 MonoBehaviour:
