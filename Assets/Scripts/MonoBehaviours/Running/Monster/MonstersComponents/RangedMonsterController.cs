@@ -19,7 +19,10 @@ public class RangedMonsterController : MonsterController
         lineRenderer.positionCount = 2;
         lineRenderer.startWidth = 0.01f;
         lineRenderer.endWidth = 0.01f;
-        Transform laserStartPoint = GetComponent<MonsterChip>()._laserStartPoint;
+        MonsterChip chip = GetComponent<MonsterChip>();
+        Transform laserStartPoint = chip._laserStartPoint;
+        chip._distancePoint.center = new Vector3(0, 1, 2);
+        chip._distancePoint.size = new Vector3(5f, 0.01f, 5f);
         RangedMonstersRoundAttackBehaviour instance = animator.GetBehaviour<RangedMonstersRoundAttackBehaviour>();
         instance.lineRenderer = lineRenderer;
         instance.lineRenderer.enabled = false;
@@ -40,35 +43,11 @@ public class RangedMonsterController : MonsterController
         }
     }
 
-    float adjustDistance;
-    public bool stopChecking { get; set; }
-    private void Update()
-    {
-        Vector3 playerPosition = MonstersManager.instance._player.transform.position;
-        if (Time.frameCount % 200 == 0)
-            adjustDistance = Random.Range(-20f, 24f);
-        if (!stopChecking &&
-            Vector3.SqrMagnitude(transform.position - playerPosition) <= checkDistance + adjustDistance
-            && MonstersManager.instance.rangedMonstersHitTakableCount == 0)
-        {
-            ToScream(playerPosition);
-        }
-        
-    }
-
     int screamTransitionHash = Animator.StringToHash("scream");
     int screamStateHash = Animator.StringToHash("Base Layer.Screaming");
     public void ToScream(Vector3 playerPosition)
     {
         transform.forward = playerPosition - transform.position;
         container.TurnOnTemporaryAnimation(screamTransitionHash, screamStateHash);
-        stopChecking = true;
-    }
-
-
-
-    private void OnDisable()
-    {
-        StopAllCoroutines();
     }
 }

@@ -13,7 +13,6 @@ public class WayPointsChecker : MonoBehaviour
         if (rangedMonsterController != null)
         {
             other.gameObject.GetComponent<Animator>().applyRootMotion = true;
-            rangedMonsterController.stopChecking = false;
             Transform monsterTransform = rangedMonsterController.transform;
             MonstersManager.instance.ToAttachToWayPoint(monsterTransform, indexInWayPointsList);
             rangedMonsterController.transformSign = indexInWayPointsList;

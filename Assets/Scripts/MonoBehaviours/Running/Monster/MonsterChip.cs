@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterChip : MonoBehaviour
 {
     [SerializeField]
-    GameObject body;
+    GameObject body, distancePoint;
     [SerializeField]
     GameObject leftHand, rightHand;
     [SerializeField]
@@ -17,12 +17,15 @@ public class MonsterChip : MonoBehaviour
     public CharacterProperties _monsterProperties { get => monsterProperties; }
     public Collider _leftHand { get; private set; }
     public Collider _rightHand { get; private set; }
+    public BoxCollider _distancePoint { get; private set; }
+
 
     void OnEnable()
     {
         MonstersManager.instance.monsters.Add(gameObject);
         _leftHand = leftHand.GetComponent<Collider>();
         _rightHand = rightHand.GetComponent<Collider>();
+        _distancePoint = distancePoint.GetComponent<BoxCollider>();
     }
 
     public void Init(PowerKind powerKind, Type monsterFightType, RuntimeAnimatorController monsterAnimatorController)

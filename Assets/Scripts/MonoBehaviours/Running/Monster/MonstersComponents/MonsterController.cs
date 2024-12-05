@@ -19,13 +19,6 @@ public class MonsterController : MonoBehaviour
         animator.SetBool("isDying", false);
     }
 
-    int jumpAttackTransitionHash = Animator.StringToHash("jumpAttack");
-    int jumpAttackStateHash = Animator.StringToHash("Base Layer.JumpAttacking");
-    public void ToJumpAttack()
-    {
-        container.TurnOnTemporaryAnimation(jumpAttackTransitionHash, jumpAttackStateHash);
-    }
-
     int reactTransitionHash = Animator.StringToHash("react");
     int reactStateHash = Animator.StringToHash("Base Layer.Reacting");
     public void ToReact()

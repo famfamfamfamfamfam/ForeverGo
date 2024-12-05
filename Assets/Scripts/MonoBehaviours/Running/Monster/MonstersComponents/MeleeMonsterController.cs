@@ -34,5 +34,12 @@ public class MeleeMonsterController : MonsterController
         meeleeMonsterAttackDictionary[stateHash].Invoke(attackerChip);
     }
 
+    int jumpAttackTransitionHash = Animator.StringToHash("jumpAttack");
+    int jumpAttackStateHash = Animator.StringToHash("Base Layer.JumpAttacking");
+    public void ToJumpAttack()
+    {
+        container.TurnOnTemporaryAnimation(jumpAttackTransitionHash, jumpAttackStateHash);
+    }
+
 
 }
