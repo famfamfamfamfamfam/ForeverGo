@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Reflection;
 
 public class MonstersManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class MonstersManager : MonoBehaviour
     GameObject player;
     [SerializeField]
     GameObject prefab;
+    [SerializeField]
+    GameObject strangeCubePrefab;
+
+    GameObject strangeCubeInScene;
 
     public List<GameObject> monsters { get; private set; }
     public GameObject _player { get => player; }
@@ -47,7 +52,7 @@ public class MonstersManager : MonoBehaviour
             standPosition = wayPoints[i].position;
             Instantiate(prefab, standPosition, RotationLookingToCenterPoint(standPosition));
         }
-
+        strangeCubeInScene = Instantiate(strangeCubePrefab);
         int index = 0;
         int subIndex = index;
         foreach (GameObject monster in monsters)
@@ -79,12 +84,21 @@ public class MonstersManager : MonoBehaviour
             RangedMonsterController rangedMonster = monster.GetComponent<RangedMonsterController>();
             if (rangedMonster != null)
             {
+                monster.GetComponent<Animator>().applyRootMotion = false;
                 int index = rangedMonster.transformSign;
                 CommonUtils.Instance.SetUpNextValue(ref index, wayPoints.Length - centerPointCount);
-                rangedMonster.transform.forward = wayPoints[index].position - rangedMonster.transform.position;
-                rangedMonster.ToRun();
+                rangedMonster.transform.position = wayPoints[index].transform.position;
             }
         }
+    }
+
+    public void SetUpTheCube(Vector3 beforeDisapearedMonsterPosition)
+    {
+        strangeCubeInScene.transform.position = new Vector3(
+            beforeDisapearedMonsterPosition.x,
+            strangeCubeInScene.transform.position.y,
+            beforeDisapearedMonsterPosition.z);
+        strangeCubeInScene.SetActive(true);
     }
 
     public int rangedMonstersHitTakableCount { get; set; }

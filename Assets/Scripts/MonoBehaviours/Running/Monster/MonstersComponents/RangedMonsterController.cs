@@ -41,28 +41,31 @@ public class RangedMonsterController : MonsterController
     }
 
     float adjustDistance;
+    public bool stopChecking { get; set; }
     private void Update()
     {
         Vector3 playerPosition = MonstersManager.instance._player.transform.position;
         if (Time.frameCount % 200 == 0)
             adjustDistance = Random.Range(-20f, 24f);
-        if (Vector3.SqrMagnitude(transform.position - playerPosition) <= checkDistance + adjustDistance
+        if (!stopChecking &&
+            Vector3.SqrMagnitude(transform.position - playerPosition) <= checkDistance + adjustDistance
             && MonstersManager.instance.rangedMonstersHitTakableCount == 0)
         {
-            MonstersManager.instance.ToTurnTheRangedMonsters();
+            ToScream(playerPosition);
         }
         
     }
 
-    int runTransitionHash = Animator.StringToHash("isRunning");
-    public void ToRun()
+    int screamTransitionHash = Animator.StringToHash("scream");
+    int screamStateHash = Animator.StringToHash("Base Layer.Screaming");
+    public void ToScream(Vector3 playerPosition)
     {
-        container.StartLoopAnimation(runTransitionHash);
+        transform.forward = playerPosition - transform.position;
+        container.TurnOnTemporaryAnimation(screamTransitionHash, screamStateHash);
+        stopChecking = true;
     }
-    public void ToStopRunning()
-    {
-        container.StopLoopAnimation(runTransitionHash);
-    }
+
+
 
     private void OnDisable()
     {

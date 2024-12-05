@@ -11,7 +11,7 @@ public class TheStrangeCube : MonoBehaviour
 
     IEnumerator CountdownToDisapear()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(5);//can be config
         gameObject.SetActive(false);
     }
 
