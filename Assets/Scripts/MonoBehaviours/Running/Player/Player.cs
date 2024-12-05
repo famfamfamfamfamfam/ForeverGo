@@ -100,7 +100,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     {
         if (mark != null)
         {
-            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 0);
+            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 3);
             playerData.SetHealth(currentPowerKind, health);
         }
         else
@@ -120,12 +120,13 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     int reactStateHash = Animator.StringToHash("Base Layer.Reacting");
     void ToReact()
     {
-        if (health <= 0)
+        if (health <= 1)
         {
             ToDie();
             return;
         }
         container.TurnOnTemporaryAnimation(reactTransitionHash, reactStateHash);
+        Debug.Log(health);
     }
 
     int dieTransitionHash = Animator.StringToHash("die");

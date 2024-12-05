@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterDieBehaviour : StateMachineBehaviour
+public class DieBehaviour : StateMachineBehaviour
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool("isDying", true);
+        if (animator.gameObject.GetComponent<MonsterChip>() != null)
+            animator.SetBool("isDying", true);
     }
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
