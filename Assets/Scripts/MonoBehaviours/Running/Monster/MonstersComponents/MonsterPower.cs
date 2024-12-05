@@ -19,6 +19,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             renderer.material = RefToAssets.refs._skinsDictionary[(kind, monsterChar)];
         }
     }
+
     private void OnEnable()
     {
         CharacterProperties monsterProperties = GetComponent<MonsterChip>()._monsterProperties;
@@ -35,9 +36,14 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             gameObject.GetComponent<MonsterController>().ToReact();
             currentResistance = resistanceToReact;
         }
-        
-        if (gameObject.GetComponent<RangedMonsterController>() != null && MonstersManager.instance.rangedMonstersHitTakableCount > 0)
+
+        RangedMonsterController rangedMonster = gameObject.GetComponent<RangedMonsterController>();
+        if (rangedMonster != null && MonstersManager.instance.rangedMonstersHitTakableCount > 0)
+        {
             MonstersManager.instance.rangedMonstersHitTakableCount--;
+            if (MonstersManager.instance.rangedMonstersHitTakableCount == 0)
+                rangedMonster.ToScream(MonstersManager.instance._player.transform.position);
+        }
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
         //need to add a method that changes the below PowerKind of enemy to minus the resonance damage
