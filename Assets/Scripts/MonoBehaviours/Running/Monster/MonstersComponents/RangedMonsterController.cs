@@ -40,13 +40,18 @@ public class RangedMonsterController : MonsterController
         }
     }
 
+    float adjustDistance;
     private void Update()
     {
         Vector3 playerPosition = MonstersManager.instance._player.transform.position;
-        if (Vector3.SqrMagnitude(transform.position - playerPosition) <= checkDistance)
+        if (Time.frameCount % 200 == 0)
+            adjustDistance = Random.Range(-20f, 24f);
+        if (Vector3.SqrMagnitude(transform.position - playerPosition) <= checkDistance + adjustDistance
+            && MonstersManager.instance.rangedMonstersHitTakableCount == 0)
         {
             MonstersManager.instance.ToTurnTheRangedMonsters();
         }
+        
     }
 
     int runTransitionHash = Animator.StringToHash("isRunning");

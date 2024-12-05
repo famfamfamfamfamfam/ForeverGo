@@ -86,4 +86,7 @@ public class MonstersManager : MonoBehaviour
             }
         }
     }
+
+    public int rangedMonstersHitTakableCount { get; set; }
+
 }
