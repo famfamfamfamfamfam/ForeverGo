@@ -22,6 +22,7 @@ public class RangedMonstersRoundAttackBehaviour : StateMachineBehaviour
         {
             GameManager.instance.OnAttack(animator.gameObject, hit.collider.gameObject);
         }
+
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

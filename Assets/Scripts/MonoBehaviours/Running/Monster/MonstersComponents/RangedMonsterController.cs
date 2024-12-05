@@ -29,6 +29,7 @@ public class RangedMonsterController : MonsterController
         instance.laserStartPoint = laserStartPoint;
         instance.layerMask = LayerMask.GetMask("Player");
         checkDistance = startToRunDistance * startToRunDistance;
+        animator.SetBool("isScreamming", false);
     }
 
     int roundAttackTransitionHash = Animator.StringToHash("roundAttack");
