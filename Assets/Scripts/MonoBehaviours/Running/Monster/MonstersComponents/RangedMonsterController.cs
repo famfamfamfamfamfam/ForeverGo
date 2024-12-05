@@ -20,7 +20,7 @@ public class RangedMonsterController : MonsterController
         lineRenderer.startWidth = 0.01f;
         lineRenderer.endWidth = 0.01f;
         Transform laserStartPoint = GetComponent<MonsterChip>()._laserStartPoint;
-        RangedMonstersRoundAttackStateMachine instance = animator.GetBehaviour<RangedMonstersRoundAttackStateMachine>();
+        RangedMonstersRoundAttackBehaviour instance = animator.GetBehaviour<RangedMonstersRoundAttackBehaviour>();
         instance.lineRenderer = lineRenderer;
         instance.lineRenderer.enabled = false;
         instance.laserStartPoint = laserStartPoint;

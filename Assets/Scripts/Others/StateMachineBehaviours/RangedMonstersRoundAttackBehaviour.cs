@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RangedMonstersRoundAttackStateMachine : StateMachineBehaviour
+public class RangedMonstersRoundAttackBehaviour : StateMachineBehaviour
 {
     public LineRenderer lineRenderer { get; set; }
     public Transform laserStartPoint { get; set; }
