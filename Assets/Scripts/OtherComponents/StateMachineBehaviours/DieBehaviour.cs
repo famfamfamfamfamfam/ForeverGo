@@ -12,7 +12,7 @@ public class DieBehaviour : StateMachineBehaviour
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.gameObject.GetComponent<Player>()?.AutoChangePlayerCharacterAsDie();
-        animator.gameObject.GetComponent<MonsterChip>()?.gameObject.SetActive(false);
+        animator.gameObject.GetComponent<MonsterChip>()?.gameObject.SetActive(false);//chi phi ko can thiet
         if (MonstersManager.instance.monsters.Count == 0)
             GameManager.instance.gameOver = true;
     }

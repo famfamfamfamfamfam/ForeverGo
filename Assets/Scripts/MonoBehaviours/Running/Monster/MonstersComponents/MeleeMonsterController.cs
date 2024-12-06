@@ -5,33 +5,30 @@ using System;
 
 public class MeleeMonsterController : MonsterController
 {
-    Dictionary<int, Action<MonsterChip>> meeleeMonsterAttackDictionary;
-
-    public int[] attackStateHashes { get; } = {
-        Animator.StringToHash("Base Layer.SlapDownAttacking"),
-        Animator.StringToHash("Base Layer.SwipeAttacking"),
-        Animator.StringToHash("Base Layer.JumpAttacking")
-    };
+    Dictionary<int, Action> meeleeMonsterAttackDictionary;
 
     private new void Awake()
     {
         base.Awake();
-        meeleeMonsterAttackDictionary = new Dictionary<int, Action<MonsterChip>>()
+        MonsterChip chip = GetComponent<MonsterChip>();
+        meeleeMonsterAttackDictionary = new Dictionary<int, Action>()
         {
-            { attackStateHashes[0], objChip => objChip._leftHand.enabled = !objChip._leftHand.enabled },
-            { attackStateHashes[1], objChip => objChip._rightHand.enabled = !objChip._rightHand.enabled },
-            { attackStateHashes[2], objChip =>
+            { Animator.StringToHash("Base Layer.SlapDownAttacking"),
+                () => chip._leftHand.enabled = !chip._leftHand.enabled },
+            { Animator.StringToHash("Base Layer.SwipeAttacking"),
+                () => chip._rightHand.enabled = !chip._rightHand.enabled },
+            { Animator.StringToHash("Base Layer.JumpAttacking"), () =>
                 {
-                    objChip._leftHand.enabled = !objChip._leftHand.enabled;
-                    objChip._rightHand.enabled = !objChip._rightHand.enabled;
+                    chip._leftHand.enabled = !chip._leftHand.enabled;
+                    chip._rightHand.enabled = !chip._rightHand.enabled;
                 }
             }
         };
     }
 
-    public void TurnDamagingTool(int stateHash, MonsterChip attackerChip)
+    public void TurnDamagingTool(int stateHash)
     {
-        meeleeMonsterAttackDictionary[stateHash].Invoke(attackerChip);
+        meeleeMonsterAttackDictionary[stateHash].Invoke();
     }
 
     int jumpAttackTransitionHash = Animator.StringToHash("jumpAttack");

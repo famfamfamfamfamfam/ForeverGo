@@ -28,16 +28,19 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         currentResistance = resistanceToReact;
     }
 
+    MonsterController theMonster;
+    RangedMonsterController rangedMonster;
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
+        theMonster = gameObject.GetComponent<MonsterController>();
         currentResistance--;
         if (currentResistance == 0)
         {
-            gameObject.GetComponent<MonsterController>().ToReact();
+            theMonster.ToReact();
             currentResistance = resistanceToReact;
         }
 
-        RangedMonsterController rangedMonster = gameObject.GetComponent<RangedMonsterController>();
+        rangedMonster = gameObject.GetComponent<RangedMonsterController>();
         if (rangedMonster != null && MonstersManager.instance.rangedMonstersHitTakableCount > 0)
         {
             MonstersManager.instance.rangedMonstersHitTakableCount--;
@@ -50,7 +53,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
         if (health <= 0)
         {
-            gameObject.GetComponent<MonsterController>().ToDie();
+            theMonster.ToDie();
         }
         Debug.Log(health);
     }

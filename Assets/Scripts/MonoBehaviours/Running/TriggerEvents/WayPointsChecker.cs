@@ -25,8 +25,6 @@ public class WayPointsChecker : MonoBehaviour
     {
         rangedMonsterController = other.gameObject.GetComponent<RangedMonsterController>();
         if (rangedMonsterController != null)
-        {
             StopAllCoroutines();
-        }
     }
 }

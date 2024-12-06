@@ -18,9 +18,6 @@ public class TheStrangeCube : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Weapon"))
-        {
             MonstersManager.instance.rangedMonstersHitTakableCount++;
-            Debug.Log(MonstersManager.instance.rangedMonstersHitTakableCount);
-        }
     }
 }

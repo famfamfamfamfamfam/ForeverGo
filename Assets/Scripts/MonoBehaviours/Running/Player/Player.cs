@@ -100,7 +100,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     {
         if (mark != null)
         {
-            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 3);
+            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 0.5f);
             playerData.SetHealth(currentPowerKind, health);
         }
         else
@@ -167,10 +167,13 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
 
     public void AutoChangePlayerCharacterAsDie()
     {
-        inputProcessor.ToChangeThePower(true,
-                                ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
-                                ref health, playerData, playerRenderer);
-        GameManager.instance.gamePause = false;
+        if (playerCount > 0)
+        {
+            inputProcessor.ToChangeThePower(true,
+                                    ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
+                                    ref health, playerData, playerRenderer);
+            GameManager.instance.gamePause = false;
+        }
     }
 }
 public enum AttackState
