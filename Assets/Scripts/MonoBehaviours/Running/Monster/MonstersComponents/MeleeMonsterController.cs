@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TreeEditor;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class MeleeMonsterController : MonsterController
 {
@@ -46,49 +46,58 @@ public class MeleeMonsterController : MonsterController
     int changeRangeFrequency_countByFrame = 150;
 
     float adjustDistance;
-    float checkDistance;
+    float checkHandsAttackingDistance;
 
     private void Update()
     {
         if (Time.frameCount % changeRangeFrequency_countByFrame == 0)
         {
             adjustDistance = UnityEngine.Random.Range(min, max);
-            checkDistance = (startHandsAttackingDistance + adjustDistance) * (startHandsAttackingDistance + adjustDistance);
+            checkHandsAttackingDistance = (startHandsAttackingDistance + adjustDistance) * (startHandsAttackingDistance + adjustDistance);
         }
-        if (Vector3.SqrMagnitude(transform.position - MonstersManager.instance._player.transform.position)
-            <= checkDistance)
+        float currentSqrDistance = Vector3.SqrMagnitude(transform.position - MonstersManager.instance._player.transform.position);
+        if (currentSqrDistance <= checkHandsAttackingDistance)
         {
-
+            if (currentSqrDistance <= startFootAttackingDistance)
+            {
+                //foot attack
+                return;
+            }
+            //hand attack
+            return;
         }
+        //run
     }
 
-    void NavigateMonster()
+    public void NavigateMonster()// calls at onrunning
     {
 
     }
 
     int raycastDistance = 30;
-    SortedDictionary<float, Transform> transformSortedDictionary = new SortedDictionary<float, Transform>();
+    float[] distances = new float[3];
+    Transform[] transformsFollowingDistances = new Transform[3];
     Vector3[] checkedDirections;
-    void ToFleeOnLowHP()
+    public void ToFleeOnLowHP()
     {
         checkedDirections = new Vector3[] { -transform.forward, transform.right, -transform.right };
         LayerMask layerMask = LayerMask.GetMask("Rails");
-        foreach (Vector3 dir in checkedDirections)
+        for (int i = 0; i < checkedDirections.Length; i++)
         {
-            FindTheFarestDistance(dir, layerMask);
+            FindTheFarestDistance(checkedDirections[i], layerMask, i);
         }
-        Transform targetToFlee = transformSortedDictionary.Values.Last();
+        Array.Sort(distances, transformsFollowingDistances);
+        Transform targetToFlee = transformsFollowingDistances[transformsFollowingDistances.Length - 1];
         transform.forward = targetToFlee.position - transform.position;
-        //run to an distance
+        //run to an distance, distance point collider adjust
     }
-    void FindTheFarestDistance(Vector3 checkedDirection, LayerMask layerMask)
+    void FindTheFarestDistance(Vector3 checkedDirection, LayerMask layerMask, int i)
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, checkedDirection, out hit, raycastDistance, layerMask))
         {
-            float checkedDistance = Vector3.SqrMagnitude(hit.transform.position - transform.position);
-            transformSortedDictionary.Add(checkedDistance, hit.transform);
+            distances[i] = Vector3.SqrMagnitude(hit.transform.position - transform.position);
+            transformsFollowingDistances[i] = hit.transform;
         }
     }
 }
