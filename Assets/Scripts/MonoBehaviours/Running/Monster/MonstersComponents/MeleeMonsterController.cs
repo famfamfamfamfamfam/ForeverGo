@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class MeleeMonsterController : MonsterController
 {
@@ -42,23 +40,32 @@ public class MeleeMonsterController : MonsterController
 
     float startHandsAttackingDistance = 6; //can be config
     float startFootAttackingDistance = 2;
+    float checkHandsAttackingDistance, checkFootAttackingDistance;
+
+    float adjustDistance;
+    float discoverPlayerDistance;
+    float checkDiscoverPlayerDistance;
     float min = 1f, max = 3f;
     int changeRangeFrequency_countByFrame = 150;
 
-    float adjustDistance;
-    float checkHandsAttackingDistance;
+
+    private void Start()
+    {
+        checkFootAttackingDistance = Mathf.Pow(startFootAttackingDistance, 2);
+        checkHandsAttackingDistance = Mathf.Pow(startHandsAttackingDistance, 2);
+    }
 
     private void Update()
     {
         if (Time.frameCount % changeRangeFrequency_countByFrame == 0)
         {
             adjustDistance = UnityEngine.Random.Range(min, max);
-            checkHandsAttackingDistance = (startHandsAttackingDistance + adjustDistance) * (startHandsAttackingDistance + adjustDistance);
+            checkDiscoverPlayerDistance = (discoverPlayerDistance + adjustDistance) * (discoverPlayerDistance + adjustDistance);
         }
         float currentSqrDistance = Vector3.SqrMagnitude(transform.position - MonstersManager.instance._player.transform.position);
         if (currentSqrDistance <= checkHandsAttackingDistance)
         {
-            if (currentSqrDistance <= startFootAttackingDistance)
+            if (currentSqrDistance <= checkFootAttackingDistance)
             {
                 //foot attack
                 return;
@@ -66,17 +73,22 @@ public class MeleeMonsterController : MonsterController
             //hand attack
             return;
         }
+        NavigateMonster(MonstersManager.instance._player.transform);
         //run
     }
 
-    public void NavigateMonster()// calls at onrunning
+    Quaternion targetRotation;
+    float rotateSpeed = 30;
+    public void NavigateMonster(Transform player) // flee stay
     {
-
+        targetRotation = Quaternion.LookRotation(player.position - transform.position);
+        targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
     }
 
     int raycastDistance = 30;
     float[] distances = new float[3];
-    Transform[] transformsFollowingDistances = new Transform[3];
+    Transform[] transformsBehindTheDistances = new Transform[3];
     Vector3[] checkedDirections;
     public void ToFleeOnLowHP()
     {
@@ -86,8 +98,8 @@ public class MeleeMonsterController : MonsterController
         {
             FindTheFarestDistance(checkedDirections[i], layerMask, i);
         }
-        Array.Sort(distances, transformsFollowingDistances);
-        Transform targetToFlee = transformsFollowingDistances[transformsFollowingDistances.Length - 1];
+        Array.Sort(distances, transformsBehindTheDistances);
+        Transform targetToFlee = transformsBehindTheDistances[transformsBehindTheDistances.Length - 1];
         transform.forward = targetToFlee.position - transform.position;
         //run to an distance, distance point collider adjust
     }
@@ -97,7 +109,7 @@ public class MeleeMonsterController : MonsterController
         if (Physics.Raycast(transform.position, checkedDirection, out hit, raycastDistance, layerMask))
         {
             distances[i] = Vector3.SqrMagnitude(hit.transform.position - transform.position);
-            transformsFollowingDistances[i] = hit.transform;
+            transformsBehindTheDistances[i] = hit.transform;
         }
     }
 }
