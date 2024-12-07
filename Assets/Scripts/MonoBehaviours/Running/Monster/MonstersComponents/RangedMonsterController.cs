@@ -8,9 +8,6 @@ public class RangedMonsterController : MonsterController
         base.Awake();
     }
 
-    int startToRunDistance = 6;
-    int checkDistance;
-
     public int transformSign { get; set; }
 
     private void Start()
@@ -28,7 +25,6 @@ public class RangedMonsterController : MonsterController
         instance.lineRenderer.enabled = false;
         instance.laserStartPoint = laserStartPoint;
         instance.layerMask = LayerMask.GetMask("Player");
-        checkDistance = startToRunDistance * startToRunDistance;
         animator.SetBool("isScreamming", false);
     }
 

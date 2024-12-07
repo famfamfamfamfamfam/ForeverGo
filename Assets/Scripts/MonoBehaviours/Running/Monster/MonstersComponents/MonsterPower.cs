@@ -29,7 +29,6 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
     }
 
     MonsterController theMonster;
-    RangedMonsterController rangedMonster;
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
         theMonster = gameObject.GetComponent<MonsterController>();
@@ -40,13 +39,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             currentResistance = resistanceToReact;
         }
 
-        rangedMonster = gameObject.GetComponent<RangedMonsterController>();
-        if (rangedMonster != null && MonstersManager.instance.rangedMonstersHitTakableCount > 0)
-        {
-            MonstersManager.instance.rangedMonstersHitTakableCount--;
-            if (MonstersManager.instance.rangedMonstersHitTakableCount == 0)
-                rangedMonster.ToScream(MonstersManager.instance._player.transform.position);
-        }
+        ToDiscoverPlayer(gameObject.GetComponent<RangedMonsterController>());
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
         //need to add a method that changes the below PowerKind of enemy to minus the resonance damage
@@ -56,6 +49,18 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             theMonster.ToDie();
         }
         Debug.Log(health);
+    }
+
+    void ToDiscoverPlayer(RangedMonsterController rangedMonster)
+    {
+        if (rangedMonster != null && MonstersManager.instance.rangedMonstersHitTakableCount > 0)
+        {
+            MonstersManager.instance.rangedMonstersHitTakableCount--;
+            if (MonstersManager.instance.rangedMonstersHitTakableCount == 0)
+                rangedMonster.ToScream(MonstersManager.instance._player.transform.position);
+            Debug.Log(MonstersManager.instance.rangedMonstersHitTakableCount);
+        }
+
     }
 
     public PowerKind GetPowerKind()
