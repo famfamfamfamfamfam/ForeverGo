@@ -38,7 +38,7 @@ public class MeleeMonsterController : MonsterController
         container.TurnOnTemporaryAnimation(jumpAttackTransitionHash, jumpAttackStateHash);
     }
 
-    float startHandsAttackingDistance = 2; //can be config
+    float startHandsAttackingDistance = 2.5f; //can be config
     float startFootAttackingDistance = 1;
     float checkHandsAttackingDistance, checkFootAttackingDistance;
 
@@ -57,8 +57,7 @@ public class MeleeMonsterController : MonsterController
         playerLayerMask = LayerMask.GetMask("Player");
     }
 
-
-    int walkTransitionHash = Animator.StringToHash("isWalking");
+    State currentState;
     int trampleTransitionHash = Animator.StringToHash("trample");
     int trampleStateHash = Animator.StringToHash("Base Layer.TrampleAttacking");
     int handsAttackTransitionHash = Animator.StringToHash("handsAttack");
@@ -74,16 +73,15 @@ public class MeleeMonsterController : MonsterController
         if (currentSqrDistance <= checkHandsAttackingDistance)
         {
             if (currentSqrDistance <= checkFootAttackingDistance)
-            {
-                container.TurnOnTemporaryAnimation(trampleTransitionHash, trampleStateHash);
-                return;
-            }
-            container.StopLoopAnimation(walkTransitionHash);
-            container.TurnOnTemporaryAnimation(handsAttackTransitionHash, startHandsAttackStateHash);
-            return;
+                currentState = State.FootAttack;
+            else
+                currentState = State.HandsAttack;
         }
-        NavigateMonster(MonstersManager.instance._player.transform);
-        container.StartLoopAnimation(walkTransitionHash);
+        else
+        {
+            currentState = State.Walk;
+        }
+        Run(currentState);
     }
 
 
@@ -115,7 +113,7 @@ public class MeleeMonsterController : MonsterController
         }
         Array.Sort(distances, transformsBehindTheDistances);
         Transform targetToFlee = transformsBehindTheDistances[transformsBehindTheDistances.Length - 1];
-        transform.forward = targetToFlee.position - transform.position;
+        SetNewForwardVector(targetToFlee.position);
         //run to an distance, distance point collider adjust
     }
     void FindTheFarestDistance(Vector3 checkedDirection, LayerMask layerMask, int i)
@@ -128,8 +126,44 @@ public class MeleeMonsterController : MonsterController
         }
     }
 
+    void SetNewForwardVector(Vector3 target)
+    {
+        Vector3 newDirection = target - transform.position;
+        newDirection.y = 0;
+        transform.forward = newDirection;
+    }
+
+    enum State
+    {
+        None,
+        FootAttack,
+        HandsAttack,
+        Walk,
+        Flee
+    }
+
+    void Run(State state)
+    {
+        switch(state)
+        {
+            case State.None:
+                return;
+            case State.FootAttack:
+                container.TurnOnTemporaryAnimation(trampleTransitionHash, trampleStateHash);
+                return;
+            case State.HandsAttack:
+                SetNewForwardVector(MonstersManager.instance._player.transform.position);
+                container.TurnOnTemporaryAnimation(handsAttackTransitionHash, startHandsAttackStateHash);
+                return;
+            case State.Walk:
+                NavigateMonster(MonstersManager.instance._player.transform);
+                return;
+        }
+    }
+
+
     #region Animation Event
-    float checkRadius = 1;
+    float checkRadius = 2;
     LayerMask playerLayerMask;
     public void TrampleAnimationEvent()
     {
