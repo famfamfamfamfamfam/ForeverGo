@@ -9,11 +9,14 @@ public class MonsterChip : MonoBehaviour
     [SerializeField]
     GameObject leftHand, rightHand;
     [SerializeField]
+    Transform leftFoot;
+    [SerializeField]
     Transform laserStartPoint;
     [SerializeField]
     CharacterProperties monsterProperties;
 
     public Transform _laserStartPoint { get => laserStartPoint; }
+    public Transform _leftFoot { get => leftFoot; }
     public CharacterProperties _monsterProperties { get => monsterProperties; }
     public Collider _leftHand { get; private set; }
     public Collider _rightHand { get; private set; }

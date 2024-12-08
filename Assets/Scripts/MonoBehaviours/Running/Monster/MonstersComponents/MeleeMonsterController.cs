@@ -6,11 +6,11 @@ using System;
 public class MeleeMonsterController : MonsterController
 {
     Dictionary<int, Action> meeleeMonsterAttackDictionary;
-
+    MonsterChip chip;
     private new void Awake()
     {
         base.Awake();
-        MonsterChip chip = GetComponent<MonsterChip>();
+        chip = GetComponent<MonsterChip>();
         meeleeMonsterAttackDictionary = new Dictionary<int, Action>()
         {
             { Animator.StringToHash("Base Layer.SlapDownAttacking"),
@@ -53,8 +53,16 @@ public class MeleeMonsterController : MonsterController
     {
         checkFootAttackingDistance = Mathf.Pow(startFootAttackingDistance, 2);
         checkHandsAttackingDistance = Mathf.Pow(startHandsAttackingDistance, 2);
+
+        playerLayerMask = LayerMask.GetMask("Player");
     }
 
+
+    int walkTransitionHash = Animator.StringToHash("isWalking");
+    int trampleTransitionHash = Animator.StringToHash("trample");
+    int trampleStateHash = Animator.StringToHash("Base Layer.TrampleAttacking");
+    int handsAttackTransitionHash = Animator.StringToHash("handsAttack");
+    int startHandsAttackStateHash = Animator.StringToHash("Base Layer.SlapAttacking");
     private void Update()
     {
         if (Time.frameCount % changeRangeFrequency_countByFrame == 0)
@@ -67,14 +75,14 @@ public class MeleeMonsterController : MonsterController
         {
             if (currentSqrDistance <= checkFootAttackingDistance)
             {
-                //foot attack
+                container.TurnOnTemporaryAnimation(trampleTransitionHash, trampleStateHash);
                 return;
             }
-            //hand attack
+            container.TurnOnTemporaryAnimation(handsAttackTransitionHash, startHandsAttackStateHash);
             return;
         }
         NavigateMonster(MonstersManager.instance._player.transform);
-        //run
+        container.StartLoopAnimation(walkTransitionHash);
     }
 
     Quaternion targetRotation;
@@ -93,10 +101,10 @@ public class MeleeMonsterController : MonsterController
     public void ToFleeOnLowHP()
     {
         checkedDirections = new Vector3[] { -transform.forward, transform.right, -transform.right };
-        LayerMask layerMask = LayerMask.GetMask("Rails");
+        LayerMask layerMask = LayerMask.GetMask("Rails") | playerLayerMask;
         for (int i = 0; i < checkedDirections.Length; i++)
         {
-            FindTheFarestDistance(checkedDirections[i], layerMask, i);
+            FindTheFarestDistance(checkedDirections[i] + transform.up, layerMask, i);
         }
         Array.Sort(distances, transformsBehindTheDistances);
         Transform targetToFlee = transformsBehindTheDistances[transformsBehindTheDistances.Length - 1];
@@ -112,4 +120,16 @@ public class MeleeMonsterController : MonsterController
             transformsBehindTheDistances[i] = hit.transform;
         }
     }
+
+    #region Animation Event
+    float checkRadius = 2;
+    LayerMask playerLayerMask;
+    public void TrampleAnimationEvent()
+    {
+        if (Physics.CheckSphere(chip._leftFoot.position, checkRadius, playerLayerMask))
+        {
+            GameManager.instance.OnAttack(gameObject, MonstersManager.instance._player);
+        }
+    }
+    #endregion
 }
