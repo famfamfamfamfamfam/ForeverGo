@@ -38,8 +38,8 @@ public class MeleeMonsterController : MonsterController
         container.TurnOnTemporaryAnimation(jumpAttackTransitionHash, jumpAttackStateHash);
     }
 
-    float startHandsAttackingDistance = 6; //can be config
-    float startFootAttackingDistance = 2;
+    float startHandsAttackingDistance = 2; //can be config
+    float startFootAttackingDistance = 1;
     float checkHandsAttackingDistance, checkFootAttackingDistance;
 
     float adjustDistance;
@@ -78,6 +78,7 @@ public class MeleeMonsterController : MonsterController
                 container.TurnOnTemporaryAnimation(trampleTransitionHash, trampleStateHash);
                 return;
             }
+            container.StopLoopAnimation(walkTransitionHash);
             container.TurnOnTemporaryAnimation(handsAttackTransitionHash, startHandsAttackStateHash);
             return;
         }
@@ -85,13 +86,19 @@ public class MeleeMonsterController : MonsterController
         container.StartLoopAnimation(walkTransitionHash);
     }
 
-    Quaternion targetRotation;
-    float rotateSpeed = 30;
-    public void NavigateMonster(Transform player) // flee stay
+
+    Quaternion oldAngle, targetAngle;
+    float elapsedTime;
+    public void NavigateMonster(Transform player) // flee exit trigger
     {
-        targetRotation = Quaternion.LookRotation(player.position - transform.position);
-        targetRotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        targetAngle = Quaternion.LookRotation(player.position - transform.position);
+        targetAngle = Quaternion.Euler(0, targetAngle.eulerAngles.y, 0);
+        if (elapsedTime == 0)
+            oldAngle = transform.rotation;
+        elapsedTime = Mathf.Clamp01(elapsedTime + Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(oldAngle, targetAngle, elapsedTime);
+        if (elapsedTime == 1)
+            elapsedTime = 0;
     }
 
     int raycastDistance = 30;
@@ -122,7 +129,7 @@ public class MeleeMonsterController : MonsterController
     }
 
     #region Animation Event
-    float checkRadius = 2;
+    float checkRadius = 1;
     LayerMask playerLayerMask;
     public void TrampleAnimationEvent()
     {

@@ -1512,7 +1512,7 @@ MonoBehaviour:
   - {fileID: 769360296}
   - {fileID: 5342621}
   player: {fileID: 5220239111676587714}
-  prefab: {fileID: 7120845713368670794, guid: c5238005e10cc5a49af76e414eabe57b, type: 3}
+  prefab: {fileID: 855697913656182472, guid: c5238005e10cc5a49af76e414eabe57b, type: 3}
   strangeCubePrefab: {fileID: 8717561513578498369, guid: 8a30dcf19b0237b49aec33855721dc78, type: 3}
 --- !u!4 &1599208041681287
 Transform:
