@@ -7,17 +7,19 @@ public class MonstersAttackBehaviours : StateMachineBehaviour
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        ToTurnDamagingToolForMeleeMonsters(animator, stateInfo);
+        MeleeMonsterController controller = animator.gameObject.GetComponent<MeleeMonsterController>();
+        ToTurnDamagingToolForMeleeMonsters(controller, stateInfo);
+        controller.SetNewForwardVector(MonstersManager.instance._player.transform.position);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        ToTurnDamagingToolForMeleeMonsters(animator, stateInfo);
+        MeleeMonsterController controller = animator.gameObject.GetComponent<MeleeMonsterController>();
+        ToTurnDamagingToolForMeleeMonsters(controller, stateInfo);
     }
 
-    void ToTurnDamagingToolForMeleeMonsters(Animator animator, AnimatorStateInfo stateInfo)
+    void ToTurnDamagingToolForMeleeMonsters(MeleeMonsterController controller, AnimatorStateInfo stateInfo)
     {
-        animator.gameObject.GetComponent<MeleeMonsterController>()
-            .TurnDamagingTool(stateInfo.fullPathHash);
+        controller.TurnDamagingTool(stateInfo.fullPathHash);
     }
 }

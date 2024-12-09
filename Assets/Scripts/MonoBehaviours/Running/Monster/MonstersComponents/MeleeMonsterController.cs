@@ -58,10 +58,6 @@ public class MeleeMonsterController : MonsterController
     }
 
     State currentState;
-    int trampleTransitionHash = Animator.StringToHash("trample");
-    int trampleStateHash = Animator.StringToHash("Base Layer.TrampleAttacking");
-    int handsAttackTransitionHash = Animator.StringToHash("handsAttack");
-    int startHandsAttackStateHash = Animator.StringToHash("Base Layer.SlapAttacking");
     private void Update()
     {
         if (Time.frameCount % changeRangeFrequency_countByFrame == 0)
@@ -126,7 +122,7 @@ public class MeleeMonsterController : MonsterController
         }
     }
 
-    void SetNewForwardVector(Vector3 target)
+    public void SetNewForwardVector(Vector3 target)
     {
         Vector3 newDirection = target - transform.position;
         newDirection.y = 0;
@@ -142,6 +138,11 @@ public class MeleeMonsterController : MonsterController
         Flee
     }
 
+    int trampleTransitionHash = Animator.StringToHash("trample");
+    int trampleStateHash = Animator.StringToHash("Base Layer.TrampleAttacking");
+    int handsAttackTransitionHash = Animator.StringToHash("handsAttack");
+    int startHandsAttackStateHash = Animator.StringToHash("Base Layer.SlapAttacking");
+    int walkTransitionHash = Animator.StringToHash("isWalking");
     void Run(State state)
     {
         switch(state)
@@ -152,10 +153,11 @@ public class MeleeMonsterController : MonsterController
                 container.TurnOnTemporaryAnimation(trampleTransitionHash, trampleStateHash);
                 return;
             case State.HandsAttack:
-                SetNewForwardVector(MonstersManager.instance._player.transform.position);
+                container.StopLoopAnimation(walkTransitionHash);
                 container.TurnOnTemporaryAnimation(handsAttackTransitionHash, startHandsAttackStateHash);
                 return;
             case State.Walk:
+                container.StartLoopAnimation(walkTransitionHash);
                 NavigateMonster(MonstersManager.instance._player.transform);
                 return;
         }
