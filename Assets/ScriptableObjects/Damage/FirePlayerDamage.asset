@@ -15,7 +15,7 @@ MonoBehaviour:
   powerKind: 2
   character: 0
   data:
-    percentageDamageOnNormalAttack: 5
+    percentageDamageOnNormalAttack: 2
     percentageDamageOnSuperAttack: 5
     percentageDamageOnUniqueSkill: 10
     bonusDamageToWindCharacter: 5

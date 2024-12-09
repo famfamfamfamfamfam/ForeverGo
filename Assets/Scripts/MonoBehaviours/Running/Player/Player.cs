@@ -100,7 +100,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     {
         if (mark != null)
         {
-            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 0.5f);
+            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 1.5f);
             playerData.SetHealth(currentPowerKind, health);
         }
         else

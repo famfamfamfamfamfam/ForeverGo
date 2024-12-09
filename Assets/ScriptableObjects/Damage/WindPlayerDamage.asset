@@ -15,9 +15,9 @@ MonoBehaviour:
   powerKind: 0
   character: 0
   data:
-    percentageDamageOnNormalAttack: 2
-    percentageDamageOnSuperAttack: 5
-    percentageDamageOnUniqueSkill: 0
-    bonusDamageToWindCharacter: 0
+    percentageDamageOnNormalAttack: 1
+    percentageDamageOnSuperAttack: 3
+    percentageDamageOnUniqueSkill: 5
+    bonusDamageToWindCharacter: 2
     bonusDamageToWaterCharacter: 5
     bonusDamageToFireCharacter: 5

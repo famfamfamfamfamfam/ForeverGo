@@ -50,4 +50,17 @@ public class RangedMonsterController : MonsterController
             container.TurnOnTemporaryAnimation(screamTransitionHash, screamStateHash);
         }
     }
+
+    public void ToDiscoverPlayer()
+    {
+        if (MonstersManager.instance.rangedMonstersHitTakableCount > 0)
+        {
+            MonstersManager.instance.rangedMonstersHitTakableCount--;
+            if (MonstersManager.instance.rangedMonstersHitTakableCount == 0)
+                ToScream(MonstersManager.instance._player.transform.position);
+            Debug.Log(MonstersManager.instance.rangedMonstersHitTakableCount);
+        }
+
+    }
+
 }

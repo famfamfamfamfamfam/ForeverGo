@@ -39,6 +39,7 @@ public class MonstersManager : MonoBehaviour
     }
     private void OnDisable()
     {
+        StopAllCoroutines();
         instance = null;
     }
 
@@ -61,6 +62,64 @@ public class MonstersManager : MonoBehaviour
             CommonUtils.Instance.SetUpNextValue(ref index, monsterFightTypes.Length);
             if (index % 2 == 0)
                 CommonUtils.Instance.SetUpNextValue(ref subIndex, monsterPowerKinds.Length);
+            RangedMonsterController rangedMonster = monster.GetComponent<RangedMonsterController>();
+            if (rangedMonster != null)
+            {
+                rangedMonsters.Add(rangedMonster);
+            }
+            MeleeMonsterController meleeMonster = monster.GetComponent<MeleeMonsterController>();
+            if (meleeMonster != null)
+            {
+                meleeMonsters.Add(meleeMonster);
+            }
+            StartCoroutine(CheckDistancesAndTearMeleeMonstersCollider());
+        }
+    }
+
+
+    List<MeleeMonsterController> meleeMonsters = new List<MeleeMonsterController>();
+    Vector3 currentCenter, directionToTear;
+    void ToTearOutMeleeMonstersCollider(bool hasOverlap)
+    {
+        if (hasOverlap)
+        {
+            foreach (MeleeMonsterController monster in meleeMonsters)
+            {
+                directionToTear = monster.transform.position - currentCenter;
+                directionToTear.y = 0;
+                directionToTear = 1 / 2f * directionToTear.normalized;
+                monster.transform.position += directionToTear;
+            }
+        }
+    }
+
+    void CalculateTheCenterOfColliders()
+    {
+        Vector3 sum = Vector3.zero;
+        foreach (MeleeMonsterController monster in meleeMonsters)
+        {
+            sum += monster.transform.position;
+        }
+        currentCenter = sum / meleeMonsters.Count;
+    }
+
+    bool HasOverlap()
+    {
+        foreach (MeleeMonsterController monster in meleeMonsters)
+        {
+            if (Vector3.SqrMagnitude(monster.transform.position - currentCenter) <= 0.25)
+                return true;
+        }
+        return false;
+    }
+
+    IEnumerator CheckDistancesAndTearMeleeMonstersCollider()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1);
+            CalculateTheCenterOfColliders();
+            ToTearOutMeleeMonstersCollider(HasOverlap());
         }
     }
 
@@ -75,19 +134,16 @@ public class MonstersManager : MonoBehaviour
         attachedChar.position = wayPoints[wayPointIndex].position;
     }
 
+    List<RangedMonsterController> rangedMonsters = new List<RangedMonsterController>();
     int centerPointCount = 1;
     public void ToTurnTheRangedMonsters()
     {
-        foreach (GameObject monster in monsters)
+        foreach (RangedMonsterController monster in rangedMonsters)
         {
-            RangedMonsterController rangedMonster = monster.GetComponent<RangedMonsterController>();
-            if (rangedMonster != null)
-            {
-                monster.GetComponent<Animator>().applyRootMotion = false;
-                int index = rangedMonster.transformSign;
-                CommonUtils.Instance.SetUpNextValue(ref index, wayPoints.Length - centerPointCount);
-                rangedMonster.transform.position = wayPoints[index].transform.position;
-            }
+            monster.gameObject.GetComponent<Animator>().applyRootMotion = false;
+            int index = monster.transformSign;
+            CommonUtils.Instance.SetUpNextValue(ref index, wayPoints.Length - centerPointCount);
+            monster.transform.position = wayPoints[index].transform.position;
         }
     }
 
