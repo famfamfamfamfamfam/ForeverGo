@@ -58,6 +58,7 @@ public class MeleeMonsterController : MonsterController
     }
 
     State currentState;
+    int standStateHash = Animator.StringToHash("Base Layer.Stand");
     private void Update()
     {
         if (Time.frameCount % changeRangeFrequency_countByFrame == 0)
@@ -77,9 +78,10 @@ public class MeleeMonsterController : MonsterController
         {
             currentState = State.Walk;
         }
-        Run(currentState);
+        if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != jumpAttackStateHash)
+            Run(currentState);
+        Debug.Log(currentState);
     }
-
 
     Quaternion oldAngle, targetAngle;
     float elapsedTime;
@@ -165,7 +167,7 @@ public class MeleeMonsterController : MonsterController
 
 
     #region Animation Event
-    float checkRadius = 2;
+    float checkRadius = 1.5f;
     LayerMask playerLayerMask;
     public void TrampleAnimationEvent()
     {
