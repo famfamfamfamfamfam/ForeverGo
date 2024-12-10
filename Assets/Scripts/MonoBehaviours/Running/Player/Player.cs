@@ -96,11 +96,12 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             isOnGround = false;
     }
 
+    float defaltDamagePercentageOfEnemy = 1.5f;
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
         if (mark != null)
         {
-            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, 1.5f);
+            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, defaltDamagePercentageOfEnemy);
             playerData.SetHealth(currentPowerKind, health);
         }
         else

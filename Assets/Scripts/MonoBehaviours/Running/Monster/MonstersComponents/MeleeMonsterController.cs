@@ -43,9 +43,9 @@ public class MeleeMonsterController : MonsterController
     float checkHandsAttackingDistance, checkFootAttackingDistance;
 
     float adjustDistance;
-    float discoverPlayerDistance;
+    float discoverPlayerDistance = 4;
     float checkDiscoverPlayerDistance;
-    float min = 1f, max = 3f;
+    float min = -1f, max = 2f;
     int changeRangeFrequency_countByFrame = 150;
 
 
@@ -55,9 +55,12 @@ public class MeleeMonsterController : MonsterController
         checkHandsAttackingDistance = Mathf.Pow(startHandsAttackingDistance, 2);
 
         playerLayerMask = LayerMask.GetMask("Player");
+        railsLayerMask = LayerMask.GetMask("Rails");
+        combineMask = playerLayerMask | railsLayerMask;
     }
 
     State currentState;
+    float currentSqrDistance;
     private void Update()
     {
         if (Time.frameCount % changeRangeFrequency_countByFrame == 0)
@@ -65,7 +68,14 @@ public class MeleeMonsterController : MonsterController
             adjustDistance = UnityEngine.Random.Range(min, max);
             checkDiscoverPlayerDistance = (discoverPlayerDistance + adjustDistance) * (discoverPlayerDistance + adjustDistance);
         }
-        float currentSqrDistance = Vector3.SqrMagnitude(transform.position - MonstersManager.instance._player.transform.position);
+        currentSqrDistance = Vector3.SqrMagnitude(transform.position - MonstersManager.instance._player.transform.position);
+        if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != jumpAttackStateHash)
+            Run(currentState);
+        if (currentState == State.Flee)
+        {
+            OnFleeState();
+            return;
+        }
         if (currentSqrDistance <= checkHandsAttackingDistance)
         {
             if (currentSqrDistance <= checkFootAttackingDistance)
@@ -77,8 +87,6 @@ public class MeleeMonsterController : MonsterController
         {
             currentState = State.Walk;
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != jumpAttackStateHash)
-            Run(currentState);
     }
 
     Quaternion oldAngle, targetAngle;
@@ -99,18 +107,19 @@ public class MeleeMonsterController : MonsterController
     float[] distances = new float[3];
     Transform[] transformsBehindTheDistances = new Transform[3];
     Vector3[] checkedDirections;
+    LayerMask railsLayerMask;
+    LayerMask combineMask;
     public void ToFleeOnLowHP()
     {
+        currentState = State.Flee;
         checkedDirections = new Vector3[] { -transform.forward, transform.right, -transform.right };
-        LayerMask layerMask = LayerMask.GetMask("Rails") | playerLayerMask;
         for (int i = 0; i < checkedDirections.Length; i++)
         {
-            FindTheFarestDistance(checkedDirections[i] + transform.up, layerMask, i);
+            FindTheFarestDistance(checkedDirections[i] + transform.up, combineMask, i);
         }
         Array.Sort(distances, transformsBehindTheDistances);
         Transform targetToFlee = transformsBehindTheDistances[transformsBehindTheDistances.Length - 1];
         SetNewForwardVector(targetToFlee.position);
-        //run to an distance, distance point collider adjust
     }
     void FindTheFarestDistance(Vector3 checkedDirection, LayerMask layerMask, int i)
     {
@@ -160,6 +169,20 @@ public class MeleeMonsterController : MonsterController
                 container.StartLoopAnimation(walkTransitionHash);
                 NavigateMonster(MonstersManager.instance._player.transform);
                 return;
+            case State.Flee:
+                if (chip._distancePoint.enabled)
+                    chip._distancePoint.enabled = false;
+                return;
+        }
+    }
+
+    int fleeTrasitionHash = Animator.StringToHash("flee");
+    int fleeStateHash = Animator.StringToHash("Base Layer.Fleeing");
+    void OnFleeState()
+    {
+        if (currentSqrDistance <= checkDiscoverPlayerDistance)
+        {
+            container.TurnOnTemporaryAnimation(fleeTrasitionHash, fleeStateHash);
         }
     }
 

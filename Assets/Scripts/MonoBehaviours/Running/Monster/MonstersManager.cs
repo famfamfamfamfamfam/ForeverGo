@@ -72,6 +72,7 @@ public class MonstersManager : MonoBehaviour
             {
                 meleeMonsters.Add(meleeMonster);
             }
+            sqrOverlapLength = overlapLength * overlapLength;
             StartCoroutine(CheckDistancesAndTearMeleeMonstersCollider());
         }
     }
@@ -79,6 +80,7 @@ public class MonstersManager : MonoBehaviour
 
     List<MeleeMonsterController> meleeMonsters = new List<MeleeMonsterController>();
     Vector3 currentCenter, directionToTear;
+    float overlapLength = 1 / 2f;
     void ToTearOutMeleeMonstersCollider(bool hasOverlap)
     {
         if (hasOverlap)
@@ -87,7 +89,7 @@ public class MonstersManager : MonoBehaviour
             {
                 directionToTear = monster.transform.position - currentCenter;
                 directionToTear.y = 0;
-                directionToTear = 1 / 2f * directionToTear.normalized;
+                directionToTear = overlapLength * directionToTear.normalized;
                 monster.transform.position += directionToTear;
             }
         }
@@ -103,11 +105,12 @@ public class MonstersManager : MonoBehaviour
         currentCenter = sum / meleeMonsters.Count;
     }
 
+    float sqrOverlapLength;
     bool HasOverlap()
     {
         foreach (MeleeMonsterController monster in meleeMonsters)
         {
-            if (Vector3.SqrMagnitude(monster.transform.position - currentCenter) <= 0.25)
+            if (Vector3.SqrMagnitude(monster.transform.position - currentCenter) <= sqrOverlapLength)
                 return true;
         }
         return false;
@@ -115,7 +118,7 @@ public class MonstersManager : MonoBehaviour
 
     IEnumerator CheckDistancesAndTearMeleeMonstersCollider()
     {
-        while (true)
+        while (!GameManager.instance.gameOver)
         {
             yield return new WaitForSeconds(1);
             CalculateTheCenterOfColliders();
