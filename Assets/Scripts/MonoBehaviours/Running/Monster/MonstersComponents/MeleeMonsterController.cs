@@ -107,7 +107,7 @@ public class MeleeMonsterController : MonsterController
     Transform[] transformsBehindTheDistances = new Transform[4];
     Vector3[] checkedDirections;
     LayerMask railsLayerMask;
-    LayerMask combineMask;
+    public LayerMask combineMask { get; private set; }
     public void ToFleeOnLowHP()
     {
         currentState = State.Flee;
@@ -119,7 +119,8 @@ public class MeleeMonsterController : MonsterController
         }
         Array.Sort(distances, transformsBehindTheDistances);
         Transform targetToFlee = transformsBehindTheDistances[transformsBehindTheDistances.Length - 1];
-        SetNewForwardVector(targetToFlee.position);
+        if (targetToFlee != null)
+            SetNewForwardVector(targetToFlee.position);
     }
     void FindTheFarestDistance(Vector3 checkedDirection, int i)
     {
@@ -187,6 +188,14 @@ public class MeleeMonsterController : MonsterController
             container.TurnOnTemporaryAnimation(fleeTransitionHash_triggerParam, fleeStateHash);
         else
             container.TurnOnTemporaryAnimation(standTransitionHash, standStateHash);
+    }
+
+    private void OnAnimatorMove()
+    {
+        if (animator.applyRootMotion && !MonstersManager.instance.IsOutOfGround(transform.position))
+        {
+            transform.position += animator.deltaPosition;
+        }
     }
 
     #region Animation Event

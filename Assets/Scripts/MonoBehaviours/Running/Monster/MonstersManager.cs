@@ -12,6 +12,8 @@ public class MonstersManager : MonoBehaviour
     [SerializeField]
     Transform[] wayPoints;
     [SerializeField]
+    Transform[] rails;
+    [SerializeField]
     GameObject player;
     [SerializeField]
     GameObject prefab;
@@ -157,6 +159,27 @@ public class MonstersManager : MonoBehaviour
             strangeCubeInScene.transform.position.y,
             beforeDisapearedMonsterPosition.z);
         strangeCubeInScene.SetActive(true);
+    }
+
+    float[] railsXCoordinate = new float[4];
+    float[] railsZCoordinate = new float[4];
+    void ArrangeRailsCoordinate()
+    {
+        for (int i = 0; i < rails.Length; i++)
+        {
+            railsXCoordinate[i] = rails[i].position.x;
+            railsZCoordinate[i] = rails[i].position.z;
+        }
+        Array.Sort(railsXCoordinate);
+        Array.Sort(railsZCoordinate);
+    }
+
+    public bool IsOutOfGround(Vector3 currentPosition)
+    {
+        ArrangeRailsCoordinate();
+        bool isOutOnX = currentPosition.x < railsXCoordinate[0] || currentPosition.x > railsXCoordinate[railsXCoordinate.Length - 1];
+        bool isOutOnZ = currentPosition.z < railsZCoordinate[0] || currentPosition.z > railsZCoordinate[railsZCoordinate.Length - 1];
+        return isOutOnX || isOutOnZ;
     }
 
     public int rangedMonstersHitTakableCount { get; set; }
