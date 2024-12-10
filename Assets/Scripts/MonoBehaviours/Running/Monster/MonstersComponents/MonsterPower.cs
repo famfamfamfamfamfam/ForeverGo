@@ -5,7 +5,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
     PowerKind powerKind;
     CharacterKind monsterChar = CharacterKind.Monster;
 
-    float health;
+    float defaultHealth, health;
     int resistanceToReact;
     int currentResistance;
 
@@ -21,7 +21,8 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
     private void OnEnable()
     {
         CharacterProperties monsterProperties = GetComponent<MonsterChip>()._monsterProperties;
-        health = monsterProperties.properties._health;
+        defaultHealth = monsterProperties.properties._health;
+        health = defaultHealth;
         resistanceToReact = monsterProperties.properties._resistanceToReact;
         currentResistance = resistanceToReact;
     }
@@ -47,6 +48,13 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         if (health <= 0)
         {
             theMonster.ToDie();
+        }
+
+        MeleeMonsterController meleeMonster = gameObject.GetComponent<MeleeMonsterController>();
+        if (meleeMonster != null)
+        {
+            if (health < defaultHealth / 10)
+                meleeMonster.ToFleeOnLowHP();
         }
         Debug.Log(health);
     }

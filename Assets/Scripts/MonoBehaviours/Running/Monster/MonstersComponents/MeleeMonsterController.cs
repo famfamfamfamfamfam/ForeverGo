@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -72,10 +72,7 @@ public class MeleeMonsterController : MonsterController
         if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != jumpAttackStateHash)
             Run(currentState);
         if (currentState == State.Flee)
-        {
-            OnFleeState();
             return;
-        }
         if (currentSqrDistance <= checkHandsAttackingDistance)
         {
             if (currentSqrDistance <= checkFootAttackingDistance)
@@ -103,28 +100,31 @@ public class MeleeMonsterController : MonsterController
             elapsedTime = 0;
     }
 
+    int fleeTransitionHash_boolParam = Animator.StringToHash("isFleeing");
+
     int raycastDistance = 30;
-    float[] distances = new float[3];
-    Transform[] transformsBehindTheDistances = new Transform[3];
+    float[] distances = new float[4];
+    Transform[] transformsBehindTheDistances = new Transform[4];
     Vector3[] checkedDirections;
     LayerMask railsLayerMask;
     LayerMask combineMask;
     public void ToFleeOnLowHP()
     {
         currentState = State.Flee;
-        checkedDirections = new Vector3[] { -transform.forward, transform.right, -transform.right };
+        container.StartLoopAnimation(fleeTransitionHash_boolParam);
+        checkedDirections = new Vector3[] { transform.forward, -transform.forward, transform.right, -transform.right };
         for (int i = 0; i < checkedDirections.Length; i++)
         {
-            FindTheFarestDistance(checkedDirections[i] + transform.up, combineMask, i);
+            FindTheFarestDistance(checkedDirections[i] + transform.up, i);
         }
         Array.Sort(distances, transformsBehindTheDistances);
         Transform targetToFlee = transformsBehindTheDistances[transformsBehindTheDistances.Length - 1];
         SetNewForwardVector(targetToFlee.position);
     }
-    void FindTheFarestDistance(Vector3 checkedDirection, LayerMask layerMask, int i)
+    void FindTheFarestDistance(Vector3 checkedDirection, int i)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, checkedDirection, out hit, raycastDistance, layerMask))
+        if (Physics.Raycast(0.25f * transform.up + transform.position, checkedDirection, out hit, raycastDistance, combineMask))
         {
             distances[i] = Vector3.SqrMagnitude(hit.transform.position - transform.position);
             transformsBehindTheDistances[i] = hit.transform;
@@ -172,18 +172,21 @@ public class MeleeMonsterController : MonsterController
             case State.Flee:
                 if (chip._distancePoint.enabled)
                     chip._distancePoint.enabled = false;
+                OnFleeState();
                 return;
         }
     }
 
-    int fleeTrasitionHash = Animator.StringToHash("flee");
+    int fleeTransitionHash_triggerParam = Animator.StringToHash("flee");
     int fleeStateHash = Animator.StringToHash("Base Layer.Fleeing");
+    int standTransitionHash = Animator.StringToHash("stand");
+    int standStateHash = Animator.StringToHash("Base Layer.Stand");
     void OnFleeState()
     {
         if (currentSqrDistance <= checkDiscoverPlayerDistance)
-        {
-            container.TurnOnTemporaryAnimation(fleeTrasitionHash, fleeStateHash);
-        }
+            container.TurnOnTemporaryAnimation(fleeTransitionHash_triggerParam, fleeStateHash);
+        else
+            container.TurnOnTemporaryAnimation(standTransitionHash, standStateHash);
     }
 
     #region Animation Event
