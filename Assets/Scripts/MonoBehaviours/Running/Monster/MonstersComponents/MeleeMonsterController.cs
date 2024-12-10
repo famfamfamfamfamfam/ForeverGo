@@ -192,8 +192,10 @@ public class MeleeMonsterController : MonsterController
 
     private void OnAnimatorMove()
     {
-        if (animator.applyRootMotion && !MonstersManager.instance.IsOutOfGround(transform.position))
+        if (animator.applyRootMotion)
         {
+            if (MonstersManager.instance.IsOutOfGround(transform.position) && currentState == State.Flee)
+                ToFleeOnLowHP();
             transform.position += animator.deltaPosition;
         }
     }
