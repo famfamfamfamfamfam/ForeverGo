@@ -16,6 +16,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         {
             renderer.material = RefToAssets.refs._skinsDictionary[(kind, monsterChar)];
         }
+        theMonster = gameObject.GetComponent<MonsterController>();
     }
 
     private void OnEnable()
@@ -30,7 +31,6 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
     MonsterController theMonster;
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
-        theMonster = gameObject.GetComponent<MonsterController>();
         currentResistance--;
         if (currentResistance == 0)
         {
@@ -38,8 +38,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             currentResistance = resistanceToReact;
         }
 
-        RangedMonsterController rangedMonster = gameObject.GetComponent<RangedMonsterController>();
-        if (rangedMonster != null)
+        if (theMonster is RangedMonsterController rangedMonster)
             rangedMonster.ToDiscoverPlayer();
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
@@ -50,8 +49,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             theMonster.ToDie();
         }
 
-        MeleeMonsterController meleeMonster = gameObject.GetComponent<MeleeMonsterController>();
-        if (meleeMonster != null)
+        if (theMonster is MeleeMonsterController meleeMonster)
         {
             if (health < defaultHealth / 10)
                 meleeMonster.ToFleeOnLowHP();

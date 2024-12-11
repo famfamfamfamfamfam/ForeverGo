@@ -16,9 +16,4 @@ public class MeleeMonstersFleeBehaviour : StateMachineBehaviour
             meleeMonsterController.ToFleeOnLowHP();
         }
     }
-
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        //animator.transform.forward = MonstersManager.instance._player.transform.position - animator.transform.position;
-    }
 }

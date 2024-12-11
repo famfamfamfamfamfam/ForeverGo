@@ -34,10 +34,10 @@ public class MonsterChip : MonoBehaviour
     public void Init(PowerKind powerKind, Type monsterFightType, RuntimeAnimatorController monsterAnimatorController)
     {
         Renderer[] renderers = body.GetComponentsInChildren<Renderer>();
-        MonsterPower powerProcessor = gameObject.AddComponent<MonsterPower>();
-        powerProcessor.Init(powerKind, renderers);
         MonsterController controller = (MonsterController)gameObject.AddComponent(monsterFightType);
         controller.Init(monsterAnimatorController);
+        MonsterPower powerProcessor = gameObject.AddComponent<MonsterPower>();
+        powerProcessor.Init(powerKind, renderers);
     }
 
     private void OnDisable()

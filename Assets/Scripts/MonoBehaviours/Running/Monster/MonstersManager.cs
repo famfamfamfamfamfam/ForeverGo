@@ -46,6 +46,7 @@ public class MonstersManager : MonoBehaviour
     }
 
     int monstersCountInLevel = 4;
+    MonsterController monsterController;
     private void Start()
     {
         Vector3 standPosition;
@@ -64,18 +65,18 @@ public class MonstersManager : MonoBehaviour
             CommonUtils.Instance.SetUpNextValue(ref index, monsterFightTypes.Length);
             if (index % 2 == 0)
                 CommonUtils.Instance.SetUpNextValue(ref subIndex, monsterPowerKinds.Length);
-            RangedMonsterController rangedMonster = monster.GetComponent<RangedMonsterController>();
-            if (rangedMonster != null)
+            monsterController = monster.GetComponent<MonsterController>();
+            if (monsterController is RangedMonsterController rangedMonster)
             {
                 rangedMonsters.Add(rangedMonster);
             }
-            MeleeMonsterController meleeMonster = monster.GetComponent<MeleeMonsterController>();
-            if (meleeMonster != null)
+            else if (monsterController is MeleeMonsterController meleeMonster)
             {
                 meleeMonsters.Add(meleeMonster);
             }
             sqrOverlapLength = overlapLength * overlapLength;
             StartCoroutine(CheckDistancesAndTearMeleeMonstersCollider());
+            ArrangeRailsCoordinate();
         }
     }
 
@@ -176,7 +177,6 @@ public class MonstersManager : MonoBehaviour
 
     public bool IsOutOfGround(Vector3 currentPosition)
     {
-        ArrangeRailsCoordinate();
         bool isOutOnX = currentPosition.x < railsXCoordinate[0] || currentPosition.x > railsXCoordinate[railsXCoordinate.Length - 1];
         bool isOutOnZ = currentPosition.z < railsZCoordinate[0] || currentPosition.z > railsZCoordinate[railsZCoordinate.Length - 1];
         return isOutOnX || isOutOnZ;

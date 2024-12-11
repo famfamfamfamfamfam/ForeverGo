@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class MonsterReactionsADistanceAway : MonoBehaviour
 {
+    MonsterController monster;
     private void OnTriggerEnter(Collider other)
     {
-        gameObject.transform.root.gameObject.GetComponent<MeleeMonsterController>()?.ToJumpAttack();
-        Vector3 playerPosition = MonstersManager.instance._player.transform.position;
-        gameObject.transform.root.gameObject.GetComponent<RangedMonsterController>()?.ToScream(playerPosition);
+        monster = gameObject.transform.root.gameObject.GetComponent<MonsterController>();
+        if (monster != null)
+        {
+            if (monster is MeleeMonsterController meleeMonster)
+                meleeMonster.ToJumpAttack();
+            if (monster is RangedMonsterController rangedMonster)
+            {
+                Vector3 playerPosition = MonstersManager.instance._player.transform.position;
+                rangedMonster.ToScream(playerPosition);
+            }
+        }
     }
 }
