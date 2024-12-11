@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPowerKindGettable, IAttackStateGettable
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     float health;
     [SerializeField]
     CharacterProperties playerOnSwitchModeProperties, playerOnOnlyModeProperties;
+    [SerializeField]
+    SkillsUsingCondition superSkill, uniqueSkill;
 
     void Start()
     {

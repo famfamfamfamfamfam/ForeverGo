@@ -10,8 +10,6 @@ public class RefToAssets : MonoBehaviour
     List<Avatar> avatars;
     [SerializeField]
     List<Damage> damageConfig;
-    [SerializeField]
-    List<SkillsUsingCondition> skillUsingConfig;
 
     public static RefToAssets refs;
     Dictionary<(PowerKind, CharacterKind), Material> skinsDictionary;
@@ -22,8 +20,6 @@ public class RefToAssets : MonoBehaviour
     Dictionary<(PowerKind, CharacterKind), DamageConfig> damageDictionary;
     public Dictionary<(PowerKind, CharacterKind), DamageConfig> _damageDictionary { get => damageDictionary; }
 
-    Dictionary<Skill, int> skillUsingCondition;
-    public Dictionary<Skill, int> _skillUsingCondition { get => skillUsingCondition; }
     private void Awake()
     {
         if (refs != null)
@@ -44,8 +40,6 @@ public class RefToAssets : MonoBehaviour
             damageData.InitBonusDamageDictionary();
             damageData.InitPercentageDamageDictionary();
         }
-        ConvertListToDictionary<SkillsUsingCondition, Skill, int>(skillUsingConfig, ref skillUsingCondition,
-            use => use.skillKind, use => use.afterHitCount);
     }
 
     void ConvertListToDictionary<ListType, KeysType, ValuesType>

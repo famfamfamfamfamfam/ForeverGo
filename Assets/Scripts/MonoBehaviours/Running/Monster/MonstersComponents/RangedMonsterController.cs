@@ -51,6 +51,7 @@ public class RangedMonsterController : MonsterController
         }
     }
 
+    public int hitTakableCount { get; set; }
     public void ToDiscoverPlayer()
     {
         if (MonstersManager.instance.rangedMonstersHitTakableCount > 0)

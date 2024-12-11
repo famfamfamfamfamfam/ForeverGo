@@ -88,7 +88,7 @@ public class MeleeMonsterController : MonsterController
 
     Quaternion oldAngle, targetAngle;
     float elapsedTime;
-    public void NavigateMonster(Transform player) // flee exit trigger
+    public void NavigateMonster(Transform player)
     {
         targetAngle = Quaternion.LookRotation(player.position - transform.position);
         targetAngle = Quaternion.Euler(0, targetAngle.eulerAngles.y, 0);
