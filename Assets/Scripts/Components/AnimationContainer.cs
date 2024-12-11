@@ -22,20 +22,20 @@ public class AnimationContainer
 
     public void TurnOnTemporaryAnimation(int transitionHash, int stateHash)
     {
-        if (animController.GetCurrentAnimatorStateInfo(0).fullPathHash != stateHash)
+        if (!IsRunning(stateHash))
             animController.SetTrigger(transitionHash);
     }
 
     public void TurnOnSecondaryAnimation(int transitionHash, int stateHash, int previousStateHash)
     {
-        if (animController.GetCurrentAnimatorStateInfo(0).fullPathHash == previousStateHash)
+        if (IsRunning(previousStateHash))
             TurnOnTemporaryAnimation(transitionHash, stateHash);
     }
 
     int stateIndex, intParamValue;
     public void AnimateComboAttack(int transitionHash, int[] stateHashes)
     {
-        if (animController.GetCurrentAnimatorStateInfo(0).fullPathHash != stateHashes[stateIndex])
+        if (!IsRunning(stateHashes[stateIndex]))
         {
             animController.SetInteger(transitionHash, intParamValue);
             CommonUtils.Instance.SetUpNextValue(ref stateIndex, stateHashes.Length);
@@ -46,6 +46,11 @@ public class AnimationContainer
     public void ResetIntParam(int transitionHash, int firstValue)
     {
         animController.SetInteger(transitionHash, firstValue);
+    }
+
+    public bool IsRunning(int stateHash)
+    {
+        return animController.GetCurrentAnimatorStateInfo(0).fullPathHash == stateHash;
     }
 
     public virtual void UniqueSkill() { }

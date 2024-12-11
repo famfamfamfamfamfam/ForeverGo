@@ -5,6 +5,7 @@ public class SkillsUsingCondition : ScriptableObject
 {
     public Skill skillKind;
     public int afterHitCount;
+    public int cooldown_second;
 }
 
 public enum Skill

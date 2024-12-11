@@ -332,6 +332,7 @@ MonoBehaviour:
   leftFoot: {fileID: 4287696172730513050}
   laserStartPoint: {fileID: 2740851319911963834}
   monsterProperties: {fileID: 11400000, guid: baa6fa8ebf5bdbf42b010a9cd4a27779, type: 2}
+  meleeMonsterHealthPercentageToFlee: {fileID: 11400000, guid: 45b724b2d65a3a5459371887f2b46d33, type: 2}
 --- !u!65 &2772439002472585347
 BoxCollider:
   m_ObjectHideFlags: 0

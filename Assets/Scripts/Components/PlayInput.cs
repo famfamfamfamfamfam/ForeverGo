@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayInput
 {
@@ -98,13 +99,12 @@ public class PlayInput
 
 
     int sAttack = Animator.StringToHash("sAttack");
-    int sAttackx2 = Animator.StringToHash("sAttackx2");
-    public void ToDoubleSuperAttack(bool hasInput)
+    public void ToTurnOnSuperAttack(bool hasInput, ref bool isInCooldown)
     {
-        if (hasInput)
+        if (hasInput && !isInCooldown)
         {
             animationController.TurnOnTemporaryAnimation(sAttack, stateHashes[12]);
-            animationController.TurnOnSecondaryAnimation(sAttackx2, stateHashes[13], stateHashes[12]);
+            isInCooldown = true;
         }
     }
 

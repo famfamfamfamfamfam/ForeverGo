@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: UniqueSkillUsingCondition
   m_EditorClassIdentifier: 
   skillKind: 1
-  afterHitCount: 10
+  afterHitCount: 7
+  cooldown_second: 0

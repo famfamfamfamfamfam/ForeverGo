@@ -69,7 +69,7 @@ public class MeleeMonsterController : MonsterController
             checkDiscoverPlayerDistance = (discoverPlayerDistance + adjustDistance) * (discoverPlayerDistance + adjustDistance);
         }
         currentSqrDistance = Vector3.SqrMagnitude(transform.position - MonstersManager.instance._player.transform.position);
-        if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != jumpAttackStateHash)
+        if (!container.IsRunning(jumpAttackStateHash))
             Run(currentState);
         if (currentState == State.Flee)
             return;

@@ -14,14 +14,16 @@ public class MonsterChip : MonoBehaviour
     Transform laserStartPoint;
     [SerializeField]
     CharacterProperties monsterProperties;
+    [SerializeField]
+    DefaultValue meleeMonsterHealthPercentageToFlee;
 
     public Transform _laserStartPoint { get => laserStartPoint; }
     public Transform _leftFoot { get => leftFoot; }
     public CharacterProperties _monsterProperties { get => monsterProperties; }
+    public DefaultValue _meleeMonsterHealthPercentageToFlee { get => meleeMonsterHealthPercentageToFlee; }
     public Collider _leftHand { get; private set; }
     public Collider _rightHand { get; private set; }
     public BoxCollider _distancePoint { get; private set; }
-
 
     void OnEnable()
     {

@@ -9,6 +9,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
     int resistanceToReact;
     int currentResistance;
 
+    MonsterChip chip;
     public void Init(PowerKind kind, Renderer[] monsterRenderers)
     {
         powerKind = kind;
@@ -17,6 +18,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             renderer.material = RefToAssets.refs._skinsDictionary[(kind, monsterChar)];
         }
         theMonster = gameObject.GetComponent<MonsterController>();
+        chip = gameObject.GetComponent<MonsterChip>();
     }
 
     private void OnEnable()
@@ -38,20 +40,17 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             currentResistance = resistanceToReact;
         }
 
-        if (theMonster is RangedMonsterController rangedMonster)
-            rangedMonster.ToDiscoverPlayer();
+        if (theMonster is RangedMonsterController)
+            MonstersManager.instance.DiscoverPlayerOnRangedMonsters();
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
-        //need to add a method that changes the below PowerKind of enemy to minus the resonance damage
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
         if (health <= 0)
-        {
             theMonster.ToDie();
-        }
 
         if (theMonster is MeleeMonsterController meleeMonster)
         {
-            if (health < defaultHealth / 10)
+            if (health < defaultHealth * chip._meleeMonsterHealthPercentageToFlee.value / 100)
                 meleeMonster.ToFleeOnLowHP();
         }
         Debug.Log(health);

@@ -1,3 +1,5 @@
+using System;
+
 public interface ILateUpdateMethodWaitingToRun
 {
     void SetUpPosition();
@@ -21,4 +23,9 @@ public interface IAttackStateGettable
 public interface IPowerKindGettable
 {
     PowerKind GetPowerKind();
+}
+
+public interface ICoroutineStartable
+{
+    void StartCoroutine(Func<bool> predicate);
 }

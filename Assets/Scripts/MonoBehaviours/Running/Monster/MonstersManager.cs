@@ -182,6 +182,20 @@ public class MonstersManager : MonoBehaviour
         return isOutOnX || isOutOnZ;
     }
 
-    public int rangedMonstersHitTakableCount { get; set; }
+    public void ToIncreaseRangedMonstersHitTakableCount()
+    {
+        foreach (RangedMonsterController monster in rangedMonsters)
+        {
+            monster.hitTakableCount++;
+            Debug.Log(monster.hitTakableCount);
+        }
+    }
 
+    public void DiscoverPlayerOnRangedMonsters()
+    {
+        foreach (RangedMonsterController monster in rangedMonsters)
+        {
+            monster.ToDiscoverPlayer();
+        }
+    }
 }

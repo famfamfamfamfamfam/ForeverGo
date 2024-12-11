@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,19 +26,23 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     [SerializeField]
     CharacterProperties playerOnSwitchModeProperties, playerOnOnlyModeProperties;
     [SerializeField]
+    DefaultValue defaltDamagePercentageOfEnemy;
+    [SerializeField]
     SkillsUsingCondition superSkill, uniqueSkill;
+    bool isInCooldown;
+    int hitCount;
 
     void Start()
     {
         powerKind = CommonUtils.Instance.playerPower;
         currentPowerKind = powerKind.selectedPowerKinds[0];
 
-        stateNames = new string[14] { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
+        stateNames = new string[13] { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
         "Base Layer.Jumping", "Base Layer.Twisting", "Base Layer.Dashing",
         "Base Layer.NormalAttack1", "Base Layer.NormalAttack2", "Base Layer.NormalAttack3",
         "Base Layer.RisingWind", "Base Layer.RisingWater", "Base Layer.RisingFire",
-        "Base Layer.SuperAttack1", "Base Layer.SuperAttack2" };
-        stateHashes = new int[14];
+        "Base Layer.SuperAttack" };
+        stateHashes = new int[13];
 
         playerRenderer = body.GetComponent<Renderer>();
         animator = GetComponent<Animator>();
@@ -67,6 +72,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             clone.playerWeapon = weapon;
             clone.stateHashes = stateHashes;
         }
+        StartCoroutine(AfterCooldown());
     }
     bool isOnGround;
     void Update()
@@ -83,7 +89,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         inputProcessor.ToSprint(Input.GetKey(KeyCode.LeftShift));
         inputProcessor.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q));
         inputProcessor.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
-        inputProcessor.ToDoubleSuperAttack(Input.GetKeyDown(KeyCode.E));
+        inputProcessor.ToTurnOnSuperAttack(Input.GetKeyDown(KeyCode.E), ref isInCooldown);
         inputProcessor.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonUtils.Instance.onlyOneMode,
                                         ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
                                         ref health, playerData, playerRenderer);
@@ -99,12 +105,11 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             isOnGround = false;
     }
 
-    float defaltDamagePercentageOfEnemy = 1.5f;
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
         if (mark != null)
         {
-            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, defaltDamagePercentageOfEnemy);
+            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, defaltDamagePercentageOfEnemy.value);
             playerData.SetHealth(currentPowerKind, health);
         }
         else
@@ -178,6 +183,21 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
                                     ref health, playerData, playerRenderer);
             GameManager.instance.gamePause = false;
         }
+    }
+
+    IEnumerator AfterCooldown()
+    {
+        while (true)
+        {
+            yield return new WaitUntil(() => isInCooldown == true);
+            yield return new WaitForSeconds(superSkill.cooldown_second);
+            isInCooldown = false;
+        }
+    }
+
+    void OnDisable()
+    {
+        StopAllCoroutines();
     }
 }
 public enum AttackState

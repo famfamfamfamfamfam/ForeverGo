@@ -44,7 +44,7 @@ public class RangedMonsterController : MonsterController
     int screamStateHash = Animator.StringToHash("Base Layer.Screaming");
     public void ToScream(Vector3 playerPosition)
     {
-        if (MonstersManager.instance.rangedMonstersHitTakableCount == 0)
+        if (hitTakableCount == 0)
         {
             transform.forward = playerPosition - transform.position;
             container.TurnOnTemporaryAnimation(screamTransitionHash, screamStateHash);
@@ -54,14 +54,12 @@ public class RangedMonsterController : MonsterController
     public int hitTakableCount { get; set; }
     public void ToDiscoverPlayer()
     {
-        if (MonstersManager.instance.rangedMonstersHitTakableCount > 0)
+        if (hitTakableCount > 0)
         {
-            MonstersManager.instance.rangedMonstersHitTakableCount--;
-            if (MonstersManager.instance.rangedMonstersHitTakableCount == 0)
-                ToScream(MonstersManager.instance._player.transform.position);
-            Debug.Log(MonstersManager.instance.rangedMonstersHitTakableCount);
+            hitTakableCount--;
+            ToScream(MonstersManager.instance._player.transform.position);
+            Debug.Log(hitTakableCount);
         }
-
     }
 
 }

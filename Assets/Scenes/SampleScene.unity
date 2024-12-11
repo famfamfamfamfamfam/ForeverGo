@@ -583,6 +583,7 @@ MonoBehaviour:
   head: {fileID: 1021314821}
   playerOnSwitchModeProperties: {fileID: 11400000, guid: d62879c932f0b834fae476e9c2484eef, type: 2}
   playerOnOnlyModeProperties: {fileID: 11400000, guid: 4e6de259f5008ca439a96dc67f864597, type: 2}
+  defaltDamagePercentageOfEnemy: {fileID: 11400000, guid: 66f2783d840bb9b42bde2a63dad0fc25, type: 2}
   superSkill: {fileID: 11400000, guid: d30d5ea5863924546bf153b25c3ae533, type: 2}
   uniqueSkill: {fileID: 11400000, guid: c1eca7846edc1664395b35bc0f6fe8ee, type: 2}
 --- !u!65 &783615539

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SuperSkillUsingCondition
   m_EditorClassIdentifier: 
   skillKind: 0
-  afterHitCount: 5
+  afterHitCount: 0
+  cooldown_second: 5
