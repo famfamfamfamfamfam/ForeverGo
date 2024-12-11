@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
             IAttackStateGettable iAttack = attacker.GetComponent<IAttackStateGettable>();
             AttackState? attackerAttackState = iAttack?.GetAttackState();
             damageTaker.GetComponent<IOnAttackable>()?.OnBeAttacked(attackerPowerKind, attackerAttackState);
+            attacker.GetComponent<IHitCountForUsingSkillSettable>()?.SetHitCount();
         }
     }
 

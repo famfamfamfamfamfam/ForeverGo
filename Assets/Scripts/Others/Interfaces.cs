@@ -25,7 +25,7 @@ public interface IPowerKindGettable
     PowerKind GetPowerKind();
 }
 
-public interface ICoroutineStartable
+public interface IHitCountForUsingSkillSettable
 {
-    void StartCoroutine(Func<bool> predicate);
+    void SetHitCount();
 }

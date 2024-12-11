@@ -64,10 +64,13 @@ public class PlayInput
             animationController.StopLoopAnimation(isSprinting);
     }
 
-    public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition)
+    public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition, ref int needResetVairable)
     {
         if (turnOnUniqueSkillCondition)
+        {
             animationController.UniqueSkill();
+            needResetVairable = 0;
+        }
     }
 
     int nAttack = Animator.StringToHash("nAttack");
