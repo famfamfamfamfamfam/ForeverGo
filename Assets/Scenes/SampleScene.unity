@@ -1207,6 +1207,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566b18a40dafac340b55b2b93afe49ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 5220239111676587714}
+  rails:
+  - {fileID: 1625869736}
+  - {fileID: 1401503853}
+  - {fileID: 667331395}
+  - {fileID: 432331086}
 --- !u!1 &1401503851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,7 +1525,6 @@ MonoBehaviour:
   - {fileID: 1401503853}
   - {fileID: 667331395}
   - {fileID: 432331086}
-  player: {fileID: 5220239111676587714}
   prefab: {fileID: 855697913656182472, guid: c5238005e10cc5a49af76e414eabe57b, type: 3}
   strangeCubePrefab: {fileID: 8717561513578498369, guid: 8a30dcf19b0237b49aec33855721dc78, type: 3}
 --- !u!4 &1599208041681287

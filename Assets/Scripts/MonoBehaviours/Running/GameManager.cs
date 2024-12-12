@@ -1,9 +1,17 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    [SerializeField]
+    GameObject player;
+    [SerializeField]
+    Transform[] rails;
+
+    public GameObject _player { get => player; }
 
     private void Awake()
     {
@@ -39,4 +47,32 @@ public class GameManager : MonoBehaviour
     {
         settableObj.GetComponent<IAttackStateSettable>()?.SetAttackState(newAttackState);
     }
+
+
+    private void Start()
+    {
+        ArrangeRailsCoordinate();
+    }
+
+    float[] railsXCoordinate = new float[4];
+    float[] railsZCoordinate = new float[4];
+    void ArrangeRailsCoordinate()
+    {
+        for (int i = 0; i < rails.Length; i++)
+        {
+            railsXCoordinate[i] = rails[i].position.x;
+            railsZCoordinate[i] = rails[i].position.z;
+        }
+        Array.Sort(railsXCoordinate);
+        Array.Sort(railsZCoordinate);
+    }
+
+    public bool IsOutOfGround(Vector3 currentPosition)
+    {
+        bool isOutOnX = currentPosition.x < railsXCoordinate[0] || currentPosition.x > railsXCoordinate[railsXCoordinate.Length - 1];
+        bool isOutOnZ = currentPosition.z < railsZCoordinate[0] || currentPosition.z > railsZCoordinate[railsZCoordinate.Length - 1];
+        return isOutOnX || isOutOnZ;
+    }
+
+
 }

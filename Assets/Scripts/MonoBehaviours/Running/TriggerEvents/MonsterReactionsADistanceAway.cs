@@ -14,7 +14,7 @@ public class MonsterReactionsADistanceAway : MonoBehaviour
                 meleeMonster.ToJumpAttack();
             if (monster is RangedMonsterController rangedMonster)
             {
-                Vector3 playerPosition = MonstersManager.instance._player.transform.position;
+                Vector3 playerPosition = GameManager.instance._player.transform.position;
                 rangedMonster.ToScream(playerPosition);
             }
         }

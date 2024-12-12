@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class MeleeMonsterController : MonsterController
 {
@@ -38,25 +39,29 @@ public class MeleeMonsterController : MonsterController
         container.TurnOnTemporaryAnimation(jumpAttackTransitionHash, jumpAttackStateHash);
     }
 
-    float startHandsAttackingDistance = 2.5f; //can be config
-    float startFootAttackingDistance = 1;
-    float checkHandsAttackingDistance, checkFootAttackingDistance;
+    float checkHandsAttackingDistance;
+    float checkFootAttackingDistance;
 
     float adjustDistance;
-    float discoverPlayerDistance = 4;
+    float discoverPlayerDistance;
     float checkDiscoverPlayerDistance;
-    float min = -1f, max = 2f;
-    int changeRangeFrequency_countByFrame = 150;
+    float min, max;
+    int changeRangeFrequency_countByFrame;
 
 
     private void Start()
     {
-        checkFootAttackingDistance = Mathf.Pow(startFootAttackingDistance, 2);
-        checkHandsAttackingDistance = Mathf.Pow(startHandsAttackingDistance, 2);
+        checkFootAttackingDistance = Mathf.Pow(chip._meleeMonstersDefaultValues.startFootAttackingDistance.value, 2);
+        checkHandsAttackingDistance = Mathf.Pow(chip._meleeMonstersDefaultValues.startHandsAttackingDistance.value, 2);
 
         playerLayerMask = LayerMask.GetMask("Player");
         railsLayerMask = LayerMask.GetMask("Rails");
         combineMask = playerLayerMask | railsLayerMask;
+        checkRadius = chip._meleeMonstersDefaultValues.radiusOfTheRangeOfTrampleAttacking.value;
+        discoverPlayerDistance = chip._meleeMonstersDefaultValues.discoverPlayerDistance.value;
+        min = chip._meleeMonstersDefaultValues.minValueForAdjustingDiscoverPlayerDistance.value;
+        max = chip._meleeMonstersDefaultValues.maxValueForAdjustingDiscoverPlayerDistance.value;
+        changeRangeFrequency_countByFrame = (int)chip._meleeMonstersDefaultValues.changeRangeFrequency_countByFrame.value;
     }
 
     State currentState;
@@ -68,7 +73,7 @@ public class MeleeMonsterController : MonsterController
             adjustDistance = UnityEngine.Random.Range(min, max);
             checkDiscoverPlayerDistance = (discoverPlayerDistance + adjustDistance) * (discoverPlayerDistance + adjustDistance);
         }
-        currentSqrDistance = Vector3.SqrMagnitude(transform.position - MonstersManager.instance._player.transform.position);
+        currentSqrDistance = Vector3.SqrMagnitude(transform.position - GameManager.instance._player.transform.position);
         if (!container.IsRunning(jumpAttackStateHash))
             Run(currentState);
         if (currentState == State.Flee)
@@ -122,10 +127,11 @@ public class MeleeMonsterController : MonsterController
         if (targetToFlee != null)
             SetNewForwardVector(targetToFlee.position);
     }
+    float raycastOriginHeight = 0.25f;
     void FindTheFarestDistance(Vector3 checkedDirection, int i)
     {
         RaycastHit hit;
-        if (Physics.Raycast(0.25f * transform.up + transform.position, checkedDirection, out hit, raycastDistance, combineMask))
+        if (Physics.Raycast(raycastOriginHeight * transform.up + transform.position, checkedDirection, out hit, raycastDistance, combineMask))
         {
             distances[i] = Vector3.SqrMagnitude(hit.transform.position - transform.position);
             transformsBehindTheDistances[i] = hit.transform;
@@ -168,7 +174,7 @@ public class MeleeMonsterController : MonsterController
                 return;
             case State.Walk:
                 container.StartLoopAnimation(walkTransitionHash);
-                NavigateMonster(MonstersManager.instance._player.transform);
+                NavigateMonster(GameManager.instance._player.transform);
                 return;
             case State.Flee:
                 if (chip._distancePoint.enabled)
@@ -194,20 +200,30 @@ public class MeleeMonsterController : MonsterController
     {
         if (animator.applyRootMotion)
         {
-            if (MonstersManager.instance.IsOutOfGround(transform.position) && currentState == State.Flee)
+            if (GameManager.instance.IsOutOfGround(transform.position) && currentState == State.Flee)
                 ToFleeOnLowHP();
             transform.position += animator.deltaPosition;
         }
     }
 
+
+    public void OnFleeAnimating()
+    {
+        if (Physics.Raycast(raycastOriginHeight * transform.up + transform.position, transform.forward, 1f, combineMask))
+        {
+            ToFleeOnLowHP();
+        }
+    }
+
+
     #region Animation Event
-    float checkRadius = 1.75f;
+    float checkRadius;
     LayerMask playerLayerMask;
     public void TrampleAnimationEvent()
     {
         if (Physics.CheckSphere(chip._leftFoot.position, checkRadius, playerLayerMask))
         {
-            GameManager.instance.OnAttack(gameObject, MonstersManager.instance._player);
+            GameManager.instance.OnAttack(gameObject, GameManager.instance._player);
         }
     }
     #endregion

@@ -49,6 +49,7 @@ public class RangedMonsterController : MonsterController
             transform.forward = playerPosition - transform.position;
             container.TurnOnTemporaryAnimation(screamTransitionHash, screamStateHash);
         }
+
     }
 
     public int hitTakableCount { get; set; }
@@ -57,8 +58,7 @@ public class RangedMonsterController : MonsterController
         if (hitTakableCount > 0)
         {
             hitTakableCount--;
-            ToScream(MonstersManager.instance._player.transform.position);
-            Debug.Log(hitTakableCount);
+            ToScream(GameManager.instance._player.transform.position);
         }
     }
 

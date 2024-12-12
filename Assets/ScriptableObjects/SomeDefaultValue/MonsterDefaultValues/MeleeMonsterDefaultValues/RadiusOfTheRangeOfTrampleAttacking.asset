@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 684ffd4b3a69ec646955d2b6fd041939, type: 3}
-  m_Name: UniqueSkillUsingCondition
+  m_Script: {fileID: 11500000, guid: 82c280e8aff18594eaaeab66842cc2d6, type: 3}
+  m_Name: RadiusOfTheRangeOfTrampleAttacking
   m_EditorClassIdentifier: 
-  afterHitCount: 10
-  cooldown_second: 0
+  value: 1.5

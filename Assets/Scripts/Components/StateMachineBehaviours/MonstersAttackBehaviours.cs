@@ -9,7 +9,7 @@ public class MonstersAttackBehaviours : StateMachineBehaviour
     {
         MeleeMonsterController controller = animator.gameObject.GetComponent<MeleeMonsterController>();
         ToTurnDamagingToolForMeleeMonsters(controller, stateInfo);
-        controller.SetNewForwardVector(MonstersManager.instance._player.transform.position);
+        controller.SetNewForwardVector(GameManager.instance._player.transform.position);
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class TheStrangeCube : MonoBehaviour
 {
+    [SerializeField]
+    DefaultValue stayTime;
+
     private void OnEnable()
     {
-        StartCoroutine(CountdownToDisapear());
+        StartCoroutine(CountdownToDisapear((int)stayTime.value));
     }
 
-    IEnumerator CountdownToDisapear()
+    IEnumerator CountdownToDisapear(int time)
     {
-        yield return new WaitForSeconds(5);//can be config
+        yield return new WaitForSeconds(time);
         gameObject.SetActive(false);
     }
 

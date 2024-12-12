@@ -50,7 +50,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
 
         if (theMonster is MeleeMonsterController meleeMonster)
         {
-            if (health < defaultHealth * chip._meleeMonsterHealthPercentageToFlee.value / 100)
+            if (health < defaultHealth * chip._meleeMonstersDefaultValues.healthPercentageToFlee.value / 100)
                 meleeMonster.ToFleeOnLowHP();
         }
         Debug.Log(health);

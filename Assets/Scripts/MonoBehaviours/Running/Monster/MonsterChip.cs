@@ -15,12 +15,12 @@ public class MonsterChip : MonoBehaviour
     [SerializeField]
     CharacterProperties monsterProperties;
     [SerializeField]
-    DefaultValue meleeMonsterHealthPercentageToFlee;
+    MeleeMonstersDefaultValues meleeMonstersDefaultValues;
 
     public Transform _laserStartPoint { get => laserStartPoint; }
     public Transform _leftFoot { get => leftFoot; }
     public CharacterProperties _monsterProperties { get => monsterProperties; }
-    public DefaultValue _meleeMonsterHealthPercentageToFlee { get => meleeMonsterHealthPercentageToFlee; }
+    public MeleeMonstersDefaultValues _meleeMonstersDefaultValues { get => meleeMonstersDefaultValues; }
     public Collider _leftHand { get; private set; }
     public Collider _rightHand { get; private set; }
     public BoxCollider _distancePoint { get; private set; }
@@ -48,4 +48,17 @@ public class MonsterChip : MonoBehaviour
             MonstersManager.instance.monsters.Remove(gameObject);
     }
 
+}
+
+[System.Serializable]
+public class MeleeMonstersDefaultValues
+{
+    public DefaultValue healthPercentageToFlee;
+    public DefaultValue startHandsAttackingDistance;
+    public DefaultValue startFootAttackingDistance;
+    public DefaultValue discoverPlayerDistance;
+    public DefaultValue minValueForAdjustingDiscoverPlayerDistance;
+    public DefaultValue maxValueForAdjustingDiscoverPlayerDistance;
+    public DefaultValue changeRangeFrequency_countByFrame;
+    public DefaultValue radiusOfTheRangeOfTrampleAttacking;
 }
