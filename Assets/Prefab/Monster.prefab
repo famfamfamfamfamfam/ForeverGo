@@ -341,6 +341,12 @@ MonoBehaviour:
     maxValueForAdjustingDiscoverPlayerDistance: {fileID: 11400000, guid: cf07a3087519394499d69e6bbfe7ddfa, type: 2}
     changeRangeFrequency_countByFrame: {fileID: 11400000, guid: 3c5fa99f07de5e14387b976c78ae42c4, type: 2}
     radiusOfTheRangeOfTrampleAttacking: {fileID: 11400000, guid: 27041b8454c1f8a459a87c09c7e44dc0, type: 2}
+  rangedMonstersDefaultValues:
+    laserWidth: {fileID: 11400000, guid: da446679e11167d4a80635d5a534d463, type: 2}
+    colliderPositionRelativeToTheMonsterCenter: {x: 0, y: 1, z: 2}
+    colliderSize: {x: 5, y: 0.01, z: 5}
+    roarFrequency_countBySecond: {fileID: 11400000, guid: 603d1ddfcd1feca46a25d6eac0cb8298, type: 2}
+    laserLength: {fileID: 11400000, guid: 710aa2c88d7286d458a06492f28ef8d2, type: 2}
 --- !u!65 &2772439002472585347
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -40,8 +40,8 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
             currentResistance = resistanceToReact;
         }
 
-        if (theMonster is RangedMonsterController)
-            MonstersManager.instance.DiscoverPlayerOnRangedMonsters();
+        if (theMonster is RangedMonsterController rangedMonster)
+            rangedMonster.ToDiscoverPlayer();
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RangedMonsterController : MonsterController
@@ -10,32 +11,34 @@ public class RangedMonsterController : MonsterController
 
     public int transformSign { get; set; }
 
+    LineRenderer lineRenderer;
+    Transform laserStartPoint;
+
     private void Start()
     {
-        LineRenderer lineRenderer = gameObject.AddComponent<LineRenderer>();
-        lineRenderer.positionCount = 2;
-        lineRenderer.startWidth = 0.01f;
-        lineRenderer.endWidth = 0.01f;
         MonsterChip chip = GetComponent<MonsterChip>();
-        Transform laserStartPoint = chip._laserStartPoint;
-        chip._distancePoint.center = new Vector3(0, 1, 2);
-        chip._distancePoint.size = new Vector3(5f, 0.01f, 5f);
-        RangedMonstersRoundAttackBehaviour instance = animator.GetBehaviour<RangedMonstersRoundAttackBehaviour>();
-        instance.lineRenderer = lineRenderer;
-        instance.lineRenderer.enabled = false;
-        instance.laserStartPoint = laserStartPoint;
-        instance.layerMask = LayerMask.GetMask("Player");
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.positionCount = 2;
+        lineRenderer.startWidth = chip._rangedMonstersDefaultValues.laserWidth.value;
+        lineRenderer.endWidth = chip._rangedMonstersDefaultValues.laserWidth.value;
+        laserStartPoint = chip._laserStartPoint;
+        chip._distancePoint.center = chip._rangedMonstersDefaultValues.colliderPositionRelativeToTheMonsterCenter;
+        chip._distancePoint.size = chip._rangedMonstersDefaultValues.colliderSize;
+        distance = chip._rangedMonstersDefaultValues.laserLength.value;
+        interval = (int)chip._rangedMonstersDefaultValues.roarFrequency_countBySecond.value;
+        layerMask = LayerMask.GetMask("Player");
         animator.SetBool("isScreamming", false);
     }
 
+    int interval;
     int roundAttackTransitionHash = Animator.StringToHash("roundAttack");
     int roundAttackStateHash = Animator.StringToHash("Base Layer.RoundAttacking");
     public IEnumerator Roar()
     {
         while (true)
         {
-            yield return new WaitForSeconds(5);
-            
+            yield return new WaitForSeconds(interval);
+
             container.TurnOnTemporaryAnimation(roundAttackTransitionHash, roundAttackStateHash);
         }
     }
@@ -62,4 +65,28 @@ public class RangedMonsterController : MonsterController
         }
     }
 
+
+    public void OnRoundAttackAnimationEnter()
+    {
+        laserStartPoint.rotation = MonstersManager.instance.RotationLookingToCenterPoint(laserStartPoint.position);
+        lineRenderer.enabled = true;
+    }
+
+    RaycastHit hit;
+    float distance;
+    LayerMask layerMask;
+    public void OnRoundAttackAnimating()
+    {
+        lineRenderer.SetPosition(0, laserStartPoint.position);
+        lineRenderer.SetPosition(1, laserStartPoint.position + laserStartPoint.forward * distance);
+        if (Physics.Raycast(laserStartPoint.position, laserStartPoint.forward, out hit, distance, layerMask))
+        {
+            GameManager.instance.OnAttack(animator.gameObject, hit.collider.gameObject);
+        }
+    }
+
+    public void OnRoundAttackAnimationExit()
+    {
+        lineRenderer.enabled = false;
+    }
 }

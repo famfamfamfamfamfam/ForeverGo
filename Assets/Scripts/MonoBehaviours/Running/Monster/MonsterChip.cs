@@ -16,11 +16,14 @@ public class MonsterChip : MonoBehaviour
     CharacterProperties monsterProperties;
     [SerializeField]
     MeleeMonstersDefaultValues meleeMonstersDefaultValues;
+    [SerializeField]
+    RangedMonstersDefaultValues rangedMonstersDefaultValues;
 
     public Transform _laserStartPoint { get => laserStartPoint; }
     public Transform _leftFoot { get => leftFoot; }
     public CharacterProperties _monsterProperties { get => monsterProperties; }
     public MeleeMonstersDefaultValues _meleeMonstersDefaultValues { get => meleeMonstersDefaultValues; }
+    public RangedMonstersDefaultValues _rangedMonstersDefaultValues { get => rangedMonstersDefaultValues; }
     public Collider _leftHand { get; private set; }
     public Collider _rightHand { get; private set; }
     public BoxCollider _distancePoint { get; private set; }
@@ -61,4 +64,14 @@ public class MeleeMonstersDefaultValues
     public DefaultValue maxValueForAdjustingDiscoverPlayerDistance;
     public DefaultValue changeRangeFrequency_countByFrame;
     public DefaultValue radiusOfTheRangeOfTrampleAttacking;
+}
+
+[System.Serializable]
+public class RangedMonstersDefaultValues
+{
+    public DefaultValue laserWidth;
+    public Vector3 colliderPositionRelativeToTheMonsterCenter;
+    public Vector3 colliderSize;
+    public DefaultValue roarFrequency_countBySecond;
+    public DefaultValue laserLength;
 }

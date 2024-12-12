@@ -164,12 +164,4 @@ public class MonstersManager : MonoBehaviour
             Debug.Log(monster.hitTakableCount);
         }
     }
-
-    public void DiscoverPlayerOnRangedMonsters()// vấn đề ở đây
-    {
-        foreach (RangedMonsterController monster in rangedMonsters)
-        {
-            monster.ToDiscoverPlayer();
-        }
-    }
 }
