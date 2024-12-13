@@ -164,4 +164,12 @@ public class MonstersManager : MonoBehaviour
             Debug.Log(monster.hitTakableCount);
         }
     }
+
+    public void ToDecreaseRangedMonstersHitTakableCount()
+    {
+        foreach (RangedMonsterController monster in rangedMonsters)
+        {
+            monster.hitTakableCount--;
+        }
+    }
 }

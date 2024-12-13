@@ -188,7 +188,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
 
     IEnumerator AfterCooldown()
     {
-        while (true)
+        while (!GameManager.instance.gameOver)
         {
             yield return new WaitUntil(() => isInCooldown == true);
             yield return new WaitForSeconds(superSkill.cooldown_second);

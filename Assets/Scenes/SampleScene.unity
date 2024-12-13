@@ -518,7 +518,7 @@ BoxCollider:
     m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 887
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -704,7 +704,7 @@ BoxCollider:
     m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 887
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -1081,7 +1081,7 @@ BoxCollider:
     m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 887
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -1419,7 +1419,7 @@ BoxCollider:
     m_Bits: 128
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 887
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -1520,11 +1520,6 @@ MonoBehaviour:
   - {fileID: 1074159123}
   - {fileID: 769360296}
   - {fileID: 5342621}
-  rails:
-  - {fileID: 1625869736}
-  - {fileID: 1401503853}
-  - {fileID: 667331395}
-  - {fileID: 432331086}
   prefab: {fileID: 855697913656182472, guid: c5238005e10cc5a49af76e414eabe57b, type: 3}
   strangeCubePrefab: {fileID: 8717561513578498369, guid: 8a30dcf19b0237b49aec33855721dc78, type: 3}
 --- !u!4 &1599208041681287

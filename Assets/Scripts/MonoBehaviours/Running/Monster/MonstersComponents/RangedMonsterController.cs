@@ -9,7 +9,7 @@ public class RangedMonsterController : MonsterController
         base.Awake();
     }
 
-    public int transformSign { get; set; }
+    public int transformSign { get; private set; }
 
     LineRenderer lineRenderer;
     Transform laserStartPoint;
@@ -33,12 +33,11 @@ public class RangedMonsterController : MonsterController
     int interval;
     int roundAttackTransitionHash = Animator.StringToHash("roundAttack");
     int roundAttackStateHash = Animator.StringToHash("Base Layer.RoundAttacking");
-    public IEnumerator Roar()
+    IEnumerator Roar()
     {
-        while (true)
+        while (!GameManager.instance.gameOver)
         {
             yield return new WaitForSeconds(interval);
-
             container.TurnOnTemporaryAnimation(roundAttackTransitionHash, roundAttackStateHash);
         }
     }
@@ -60,9 +59,21 @@ public class RangedMonsterController : MonsterController
     {
         if (hitTakableCount > 0)
         {
-            hitTakableCount--;
+            MonstersManager.instance.ToDecreaseRangedMonstersHitTakableCount();
             ToScream(GameManager.instance._player.transform.position);
         }
+    }
+
+    Coroutine coroutine;
+    public void OnReachNewWayPoint(int indexInWayPointsList)
+    {
+        animator.applyRootMotion = true;
+        MonstersManager.instance.ToAttachToWayPoint(transform, indexInWayPointsList);
+        transformSign = indexInWayPointsList;
+        transform.rotation = MonstersManager.instance.RotationLookingToCenterPoint(transform.position);
+        if (coroutine != null)
+            StopCoroutine(coroutine);
+        coroutine = StartCoroutine(Roar());
     }
 
 
