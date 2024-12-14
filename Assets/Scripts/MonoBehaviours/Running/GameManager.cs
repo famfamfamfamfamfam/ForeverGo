@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 public class GameManager : MonoBehaviour
 {
@@ -62,6 +62,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ArrangeRailsCoordinate();
+        eventsDictionary = new Dictionary<TypeOfEvent, Action<object[]>>
+        {
+            { TypeOfEvent.PlayerHPChange, param => SetFloatParamAndCallUpEvent(param, PlayerHPChange) },
+            { TypeOfEvent.MonstersHPChange, param => SetParamsAndCallUpMonstersHPChange(param) },
+            { TypeOfEvent.PlayerMarkChange, param => SetParamAndCallUpPlayerMarkChange(param) },
+            { TypeOfEvent.PlayerSuperSkillStatusChange, param => SetFloatParamAndCallUpEvent(param, PlayerSuperSkillStatusChange) },
+            { TypeOfEvent.PlayerUniqueSkillStatusChange, param => SetIntParamAndCallUpEvent(param, PlayerUniqueSkillStatusChange) },
+            { TypeOfEvent.RangedMonstersHittableCountChange, param => SetIntParamAndCallUpEvent(param, RangedMonstersHittableCountChange) }
+        };
     }
 
     float[] railsXCoordinate = new float[4];
@@ -88,29 +97,30 @@ public class GameManager : MonoBehaviour
     public event Action<Material, float> MonstersHPChange;
     public event Action<float> PlayerHPChange;
     public event Action<string> PlayerMarkChange;
+    public event Action<float> PlayerSuperSkillStatusChange;
+    public event Action<int> PlayerUniqueSkillStatusChange;
+    public event Action<int> RangedMonstersHittableCountChange;
 
+    Dictionary<TypeOfEvent, Action<object[]>> eventsDictionary;
     public void Notify(TypeOfEvent eventType, params object[] parameters)
     {
-        switch (eventType)
-        {
-            case TypeOfEvent.PlayerHPChange:
-                float playerDisplayFloat = 0f;
-                CheckAndSetUpParams<float>(parameters, 0, ref playerDisplayFloat);
-                PlayerHPChange?.Invoke(playerDisplayFloat);
-                return;
-            case TypeOfEvent.MonstersHPChange:
-                Material HPMat = null;
-                CheckAndSetUpParams<Material>(parameters, 0, ref HPMat);
-                float monsterDisplayFloat = 0f;
-                CheckAndSetUpParams<float>(parameters, 1, ref monsterDisplayFloat);
-                MonstersHPChange?.Invoke(HPMat, monsterDisplayFloat);
-                return;
-            case TypeOfEvent.PlayerMarkChange:
-                string displayString = null;
-                CheckAndSetUpParams<string>(parameters, 0, ref displayString);
-                PlayerMarkChange?.Invoke(displayString);
-                return;
-        }
+        eventsDictionary[eventType](parameters);
+    }
+
+    void SetParamsAndCallUpMonstersHPChange(object[] parameters)
+    {
+        Material HPMat = null;
+        CheckAndSetUpParams<Material>(parameters, 0, ref HPMat);
+        float monsterDisplayFloat = 0f;
+        CheckAndSetUpParams<float>(parameters, 1, ref monsterDisplayFloat);
+        MonstersHPChange?.Invoke(HPMat, monsterDisplayFloat);
+    }
+
+    void SetParamAndCallUpPlayerMarkChange(object[] parameters)
+    {
+        string displayString = null;
+        CheckAndSetUpParams<string>(parameters, 0, ref displayString);
+        PlayerMarkChange?.Invoke(displayString);
     }
 
     void CheckAndSetUpParams<T>(object[] parameters, int checkIndex, ref T unitParam)
@@ -118,11 +128,28 @@ public class GameManager : MonoBehaviour
         if (parameters.Length > 0 && parameters[checkIndex] is T)
             unitParam = (T)parameters[checkIndex];
     }
+
+    void SetFloatParamAndCallUpEvent(object[] parameters, Action<float> ActionWithFloatParam)
+    {
+        float displayFloat = 0f;
+        CheckAndSetUpParams<float>(parameters, 0, ref displayFloat);
+        ActionWithFloatParam?.Invoke(displayFloat);
+    }
+
+    void SetIntParamAndCallUpEvent(object[] parameters, Action<int> ActionWithIntParam)
+    {
+        int displayInt = 0;
+        CheckAndSetUpParams<int>(parameters, 0, ref displayInt);
+        ActionWithIntParam?.Invoke(displayInt);
+    }
 }
 
 public enum TypeOfEvent
 {
     MonstersHPChange,
     PlayerHPChange,
-    PlayerMarkChange
+    PlayerMarkChange,
+    PlayerSuperSkillStatusChange,
+    PlayerUniqueSkillStatusChange,
+    RangedMonstersHittableCountChange
 }

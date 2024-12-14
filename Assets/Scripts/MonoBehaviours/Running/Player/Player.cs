@@ -29,6 +29,8 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     DefaultValue defaltDamagePercentageOfEnemy;
     [SerializeField]
     SkillsUsingCondition superSkill, uniqueSkill;
+    [SerializeField]
+    DefaultValue numberOfUnitInCooldown, resetMarkTime_countBySecond;
     bool isInCooldown;
     int hitCount;
 
@@ -72,6 +74,8 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             clone.playerWeapon = weapon;
             clone.stateHashes = stateHashes;
         }
+        resetMarkTime = (int)resetMarkTime_countBySecond.value;
+        numberOfUnit = (int)numberOfUnitInCooldown.value;
         StartCoroutine(AfterCooldown());
     }
     bool isOnGround;
@@ -121,9 +125,11 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         }
         ToReact();
     }
+
+    int resetMarkTime;
     private IEnumerator ResetTheMark()
     {
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(resetMarkTime);
         mark = null;
         GameManager.instance.Notify(TypeOfEvent.PlayerMarkChange, mark.ToString());
     }
@@ -188,12 +194,17 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         }
     }
 
+    int numberOfUnit;
     IEnumerator AfterCooldown()
     {
         while (!GameManager.instance.gameOver)
         {
             yield return new WaitUntil(() => isInCooldown == true);
-            yield return new WaitForSeconds(superSkill.cooldown_second);
+            for (int i = 0; i < numberOfUnit; i++)
+            {
+                yield return new WaitForSeconds(superSkill.cooldown_second / numberOfUnit);
+                //event
+            }
             isInCooldown = false;
         }
     }
@@ -202,6 +213,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     {
         hitCount++;
         hitCount = Mathf.Clamp(hitCount, 0, uniqueSkill.afterHitCount);
+        //event
     }
 
     void OnDisable()
