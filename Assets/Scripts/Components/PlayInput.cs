@@ -64,12 +64,13 @@ public class PlayInput
             animationController.StopLoopAnimation(isSprinting);
     }
 
-    public void ToTurnOnUniqueSkill(bool turnOnUniqueSkillCondition, ref int needResetVairable)
+    public void ToTurnOnUniqueSkill(PowerKind currentPower, SwitchData data, bool turnOnUniqueSkillCondition, ref int needResetVairable)
     {
         if (turnOnUniqueSkillCondition)
         {
             animationController.UniqueSkill();
             needResetVairable = 0;
+            data.SetHitCount(currentPower, needResetVairable);
         }
     }
 
@@ -111,12 +112,12 @@ public class PlayInput
         }
     }
 
-    public void ToChangeThePower(bool hasInput, ref PowerKind currentPowerKind, PowerKind[] powerKinds, CharacterKind character, ref float health, SwitchData playerData, Renderer renderer)
+    public void ToChangeThePower(bool hasInput, ref PowerKind currentPowerKind, PowerKind[] powerKinds, CharacterKind character, ref float health, ref int hitCount, SwitchData playerData, Renderer renderer)
     {
         if(hasInput)
         {
             ProcessSwitching(ref currentPowerKind, powerKinds);
-            SetUpStateAfterSwitch(currentPowerKind, playerData, ref health, renderer, character);
+            SetUpStateAfterSwitch(currentPowerKind, playerData, ref health, ref hitCount, renderer, character);
         }
     }
 
@@ -126,10 +127,11 @@ public class PlayInput
         CommonUtils.Instance.SetUpNextValue(ref currentPowerKindIndex, powerKinds.Length);
         currentPowerKind = powerKinds[currentPowerKindIndex];
     }
-    void SetUpStateAfterSwitch(PowerKind currentPowerKind, SwitchData playerData, ref float health, Renderer renderer, CharacterKind character)
+    void SetUpStateAfterSwitch(PowerKind currentPowerKind, SwitchData playerData, ref float health, ref int hitCount, Renderer renderer, CharacterKind character)
     {
         animationController = playerData.GetYourAnimationContainer(currentPowerKind);
         health = playerData.GetHealth(currentPowerKind);
+        hitCount = playerData.GetHitCount(currentPowerKind);
         renderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, character)];
     }
 }

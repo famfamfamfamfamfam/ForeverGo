@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using TMPro;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
@@ -39,13 +40,23 @@ public class GamePlayUIManager : MonoBehaviour
         playerCurrentMark.text = null;
         GameManager.instance.PlayerMarkChange += UpdatePlayerMark;
 
+        playerSuperSkillBar.maxValue = playerSuperSkill.cooldown_second;
+        GameManager.instance.PlayerSuperSkillStatusChange += UpdatePlayerSuperSkillBar;
+        playerUniqueSkillBar.maxValue = playerUniqueSkill.afterHitCount;
+        GameManager.instance.PlayerUniqueSkillStatusChange += UpdatePlayerUniqueSkillBar;
+
+        GameManager.instance.RangedMonstersHittableCountChange += UpdateStrangeCubeHitCount;
+
         playerDamageDealt.text = null;
     }
     private void OnDisable()
     {
         GameManager.instance.MonstersHPChange -= UpdateMonsterHealthBar;
         GameManager.instance.PlayerHPChange -= UpdatePlayerHealthBar;
+        GameManager.instance.PlayerSuperSkillStatusChange -= UpdatePlayerSuperSkillBar;
+        GameManager.instance.PlayerUniqueSkillStatusChange -= UpdatePlayerUniqueSkillBar;
         GameManager.instance.PlayerMarkChange -= UpdatePlayerMark;
+        GameManager.instance.RangedMonstersHittableCountChange -= UpdateStrangeCubeHitCount;
 
         instance = null;
     }
@@ -65,5 +76,20 @@ public class GamePlayUIManager : MonoBehaviour
     void UpdatePlayerHealthBar(float data)
     {
         playerHealthBar.value = data;
+    }
+
+    void UpdatePlayerSuperSkillBar(float data)
+    {
+        playerSuperSkillBar.value = data;
+    }
+
+    void UpdatePlayerUniqueSkillBar(int data)
+    {
+        playerUniqueSkillBar.value = data;
+    }
+
+    void UpdateStrangeCubeHitCount(int data)
+    {
+        playerStrangeCubeHitCount.text = data.ToString();
     }
 }

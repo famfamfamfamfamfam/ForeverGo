@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPowerKindGettable, IAttackStateGettable, IHitCountForUsingSkillSettable
@@ -64,7 +65,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             health = playerOnSwitchModeProperties.properties._health;
             playerCount = 2;
         }
-        playerData = new SwitchData(animator, stateHashes, health);
+        playerData = new SwitchData(animator, stateHashes, health, hitCount);
         container = playerData.GetYourAnimationContainer(currentPowerKind);
         playerRenderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, playerChar)];
         inputProcessor = new PlayInput(container, stateHashes);
@@ -91,13 +92,14 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         inputProcessor.ToJump(Input.GetKeyDown(KeyCode.Space), isOnGround);
         inputProcessor.ToDash(Input.GetMouseButtonDown(1));
         inputProcessor.ToSprint(Input.GetKey(KeyCode.LeftShift));
-        inputProcessor.ToTurnOnUniqueSkill(Input.GetKeyDown(KeyCode.Q) && hitCount == uniqueSkill.afterHitCount,
-                                            ref hitCount);
+        inputProcessor.ToTurnOnUniqueSkill(currentPowerKind, playerData,
+                                           Input.GetKeyDown(KeyCode.Q) && hitCount == uniqueSkill.afterHitCount,
+                                           ref hitCount);
         inputProcessor.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
         inputProcessor.ToTurnOnSuperAttack(Input.GetKeyDown(KeyCode.E), ref isInCooldown);
         inputProcessor.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonUtils.Instance.onlyOneMode,
                                         ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
-                                        ref health, playerData, playerRenderer);
+                                        ref health, ref hitCount, playerData, playerRenderer);
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -189,12 +191,13 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         {
             inputProcessor.ToChangeThePower(true,
                                     ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
-                                    ref health, playerData, playerRenderer);
+                                    ref health, ref hitCount, playerData, playerRenderer);
             GameManager.instance.gamePause = false;
         }
     }
 
     int numberOfUnit;
+    float elapsedTime;
     IEnumerator AfterCooldown()
     {
         while (!GameManager.instance.gameOver)
@@ -202,9 +205,12 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             yield return new WaitUntil(() => isInCooldown == true);
             for (int i = 0; i < numberOfUnit; i++)
             {
+                GameManager.instance.Notify(TypeOfEvent.PlayerSuperSkillStatusChange, elapsedTime);
                 yield return new WaitForSeconds(superSkill.cooldown_second / numberOfUnit);
-                //event
+                elapsedTime += superSkill.cooldown_second / numberOfUnit;
             }
+            GameManager.instance.Notify(TypeOfEvent.PlayerSuperSkillStatusChange, elapsedTime);
+            elapsedTime = 0;
             isInCooldown = false;
         }
     }
@@ -213,7 +219,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     {
         hitCount++;
         hitCount = Mathf.Clamp(hitCount, 0, uniqueSkill.afterHitCount);
-        //event
+        playerData.SetHitCount(currentPowerKind, hitCount);
     }
 
     void OnDisable()
