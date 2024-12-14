@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,8 +26,17 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public bool gameOver { get; set; }
+
+    public event Action OnGameOver;
+
+    public bool gameOver { get; private set; }
     public bool gamePause { get; set; }
+
+    public void SetGameOverState(bool state)
+    {
+        OnGameOver?.Invoke();
+        gameOver = state;
+    }
 
     public void OnAttack(GameObject attacker, GameObject damageTaker)
     {
@@ -74,5 +84,31 @@ public class GameManager : MonoBehaviour
         return isOutOnX || isOutOnZ;
     }
 
-    
+
+    public event Action<Material, float> MonstersHPChange;
+    public event Action<float> PlayerHPChange;
+    public event Action<string> PlayerMarkChange;
+
+    public void Notify(TypeOfEvent eventType, float displayFloat = 0f, Material HPMat = null, string displayString = null)
+    {
+        switch (eventType)
+        {
+            case TypeOfEvent.PlayerHPChange:
+                PlayerHPChange?.Invoke(displayFloat);
+                return;
+            case TypeOfEvent.MonstersHPChange:
+                MonstersHPChange?.Invoke(HPMat, displayFloat);
+                return;
+            case TypeOfEvent.PlayerMarkChange:
+                PlayerMarkChange?.Invoke(displayString);
+                return;
+        }
+    }
+}
+
+public enum TypeOfEvent
+{
+    MonstersHPChange,
+    PlayerHPChange,
+    PlayerMarkChange
 }

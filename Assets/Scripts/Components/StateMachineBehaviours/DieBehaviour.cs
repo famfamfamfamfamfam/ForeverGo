@@ -14,6 +14,6 @@ public class DieBehaviour : StateMachineBehaviour
         animator.gameObject.GetComponent<Player>()?.AutoChangePlayerCharacterAsDie();
         animator.gameObject.GetComponent<MonsterChip>()?.gameObject.SetActive(false);//chi phi ko can thiet
         if (MonstersManager.instance.monsters.Count == 0)
-            GameManager.instance.gameOver = true;
+            GameManager.instance.SetGameOverState(true);
     }
 }

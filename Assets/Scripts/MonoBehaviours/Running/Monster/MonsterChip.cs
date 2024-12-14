@@ -9,6 +9,8 @@ public class MonsterChip : MonoBehaviour
     [SerializeField]
     GameObject leftHand, rightHand;
     [SerializeField]
+    GameObject HPBar;
+    [SerializeField]
     Transform leftFoot;
     [SerializeField]
     Transform laserStartPoint;
@@ -27,6 +29,7 @@ public class MonsterChip : MonoBehaviour
     public Collider _leftHand { get; private set; }
     public Collider _rightHand { get; private set; }
     public BoxCollider _distancePoint { get; private set; }
+    public Material HPMat { get; private set; }
 
     void OnEnable()
     {
@@ -34,6 +37,8 @@ public class MonsterChip : MonoBehaviour
         _leftHand = leftHand.GetComponent<Collider>();
         _rightHand = rightHand.GetComponent<Collider>();
         _distancePoint = distancePoint.GetComponent<BoxCollider>();
+        Renderer renderer = HPBar.GetComponent<Renderer>();
+        HPMat = renderer.material;
     }
 
     public void Init(PowerKind powerKind, Type monsterFightType, RuntimeAnimatorController monsterAnimatorController)

@@ -21,12 +21,15 @@ public class SwitchData
 
     public float GetHealth(PowerKind powerKind)
     {
-        return data[powerKind].playerHealth;
+        float currentHealth = data[powerKind].playerHealth;
+        GameManager.instance.Notify(TypeOfEvent.PlayerHPChange, currentHealth);
+        return currentHealth;
     }
 
     public void SetHealth(PowerKind powerKind, float currentHealth)
     {
         data[powerKind].SetPlayerHealth(currentHealth);
+        GameManager.instance.Notify(TypeOfEvent.PlayerHPChange, currentHealth);
     }
 
 }

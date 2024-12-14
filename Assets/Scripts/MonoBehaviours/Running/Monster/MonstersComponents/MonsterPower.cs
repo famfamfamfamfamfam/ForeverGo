@@ -45,6 +45,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
+        GameManager.instance.Notify(TypeOfEvent.MonstersHPChange, health, chip.HPMat);
         if (health <= 0)
             theMonster.ToDie();
 

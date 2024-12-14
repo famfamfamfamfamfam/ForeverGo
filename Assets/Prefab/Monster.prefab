@@ -267,7 +267,6 @@ Transform:
   - {fileID: 1088427482881252199}
   - {fileID: 1578087210205282950}
   - {fileID: 6857508387917533032}
-  - {fileID: 6442835224155398367}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1791170806177489614
@@ -330,6 +329,7 @@ MonoBehaviour:
   distancePoint: {fileID: 5612586105085588449}
   leftHand: {fileID: 6427793062642874839}
   rightHand: {fileID: 771826035484200471}
+  HPBar: {fileID: 2869512510549830514}
   leftFoot: {fileID: 4287696172730513050}
   laserStartPoint: {fileID: 2740851319911963834}
   monsterProperties: {fileID: 11400000, guid: baa6fa8ebf5bdbf42b010a9cd4a27779, type: 2}
@@ -1087,6 +1087,7 @@ GameObject:
   - component: {fileID: 6442835224155398367}
   - component: {fileID: 124527492195538278}
   - component: {fileID: 4363232987157934302}
+  - component: {fileID: 3556541192126171280}
   m_Layer: 0
   m_Name: HPBar
   m_TagString: Untagged
@@ -1102,12 +1103,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2869512510549830514}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: -0, y: 1, z: 0.000001, w: 0}
+  m_LocalPosition: {x: 0, y: 1.75, z: 0}
   m_LocalScale: {x: 2, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8429435701750517589}
+  m_Father: {fileID: 7524011908467588160}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &124527492195538278
 MeshFilter:
@@ -1159,6 +1160,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3556541192126171280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2869512510549830514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 371faf066fb5839449a5b8300ea3f34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3043631690101814994
 GameObject:
   m_ObjectHideFlags: 0
@@ -2132,6 +2145,7 @@ Transform:
   - {fileID: 5668349778663638398}
   - {fileID: 9125569806163692909}
   - {fileID: 5482931332597097537}
+  - {fileID: 6442835224155398367}
   m_Father: {fileID: 1996825288602547703}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7904294193978058723

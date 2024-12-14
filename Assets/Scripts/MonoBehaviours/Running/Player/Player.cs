@@ -116,6 +116,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         else
         {
             mark = enemyCurrentPower;
+            GameManager.instance.Notify(TypeOfEvent.PlayerMarkChange, 0, null, mark.ToString());
             StartCoroutine(ResetTheMark());
         }
         ToReact();
@@ -124,6 +125,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     {
         yield return new WaitForSeconds(5);
         mark = null;
+        GameManager.instance.Notify(TypeOfEvent.PlayerMarkChange, 0, null, mark.ToString());
     }
 
     int reactTransitionHash = Animator.StringToHash("react");
@@ -151,7 +153,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         }
         else
         {
-            GameManager.instance.gameOver = true;
+            GameManager.instance.SetGameOverState(true);
             return;
         }
         GameManager.instance.gamePause = true;
