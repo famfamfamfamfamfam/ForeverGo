@@ -28,13 +28,23 @@ public class GamePlayUIManager : MonoBehaviour
         instance = this;
         monsterTotalHealth = monsters.properties._health;
         GameManager.instance.MonstersHPChange += UpdateMonsterHealthBar;
+
         if (CommonUtils.Instance.onlyOneMode)
             playerHealthBar.maxValue = playerOnlyMode.properties._health;
         else
             playerHealthBar.maxValue = playerSwitchMode.properties._health;
+        playerHealthBar.value = playerHealthBar.maxValue;
+
+        playerCurrentMark.text = null;
+        GameManager.instance.PlayerMarkChange += UpdatePlayerMark;
+
+        playerDamageDealt.text = null;
     }
     private void OnDisable()
     {
+        GameManager.instance.MonstersHPChange -= UpdateMonsterHealthBar;
+        GameManager.instance.PlayerMarkChange -= UpdatePlayerMark;
+
         instance = null;
     }
 
@@ -43,5 +53,10 @@ public class GamePlayUIManager : MonoBehaviour
     void UpdateMonsterHealthBar(Material material, float data)
     {
         material.SetFloat(materialPropertyName, data / monsterTotalHealth);
+    }
+
+    void UpdatePlayerMark(string markName)
+    {
+        playerCurrentMark.text = markName;
     }
 }

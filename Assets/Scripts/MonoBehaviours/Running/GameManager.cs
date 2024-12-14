@@ -89,20 +89,34 @@ public class GameManager : MonoBehaviour
     public event Action<float> PlayerHPChange;
     public event Action<string> PlayerMarkChange;
 
-    public void Notify(TypeOfEvent eventType, float displayFloat = 0f, Material HPMat = null, string displayString = null)
+    public void Notify(TypeOfEvent eventType, params object[] parameters)
     {
         switch (eventType)
         {
             case TypeOfEvent.PlayerHPChange:
-                PlayerHPChange?.Invoke(displayFloat);
+                float playerDisplayFloat = 0f;
+                CheckAndSetUpParams<float>(parameters, 0, ref playerDisplayFloat);
+                PlayerHPChange?.Invoke(playerDisplayFloat);
                 return;
             case TypeOfEvent.MonstersHPChange:
-                MonstersHPChange?.Invoke(HPMat, displayFloat);
+                Material HPMat = null;
+                CheckAndSetUpParams<Material>(parameters, 0, ref HPMat);
+                float monsterDisplayFloat = 0f;
+                CheckAndSetUpParams<float>(parameters, 1, ref monsterDisplayFloat);
+                MonstersHPChange?.Invoke(HPMat, monsterDisplayFloat);
                 return;
             case TypeOfEvent.PlayerMarkChange:
+                string displayString = null;
+                CheckAndSetUpParams<string>(parameters, 0, ref displayString);
                 PlayerMarkChange?.Invoke(displayString);
                 return;
         }
+    }
+
+    void CheckAndSetUpParams<T>(object[] parameters, int checkIndex, ref T unitParam)
+    {
+        if (parameters.Length > 0 && parameters[checkIndex] is T)
+            unitParam = (T)parameters[checkIndex];
     }
 }
 
