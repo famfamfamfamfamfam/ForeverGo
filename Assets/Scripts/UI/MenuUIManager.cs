@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class MenuUIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static MenuUIManager instance;
     [SerializeField]
     GameObject configScreen, goToGameScreen, doneButton, quitButton;
     [SerializeField]
@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     List<GameObject> objRunningOnDisable;
     void OnDestroy()
     {
-        RefToAssets.refs._avtsDictionary.Clear();
+        RefToAssets.refs.ReleaseAvatarsDictionary();
         foreach (GameObject obj in objRunningOnDisable)
         {
             Destroy(obj);

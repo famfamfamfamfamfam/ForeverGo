@@ -100,4 +100,9 @@ public class RangedMonsterController : MonsterController
     {
         lineRenderer.enabled = false;
     }
+
+    public void OnDisable()
+    {
+        StopAllCoroutines();
+    }
 }

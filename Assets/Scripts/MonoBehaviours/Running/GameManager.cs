@@ -74,5 +74,5 @@ public class GameManager : MonoBehaviour
         return isOutOnX || isOutOnZ;
     }
 
-
+    
 }

@@ -722,9 +722,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0f54d3077ad0dc549867f85b895e6bd9, type: 2}
   - {fileID: 11400000, guid: f95e1a2f08b374641a8c8a762d38492f, type: 2}
   - {fileID: 11400000, guid: 3b73b21676496d540bce4229490747db, type: 2}
-  skillUsingConfig:
-  - {fileID: 11400000, guid: d30d5ea5863924546bf153b25c3ae533, type: 2}
-  - {fileID: 11400000, guid: c1eca7846edc1664395b35bc0f6fe8ee, type: 2}
 --- !u!1 &758959694
 GameObject:
   m_ObjectHideFlags: 0
@@ -2234,7 +2231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

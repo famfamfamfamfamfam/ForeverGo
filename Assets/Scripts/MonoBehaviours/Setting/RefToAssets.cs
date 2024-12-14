@@ -53,4 +53,11 @@ public class RefToAssets : MonoBehaviour
         }
         elements.Clear();
     }
+
+    public void ReleaseAvatarsDictionary()
+    {
+        avtsDictionary = null;
+    }
+
+
 }

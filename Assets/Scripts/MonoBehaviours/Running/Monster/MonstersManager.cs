@@ -74,6 +74,9 @@ public class MonstersManager : MonoBehaviour
         }
     }
 
+    public List<MeleeMonsterController> _meleeMonsters { get => meleeMonsters; }
+    public List<RangedMonsterController> _rangedMonsters { get => rangedMonsters; }
+
 
     List<MeleeMonsterController> meleeMonsters = new List<MeleeMonsterController>();
     Vector3 currentCenter, directionToTear;
@@ -113,11 +116,12 @@ public class MonstersManager : MonoBehaviour
         return false;
     }
 
+    int checkFrequency_countBySecond = 1;
     IEnumerator CheckDistancesAndTearMeleeMonstersCollider()
     {
-        while (!GameManager.instance.gameOver)
+        while (!GameManager.instance.gameOver || meleeMonsters.Count > 1)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(checkFrequency_countBySecond);
             CalculateTheCenterOfColliders();
             ToTearOutMeleeMonstersCollider(HasOverlap());
         }

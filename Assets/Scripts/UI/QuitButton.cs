@@ -7,6 +7,6 @@ public class QuitButton : MonoBehaviour, IPointerDownHandler
 {
     public void OnPointerDown(PointerEventData eventData)
     {
-        UIManager.instance.OnPressQuitButton();
+        MenuUIManager.instance.OnPressQuitButton();
     }
 }

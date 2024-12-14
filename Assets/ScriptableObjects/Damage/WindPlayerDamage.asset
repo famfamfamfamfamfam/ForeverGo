@@ -18,6 +18,6 @@ MonoBehaviour:
     percentageDamageOnNormalAttack: 1
     percentageDamageOnSuperAttack: 3
     percentageDamageOnUniqueSkill: 5
-    bonusDamageToWindCharacter: 2
+    bonusDamageToWindCharacter: 3
     bonusDamageToWaterCharacter: 5
     bonusDamageToFireCharacter: 5

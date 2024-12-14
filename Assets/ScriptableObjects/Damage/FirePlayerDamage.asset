@@ -20,4 +20,4 @@ MonoBehaviour:
     percentageDamageOnUniqueSkill: 10
     bonusDamageToWindCharacter: 5
     bonusDamageToWaterCharacter: 10
-    bonusDamageToFireCharacter: 0
+    bonusDamageToFireCharacter: 1

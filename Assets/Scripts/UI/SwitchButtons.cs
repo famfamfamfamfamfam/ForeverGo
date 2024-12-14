@@ -7,6 +7,6 @@ public class SwitchButtons : MonoBehaviour, IPointerDownHandler
 {
     public void OnPointerDown(PointerEventData eventData)
     {
-        UIManager.instance.ToSwitchScreen();
+        MenuUIManager.instance.ToSwitchScreen();
     }
 }
