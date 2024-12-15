@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public event Action<Material, float> MonstersHPChange;
+    public event Action<Renderer, MaterialPropertyBlock, float> MonstersHPChange;
     public event Action<float> PlayerHPChange;
     public event Action<string> PlayerMarkChange;
     public event Action<float> PlayerSuperSkillStatusChange;
@@ -109,11 +109,13 @@ public class GameManager : MonoBehaviour
 
     void SetParamsAndCallUpMonstersHPChange(object[] parameters)
     {
-        Material HPMat = null;
-        CheckAndSetUpParams<Material>(parameters, 0, ref HPMat);
+        Renderer HPBarRenderer = null;
+        CheckAndSetUpParams<Renderer>(parameters, 0, ref HPBarRenderer);
+        MaterialPropertyBlock materialProperty = null;
+        CheckAndSetUpParams(parameters, 1, ref materialProperty);
         float monsterDisplayFloat = 0f;
-        CheckAndSetUpParams<float>(parameters, 1, ref monsterDisplayFloat);
-        MonstersHPChange?.Invoke(HPMat, monsterDisplayFloat);
+        CheckAndSetUpParams<float>(parameters, 2, ref monsterDisplayFloat);
+        MonstersHPChange?.Invoke(HPBarRenderer, materialProperty, monsterDisplayFloat);
     }
 
     void SetParamAndCallUpPlayerMarkChange(object[] parameters)

@@ -15,7 +15,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         powerKind = kind;
         foreach (Renderer renderer in monsterRenderers)
         {
-            renderer.material = RefToAssets.refs._skinsDictionary[(kind, monsterChar)];
+            renderer.sharedMaterial = RefToAssets.refs._skinsDictionary[(kind, monsterChar)];
         }
         theMonster = gameObject.GetComponent<MonsterController>();
         chip = gameObject.GetComponent<MonsterChip>();
@@ -45,7 +45,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
 
         float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
         CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
-        GameManager.instance.Notify(TypeOfEvent.MonstersHPChange, chip.HPMat, health);
+        GameManager.instance.Notify(TypeOfEvent.MonstersHPChange, chip._renderer, chip.HPBarProperties, health);
         if (health <= 0)
             theMonster.ToDie();
 

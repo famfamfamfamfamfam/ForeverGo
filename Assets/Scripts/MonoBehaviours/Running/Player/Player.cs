@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         }
         playerData = new SwitchData(animator, stateHashes, health, hitCount);
         container = playerData.GetYourAnimationContainer(currentPowerKind);
-        playerRenderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, playerChar)];
+        playerRenderer.sharedMaterial = RefToAssets.refs._skinsDictionary[(currentPowerKind, playerChar)];
         inputProcessor = new PlayInput(container, stateHashes);
         PlayerAttackBehaviours[] animatorStateMachineClones = animator.GetBehaviours<PlayerAttackBehaviours>();
         foreach (PlayerAttackBehaviours clone in animatorStateMachineClones)

@@ -29,7 +29,8 @@ public class MonsterChip : MonoBehaviour
     public Collider _leftHand { get; private set; }
     public Collider _rightHand { get; private set; }
     public BoxCollider _distancePoint { get; private set; }
-    public Material HPMat { get; private set; }
+    public Renderer _renderer { get; private set; }
+    public MaterialPropertyBlock HPBarProperties { get; private set; }
 
     void OnEnable()
     {
@@ -37,8 +38,9 @@ public class MonsterChip : MonoBehaviour
         _leftHand = leftHand.GetComponent<Collider>();
         _rightHand = rightHand.GetComponent<Collider>();
         _distancePoint = distancePoint.GetComponent<BoxCollider>();
-        Renderer renderer = HPBar.GetComponent<Renderer>();
-        HPMat = renderer.material;
+        _renderer = HPBar.GetComponent<Renderer>();
+        HPBarProperties = new MaterialPropertyBlock();
+        _renderer.GetPropertyBlock(HPBarProperties);
     }
 
     public void Init(PowerKind powerKind, Type monsterFightType, RuntimeAnimatorController monsterAnimatorController)

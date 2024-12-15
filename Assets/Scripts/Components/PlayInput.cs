@@ -132,6 +132,6 @@ public class PlayInput
         animationController = playerData.GetYourAnimationContainer(currentPowerKind);
         health = playerData.GetHealth(currentPowerKind);
         hitCount = playerData.GetHitCount(currentPowerKind);
-        renderer.material = RefToAssets.refs._skinsDictionary[(currentPowerKind, character)];
+        renderer.sharedMaterial = RefToAssets.refs._skinsDictionary[(currentPowerKind, character)];
     }
 }
