@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class MonsterChip : MonoBehaviour
@@ -29,16 +30,17 @@ public class MonsterChip : MonoBehaviour
     public Collider _leftHand { get; private set; }
     public Collider _rightHand { get; private set; }
     public BoxCollider _distancePoint { get; private set; }
-    public Material HPMat { get; private set; }
-
+    public MaterialPropertyBlock HPMatProperty { get; private set; }
+    public Renderer HPBarRenderer { get; private set; }
     void OnEnable()
     {
         MonstersManager.instance.monsters.Add(gameObject);
         _leftHand = leftHand.GetComponent<Collider>();
         _rightHand = rightHand.GetComponent<Collider>();
         _distancePoint = distancePoint.GetComponent<BoxCollider>();
-        Renderer renderer = HPBar.GetComponent<Renderer>();
-        HPMat = renderer.material;
+        HPBarRenderer = HPBar.GetComponent<Renderer>();
+        HPMatProperty = new MaterialPropertyBlock();
+        HPBarRenderer.GetPropertyBlock(HPMatProperty);
     }
 
     public void Init(PowerKind powerKind, Type monsterFightType, RuntimeAnimatorController monsterAnimatorController)

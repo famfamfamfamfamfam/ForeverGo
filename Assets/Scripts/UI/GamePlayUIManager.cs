@@ -63,9 +63,10 @@ public class GamePlayUIManager : MonoBehaviour
 
     string materialPropertyName = "_offset";
     float monsterTotalHealth;
-    void UpdateMonsterHealthBar(Material material, float data)
+    void UpdateMonsterHealthBar(Renderer renderer, MaterialPropertyBlock materialProperty, float data)
     {
-        material.SetFloat(materialPropertyName, data / monsterTotalHealth);
+        materialProperty.SetFloat(materialPropertyName, data / monsterTotalHealth);
+        renderer.SetPropertyBlock(materialProperty);
     }
 
     void UpdatePlayerMark(string markName)
