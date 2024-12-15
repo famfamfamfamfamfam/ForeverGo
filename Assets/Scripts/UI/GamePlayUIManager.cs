@@ -48,6 +48,7 @@ public class GamePlayUIManager : MonoBehaviour
         GameManager.instance.RangedMonstersHittableCountChange += UpdateStrangeCubeHitCount;
 
         playerDamageDealt.text = null;
+        GameManager.instance.HasPlayerDamageDealt += UpdatePlayerDamageDealt;
     }
     private void OnDisable()
     {
@@ -57,6 +58,7 @@ public class GamePlayUIManager : MonoBehaviour
         GameManager.instance.PlayerUniqueSkillStatusChange -= UpdatePlayerUniqueSkillBar;
         GameManager.instance.PlayerMarkChange -= UpdatePlayerMark;
         GameManager.instance.RangedMonstersHittableCountChange -= UpdateStrangeCubeHitCount;
+        GameManager.instance.HasPlayerDamageDealt -= UpdatePlayerDamageDealt;
 
         instance = null;
     }
@@ -92,5 +94,28 @@ public class GamePlayUIManager : MonoBehaviour
     void UpdateStrangeCubeHitCount(int data)
     {
         playerStrangeCubeHitCount.text = data.ToString();
+    }
+
+    Coroutine coroutine;
+    bool beenCalled;
+    void UpdatePlayerDamageDealt((float percentage, int bonusDamage) data)
+    {
+        playerDamageDealt.text = $"{data.percentage}% + {data.bonusDamage}";
+        beenCalled = true;
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+            coroutine = null;
+        }
+        coroutine = StartCoroutine(CountdownToDisapear());
+    }
+
+    int waitTime = 2;
+    IEnumerator CountdownToDisapear()
+    {
+        yield return new WaitUntil(() => beenCalled == true);
+        yield return new WaitForSeconds(waitTime);
+        playerDamageDealt.text = null;
+        beenCalled = false;
     }
 }

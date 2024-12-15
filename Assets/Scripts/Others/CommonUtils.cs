@@ -35,9 +35,10 @@ public class CommonUtils
 
     public void ToDealDamage(PowerKind damageTakerPower, PowerKind attackerPower, CharacterKind attacker, ref float ingredientHealth, float percentage)
     {
-        int bonusDamage = 0;
         DamageConfig damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
-        bonusDamage = damageData.bonusDamageDictionary[damageTakerPower];
+        int bonusDamage = damageData.bonusDamageDictionary[damageTakerPower];
+        if (attacker == CharacterKind.Player)
+            GameManager.instance.Notify(TypeOfEvent.HasPlayerDamageDealt, (percentage, bonusDamage));
         ingredientHealth -= ResonanceDamage(ingredientHealth, percentage, bonusDamage);
     }
 

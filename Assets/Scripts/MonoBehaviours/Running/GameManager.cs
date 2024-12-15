@@ -70,7 +70,8 @@ public class GameManager : MonoBehaviour
             { TypeOfEvent.PlayerMarkChange, PlayerMarkChange },
             { TypeOfEvent.PlayerSuperSkillStatusChange, PlayerSuperSkillStatusChange },
             { TypeOfEvent.PlayerUniqueSkillStatusChange, PlayerUniqueSkillStatusChange },
-            { TypeOfEvent.RangedMonstersHittableCountChange, RangedMonstersHittableCountChange }
+            { TypeOfEvent.RangedMonstersHittableCountChange, RangedMonstersHittableCountChange },
+            { TypeOfEvent.HasPlayerDamageDealt, HasPlayerDamageDealt }
         };
     }
 
@@ -101,6 +102,7 @@ public class GameManager : MonoBehaviour
     public event Action<float> PlayerSuperSkillStatusChange;
     public event Action<int> PlayerUniqueSkillStatusChange;
     public event Action<int> RangedMonstersHittableCountChange;
+    public event Action<(float, int)> HasPlayerDamageDealt;
 
     Dictionary<TypeOfEvent, Delegate> eventsDictionary;
     public void Notify<T>(TypeOfEvent eventType, T param)
@@ -120,5 +122,6 @@ public enum TypeOfEvent
     PlayerMarkChange,
     PlayerSuperSkillStatusChange,
     PlayerUniqueSkillStatusChange,
-    RangedMonstersHittableCountChange
+    RangedMonstersHittableCountChange,
+    HasPlayerDamageDealt
 }

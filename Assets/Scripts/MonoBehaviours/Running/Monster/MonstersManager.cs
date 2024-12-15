@@ -165,6 +165,7 @@ public class MonstersManager : MonoBehaviour
         foreach (RangedMonsterController monster in rangedMonsters)
         {
             monster.hitTakableCount++;
+            GameManager.instance.Notify(TypeOfEvent.RangedMonstersHittableCountChange, monster.hitTakableCount);
             Debug.Log(monster.hitTakableCount);
         }
     }

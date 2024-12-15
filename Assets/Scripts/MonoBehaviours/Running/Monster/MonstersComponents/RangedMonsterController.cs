@@ -60,6 +60,7 @@ public class RangedMonsterController : MonsterController
         if (hitTakableCount > 0)
         {
             MonstersManager.instance.ToDecreaseRangedMonstersHitTakableCount();
+            GameManager.instance.Notify(TypeOfEvent.RangedMonstersHittableCountChange, hitTakableCount);
             ToScream(GameManager.instance._player.transform.position);
         }
     }
@@ -72,7 +73,10 @@ public class RangedMonsterController : MonsterController
         transformSign = indexInWayPointsList;
         transform.rotation = MonstersManager.instance.RotationLookingToCenterPoint(transform.position);
         if (coroutine != null)
+        {
             StopCoroutine(coroutine);
+            coroutine = null;
+        }
         coroutine = StartCoroutine(Roar());
     }
 
