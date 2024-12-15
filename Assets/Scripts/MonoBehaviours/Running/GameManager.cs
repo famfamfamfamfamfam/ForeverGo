@@ -62,14 +62,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ArrangeRailsCoordinate();
-        eventsDictionary = new Dictionary<TypeOfEvent, Action<object[]>>
+
+        eventsDictionary = new Dictionary<TypeOfEvent, Delegate>
         {
-            { TypeOfEvent.PlayerHPChange, param => SetFloatParamAndCallUpEvent(param, PlayerHPChange) },
-            { TypeOfEvent.MonstersHPChange, param => SetParamsAndCallUpMonstersHPChange(param) },
-            { TypeOfEvent.PlayerMarkChange, param => SetParamAndCallUpPlayerMarkChange(param) },
-            { TypeOfEvent.PlayerSuperSkillStatusChange, param => SetFloatParamAndCallUpEvent(param, PlayerSuperSkillStatusChange) },
-            { TypeOfEvent.PlayerUniqueSkillStatusChange, param => SetIntParamAndCallUpEvent(param, PlayerUniqueSkillStatusChange) },
-            { TypeOfEvent.RangedMonstersHittableCountChange, param => SetIntParamAndCallUpEvent(param, RangedMonstersHittableCountChange) }
+            { TypeOfEvent.PlayerHPChange, PlayerHPChange },
+            { TypeOfEvent.MonstersHPChange, MonstersHPChange },
+            { TypeOfEvent.PlayerMarkChange, PlayerMarkChange },
+            { TypeOfEvent.PlayerSuperSkillStatusChange, PlayerSuperSkillStatusChange },
+            { TypeOfEvent.PlayerUniqueSkillStatusChange, PlayerUniqueSkillStatusChange },
+            { TypeOfEvent.RangedMonstersHittableCountChange, RangedMonstersHittableCountChange }
         };
     }
 
@@ -94,56 +95,22 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public event Action<Renderer, MaterialPropertyBlock, float> MonstersHPChange;
+    public event Action<(Renderer, MaterialPropertyBlock, float)> MonstersHPChange;
     public event Action<float> PlayerHPChange;
     public event Action<string> PlayerMarkChange;
     public event Action<float> PlayerSuperSkillStatusChange;
     public event Action<int> PlayerUniqueSkillStatusChange;
     public event Action<int> RangedMonstersHittableCountChange;
 
-    Dictionary<TypeOfEvent, Action<object[]>> eventsDictionary;
-    public void Notify(TypeOfEvent eventType, params object[] parameters)
+    Dictionary<TypeOfEvent, Delegate> eventsDictionary;
+    public void Notify<T>(TypeOfEvent eventType, T param)
     {
-        eventsDictionary[eventType](parameters);
+        if (eventsDictionary[eventType] is Action<T> action)
+        {
+            action.Invoke(param);
+        }
     }
 
-    void SetParamsAndCallUpMonstersHPChange(object[] parameters)
-    {
-        Renderer HPBarRenderer = null;
-        CheckAndSetUpParams<Renderer>(parameters, 0, ref HPBarRenderer);
-        MaterialPropertyBlock materialProperty = null;
-        CheckAndSetUpParams(parameters, 1, ref materialProperty);
-        float monsterDisplayFloat = 0f;
-        CheckAndSetUpParams<float>(parameters, 2, ref monsterDisplayFloat);
-        MonstersHPChange?.Invoke(HPBarRenderer, materialProperty, monsterDisplayFloat);
-    }
-
-    void SetParamAndCallUpPlayerMarkChange(object[] parameters)
-    {
-        string displayString = null;
-        CheckAndSetUpParams<string>(parameters, 0, ref displayString);
-        PlayerMarkChange?.Invoke(displayString);
-    }
-
-    void CheckAndSetUpParams<T>(object[] parameters, int checkIndex, ref T unitParam)
-    {
-        if (parameters.Length > 0 && parameters[checkIndex] is T)
-            unitParam = (T)parameters[checkIndex];
-    }
-
-    void SetFloatParamAndCallUpEvent(object[] parameters, Action<float> ActionWithFloatParam)
-    {
-        float displayFloat = 0f;
-        CheckAndSetUpParams<float>(parameters, 0, ref displayFloat);
-        ActionWithFloatParam?.Invoke(displayFloat);
-    }
-
-    void SetIntParamAndCallUpEvent(object[] parameters, Action<int> ActionWithIntParam)
-    {
-        int displayInt = 0;
-        CheckAndSetUpParams<int>(parameters, 0, ref displayInt);
-        ActionWithIntParam?.Invoke(displayInt);
-    }
 }
 
 public enum TypeOfEvent
