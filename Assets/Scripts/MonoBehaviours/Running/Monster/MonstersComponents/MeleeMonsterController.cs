@@ -214,13 +214,12 @@ public class MeleeMonsterController : MonsterController
         }
     }
 
-    
+    RaycastHit hit;
+    Transform[] currentTransforms = new Transform[2];
     public void OnFleeAnimating()
     {
-        if (Physics.Raycast(raycastOriginHeight * transform.up + transform.position, transform.forward, 1f, combineMask))
-        {
+        if (Physics.Raycast(raycastOriginHeight * transform.up + transform.position, transform.forward, out hit, 1f, combineMask))
             ToFleeOnLowHP();
-        }
     }
 
 

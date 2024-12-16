@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     }
 
     public event Action OnGameOver;
-    public event Action OnGamePause;
+    //public event Action OnGamePause;
 
     public bool gameOver { get; private set; }
     public bool gamePause { get; set; }

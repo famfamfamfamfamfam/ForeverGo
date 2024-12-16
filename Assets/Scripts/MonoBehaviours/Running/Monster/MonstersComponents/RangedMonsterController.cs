@@ -38,6 +38,8 @@ public class RangedMonsterController : MonsterController
         while (!GameManager.instance.gameOver && !GameManager.instance.gamePause)
         {
             yield return new WaitForSeconds(interval);
+            if (GameManager.instance.gameOver || GameManager.instance.gamePause)
+                yield break;
             container.TurnOnTemporaryAnimation(roundAttackTransitionHash, roundAttackStateHash);
         }
     }
