@@ -35,18 +35,23 @@ public class RangedMonsterController : MonsterController
     int roundAttackStateHash = Animator.StringToHash("Base Layer.RoundAttacking");
     IEnumerator Roar()
     {
-        while (!GameManager.instance.gameOver)
+        while (!GameManager.instance.gameOver && !GameManager.instance.gamePause)
         {
             yield return new WaitForSeconds(interval);
             container.TurnOnTemporaryAnimation(roundAttackTransitionHash, roundAttackStateHash);
         }
     }
 
+    public void OnGameContinueState()
+    {
+        coroutine = StartCoroutine(Roar());
+    }
+
     int screamTransitionHash = Animator.StringToHash("scream");
     int screamStateHash = Animator.StringToHash("Base Layer.Screaming");
     public void ToScream(Vector3 playerPosition)
     {
-        if (hitTakableCount == 0)
+        if (hitTakableCount == 0 && !GameManager.instance.gameOver && !GameManager.instance.gamePause)
         {
             transform.forward = playerPosition - transform.position;
             container.TurnOnTemporaryAnimation(screamTransitionHash, screamStateHash);
@@ -73,10 +78,7 @@ public class RangedMonsterController : MonsterController
         transformSign = indexInWayPointsList;
         transform.rotation = MonstersManager.instance.RotationLookingToCenterPoint(transform.position);
         if (coroutine != null)
-        {
             StopCoroutine(coroutine);
-            coroutine = null;
-        }
         coroutine = StartCoroutine(Roar());
     }
 

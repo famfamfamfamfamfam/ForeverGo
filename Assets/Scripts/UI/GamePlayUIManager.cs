@@ -104,16 +104,13 @@ public class GamePlayUIManager : MonoBehaviour
         playerMainDamageDealt.text = $"{data.percentage}% of {monsterHealth}";
         UpdatePlayerBonusDamageDealt(data.bonusDamage);
         if (coroutine != null)
-        {
             StopCoroutine(coroutine);
-            coroutine = null;
-        }
         coroutine = StartCoroutine(CountdownToDisapear());
     }
 
     void UpdatePlayerBonusDamageDealt(int bonusDamage)
     {
-        playerBonusDamage.text = $"+{bonusDamage}";
+        playerBonusDamage.text = $"and +{bonusDamage}";
     }
 
     int waitTime = 2;

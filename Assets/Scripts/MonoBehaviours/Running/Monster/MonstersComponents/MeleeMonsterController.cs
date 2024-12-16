@@ -68,6 +68,14 @@ public class MeleeMonsterController : MonsterController
     float currentSqrDistance;
     private void Update()
     {
+        if (GameManager.instance.gameOver || GameManager.instance.gamePause)
+        {
+            container.StopLoopAnimation(walkTransitionHash);
+            if (!container.IsRunning(jumpAttackStateHash))
+                container.TurnOnTemporaryAnimation(standTransitionHash, standStateHash);
+            return;
+        }
+
         if (Time.frameCount % changeRangeFrequency_countByFrame == 0)
         {
             adjustDistance = UnityEngine.Random.Range(min, max);
@@ -187,7 +195,7 @@ public class MeleeMonsterController : MonsterController
     int fleeTransitionHash_triggerParam = Animator.StringToHash("flee");
     int fleeStateHash = Animator.StringToHash("Base Layer.Fleeing");
     int standTransitionHash = Animator.StringToHash("stand");
-    int standStateHash = Animator.StringToHash("Base Layer.Stand");
+    int standStateHash = Animator.StringToHash("Base Layer.Standing");
     void OnFleeState()
     {
         if (currentSqrDistance <= checkDiscoverPlayerDistance)

@@ -119,7 +119,7 @@ public class MonstersManager : MonoBehaviour
     int checkFrequency_countBySecond = 1;
     IEnumerator CheckDistancesAndTearMeleeMonstersCollider()
     {
-        while (!GameManager.instance.gameOver || meleeMonsters.Count > 1)
+        while (!GameManager.instance.gameOver && meleeMonsters.Count > 1)
         {
             yield return new WaitForSeconds(checkFrequency_countBySecond);
             CalculateTheCenterOfColliders();
