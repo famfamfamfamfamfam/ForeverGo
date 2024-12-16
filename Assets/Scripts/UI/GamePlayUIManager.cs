@@ -22,7 +22,7 @@ public class GamePlayUIManager : MonoBehaviour
     Slider playerHealthBar, playerSuperSkillBar, playerUniqueSkillBar;
 
     [SerializeField]
-    TextMeshProUGUI playerCurrentMark, playerDamageDealt, playerStrangeCubeHitCount;
+    TextMeshProUGUI playerCurrentMark, playerMainDamageDealt, playerBonusDamage, playerStrangeCubeHitCount;
 
     private void OnEnable()
     {
@@ -47,7 +47,8 @@ public class GamePlayUIManager : MonoBehaviour
 
         GameManager.instance.RangedMonstersHittableCountChange += UpdateStrangeCubeHitCount;
 
-        playerDamageDealt.text = null;
+        playerMainDamageDealt.text = null;
+        playerBonusDamage.text = null;
         GameManager.instance.HasPlayerDamageDealt += UpdatePlayerDamageDealt;
     }
     private void OnDisable()
@@ -97,11 +98,11 @@ public class GamePlayUIManager : MonoBehaviour
     }
 
     Coroutine coroutine;
-    bool beenCalled;
-    void UpdatePlayerDamageDealt((float percentage, int bonusDamage) data)
+    void UpdatePlayerDamageDealt((float percentage, float monsterHealth, int bonusDamage) data)
     {
-        playerDamageDealt.text = $"{data.percentage}% + {data.bonusDamage}";
-        beenCalled = true;
+        float monsterHealth = Mathf.Max(data.monsterHealth, 0);
+        playerMainDamageDealt.text = $"{data.percentage}% of {monsterHealth}";
+        UpdatePlayerBonusDamageDealt(data.bonusDamage);
         if (coroutine != null)
         {
             StopCoroutine(coroutine);
@@ -110,12 +111,16 @@ public class GamePlayUIManager : MonoBehaviour
         coroutine = StartCoroutine(CountdownToDisapear());
     }
 
+    void UpdatePlayerBonusDamageDealt(int bonusDamage)
+    {
+        playerBonusDamage.text = $"+{bonusDamage}";
+    }
+
     int waitTime = 2;
     IEnumerator CountdownToDisapear()
     {
-        yield return new WaitUntil(() => beenCalled == true);
         yield return new WaitForSeconds(waitTime);
-        playerDamageDealt.text = null;
-        beenCalled = false;
+        playerMainDamageDealt.text = null;
+        playerBonusDamage.text = null;
     }
 }

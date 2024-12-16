@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     public event Action<float> PlayerSuperSkillStatusChange;
     public event Action<int> PlayerUniqueSkillStatusChange;
     public event Action<int> RangedMonstersHittableCountChange;
-    public event Action<(float, int)> HasPlayerDamageDealt;
+    public event Action<(float, float, int)> HasPlayerDamageDealt;
 
     Dictionary<TypeOfEvent, Delegate> eventsDictionary;
     public void Notify<T>(TypeOfEvent eventType, T param)
