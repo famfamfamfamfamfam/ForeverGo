@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        eventsDictionary = new Dictionary<TypeOfEvent, Delegate>();
     }
 
     public event Action OnGameOver;
@@ -63,17 +64,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         ArrangeRailsCoordinate();
-
-        eventsDictionary = new Dictionary<TypeOfEvent, Delegate>
-        {
-            { TypeOfEvent.PlayerHPChange, PlayerHPChange },
-            { TypeOfEvent.MonstersHPChange, MonstersHPChange },
-            { TypeOfEvent.PlayerMarkChange, PlayerMarkChange },
-            { TypeOfEvent.PlayerSuperSkillStatusChange, PlayerSuperSkillStatusChange },
-            { TypeOfEvent.PlayerUniqueSkillStatusChange, PlayerUniqueSkillStatusChange },
-            { TypeOfEvent.RangedMonstersHittableCountChange, RangedMonstersHittableCountChange },
-            { TypeOfEvent.HasPlayerDamageDealt, HasPlayerDamageDealt }
-        };
     }
 
     float[] railsXCoordinate = new float[4];
@@ -97,21 +87,25 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public event Action<(Renderer, MaterialPropertyBlock, float)> MonstersHPChange;
-    public event Action<float> PlayerHPChange;
-    public event Action<string> PlayerMarkChange;
-    public event Action<float> PlayerSuperSkillStatusChange;
-    public event Action<int> PlayerUniqueSkillStatusChange;
-    public event Action<int> RangedMonstersHittableCountChange;
-    public event Action<(float, float, int)> HasPlayerDamageDealt;
-
     Dictionary<TypeOfEvent, Delegate> eventsDictionary;
+
+    public void Subscribe<T>(TypeOfEvent eventType, Action<T> subscribeMethod)
+    {
+        if (eventsDictionary.TryGetValue(eventType, out Delegate value))
+            eventsDictionary[eventType] = Delegate.Combine(value, subscribeMethod);
+        else
+            eventsDictionary[eventType] = subscribeMethod;
+    }
+
     public void Notify<T>(TypeOfEvent eventType, T param)
     {
         if (eventsDictionary[eventType] is Action<T> action)
-        {
             action.Invoke(param);
-        }
+    }
+
+    public void UnsubscirbeAll()
+    {
+        eventsDictionary = null;
     }
 
 }

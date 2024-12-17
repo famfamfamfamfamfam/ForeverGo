@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -28,39 +29,32 @@ public class GamePlayUIManager : MonoBehaviour
     {
         instance = this;
         monsterTotalHealth = monsters.properties._health;
-        GameManager.instance.MonstersHPChange += UpdateMonsterHealthBar;
+        GameManager.instance.Subscribe<(Renderer, MaterialPropertyBlock, float)>(TypeOfEvent.MonstersHPChange, data => UpdateMonsterHealthBar(data));
 
         if (CommonUtils.Instance.onlyOneMode)
             playerHealthBar.maxValue = playerOnlyMode.properties._health;
         else
             playerHealthBar.maxValue = playerSwitchMode.properties._health;
         playerHealthBar.value = playerHealthBar.maxValue;
-        GameManager.instance.PlayerHPChange += UpdatePlayerHealthBar;
+        GameManager.instance.Subscribe<float>(TypeOfEvent.PlayerHPChange, data => UpdatePlayerHealthBar(data));
 
         playerCurrentMark.text = null;
-        GameManager.instance.PlayerMarkChange += UpdatePlayerMark;
+        GameManager.instance.Subscribe<string>(TypeOfEvent.PlayerMarkChange, markName => UpdatePlayerMark(markName));
 
         playerSuperSkillBar.maxValue = playerSuperSkill.cooldown_second;
-        GameManager.instance.PlayerSuperSkillStatusChange += UpdatePlayerSuperSkillBar;
+        GameManager.instance.Subscribe<float>(TypeOfEvent.PlayerSuperSkillStatusChange, data => UpdatePlayerSuperSkillBar(data));
         playerUniqueSkillBar.maxValue = playerUniqueSkill.afterHitCount;
-        GameManager.instance.PlayerUniqueSkillStatusChange += UpdatePlayerUniqueSkillBar;
+        GameManager.instance.Subscribe<int>(TypeOfEvent.PlayerUniqueSkillStatusChange, data => UpdatePlayerUniqueSkillBar(data));
 
-        GameManager.instance.RangedMonstersHittableCountChange += UpdateStrangeCubeHitCount;
+        GameManager.instance.Subscribe<int>(TypeOfEvent.RangedMonstersHittableCountChange, data => UpdateStrangeCubeHitCount(data));
 
         playerMainDamageDealt.text = null;
         playerBonusDamage.text = null;
-        GameManager.instance.HasPlayerDamageDealt += UpdatePlayerDamageDealt;
+        GameManager.instance.Subscribe<(float, float, int)>(TypeOfEvent.HasPlayerDamageDealt, data => UpdatePlayerDamageDealt(data));
     }
     private void OnDisable()
     {
-        GameManager.instance.MonstersHPChange -= UpdateMonsterHealthBar;
-        GameManager.instance.PlayerHPChange -= UpdatePlayerHealthBar;
-        GameManager.instance.PlayerSuperSkillStatusChange -= UpdatePlayerSuperSkillBar;
-        GameManager.instance.PlayerUniqueSkillStatusChange -= UpdatePlayerUniqueSkillBar;
-        GameManager.instance.PlayerMarkChange -= UpdatePlayerMark;
-        GameManager.instance.RangedMonstersHittableCountChange -= UpdateStrangeCubeHitCount;
-        GameManager.instance.HasPlayerDamageDealt -= UpdatePlayerDamageDealt;
-
+        GameManager.instance.UnsubscirbeAll();
         instance = null;
     }
 
@@ -116,7 +110,7 @@ public class GamePlayUIManager : MonoBehaviour
     int waitTime = 2;
     IEnumerator CountdownToDisapear()
     {
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSecondsRealtime(waitTime);
         playerMainDamageDealt.text = null;
         playerBonusDamage.text = null;
     }

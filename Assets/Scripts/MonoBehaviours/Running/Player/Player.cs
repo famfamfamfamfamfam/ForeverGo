@@ -200,11 +200,9 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     float elapsedTime;
     IEnumerator AfterCooldown()
     {
-        while (!GameManager.instance.gameOver && !GameManager.instance.gamePause)
+        while (!GameManager.instance.gameOver)
         {
             yield return new WaitUntil(() => isInCooldown == true);
-            if (GameManager.instance.gameOver || GameManager.instance.gamePause)
-                yield break;
             for (int i = 0; i < numberOfUnit; i++)
             {
                 GameManager.instance.Notify(TypeOfEvent.PlayerSuperSkillStatusChange, elapsedTime);

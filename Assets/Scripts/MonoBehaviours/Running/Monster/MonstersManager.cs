@@ -121,7 +121,7 @@ public class MonstersManager : MonoBehaviour
     {
         while (!GameManager.instance.gameOver && meleeMonsters.Count > 1)
         {
-            yield return new WaitForSeconds(checkFrequency_countBySecond);
+            yield return new WaitForSecondsRealtime(checkFrequency_countBySecond);
             CalculateTheCenterOfColliders();
             ToTearOutMeleeMonstersCollider(HasOverlap());
         }
