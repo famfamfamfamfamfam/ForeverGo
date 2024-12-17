@@ -28,16 +28,23 @@ public class GameManager : MonoBehaviour
         eventsDictionary = new Dictionary<TypeOfEvent, Delegate>();
     }
 
-    public event Action OnGameOver;
-    //public event Action OnGamePause;
-
     public bool gameOver { get; private set; }
-    public bool gamePause { get; set; }
+    public bool gamePause { get; private set; }
 
-    public void SetGameOverState(bool state)
+    public void SetGameOverState(GameOverState state)
     {
-        OnGameOver?.Invoke();
-        gameOver = state;
+        Notify(TypeOfEvent.GameOver, state);
+        gameOver = true;
+    }
+
+    public void PauseOrUnpauseGame()
+    {
+        gamePause = !gamePause;
+        if (gamePause)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
+        Notify(TypeOfEvent.GamePause, gamePause);
     }
 
     public void OnAttack(GameObject attacker, GameObject damageTaker)
@@ -110,6 +117,12 @@ public class GameManager : MonoBehaviour
 
 }
 
+public enum GameOverState
+{
+    Lose,
+    Win
+}
+
 public enum TypeOfEvent
 {
     MonstersHPChange,
@@ -118,5 +131,7 @@ public enum TypeOfEvent
     PlayerSuperSkillStatusChange,
     PlayerUniqueSkillStatusChange,
     RangedMonstersHittableCountChange,
-    HasPlayerDamageDealt
+    HasPlayerDamageDealt,
+    GameOver,
+    GamePause
 }

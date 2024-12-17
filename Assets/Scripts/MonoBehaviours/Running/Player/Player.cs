@@ -80,9 +80,10 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         StartCoroutine(AfterCooldown());
     }
     bool isOnGround;
+    bool isAutoSwitchingOnDying;
     void Update()
     {
-        if (GameManager.instance.gameOver || GameManager.instance.gamePause)
+        if (GameManager.instance.gameOver || GameManager.instance.gamePause || isAutoSwitchingOnDying)
             return;
         inputProcessor.SetAxisInputValue
             (Input.GetAxis("Horizontal"),
@@ -161,10 +162,10 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         }
         else
         {
-            GameManager.instance.SetGameOverState(true);
+            GameManager.instance.SetGameOverState(GameOverState.Lose);
             return;
         }
-        GameManager.instance.gamePause = true;
+        isAutoSwitchingOnDying = true;
     }
 
 
@@ -192,7 +193,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             inputProcessor.ToChangeThePower(true,
                                     ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
                                     ref health, ref hitCount, playerData, playerRenderer);
-            GameManager.instance.gamePause = false;
+            isAutoSwitchingOnDying = false;
         }
     }
 

@@ -12,6 +12,9 @@ public class GamePlayUIManager : MonoBehaviour
     public static GamePlayUIManager instance;
 
     [SerializeField]
+    GameObject pauseScreen, endScreen;
+
+    [SerializeField]
     CharacterProperties playerOnlyMode, playerSwitchMode;
     [SerializeField]
     CharacterProperties monsters;
@@ -51,6 +54,9 @@ public class GamePlayUIManager : MonoBehaviour
         playerMainDamageDealt.text = null;
         playerBonusDamage.text = null;
         GameManager.instance.Subscribe<(float, float, int)>(TypeOfEvent.HasPlayerDamageDealt, data => UpdatePlayerDamageDealt(data));
+
+        GameManager.instance.Subscribe<GameOverState>(TypeOfEvent.GameOver, state => DisplayResult(state));
+        GameManager.instance.Subscribe<bool>(TypeOfEvent.GamePause, pauseState => DisplayPauseGameScreen(pauseState));
     }
     private void OnDisable()
     {
@@ -113,5 +119,28 @@ public class GamePlayUIManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(waitTime);
         playerMainDamageDealt.text = null;
         playerBonusDamage.text = null;
+    }
+
+    string loseNoti = "YOU LOSE!";
+    string winNoti = "YOU WIN!";
+    [SerializeField]
+    TextMeshProUGUI resultText;
+    void DisplayResult(GameOverState state)
+    {
+        switch(state)
+        {
+            case GameOverState.Lose:
+                resultText.text = loseNoti;
+                return;
+            case GameOverState.Win:
+                resultText.text = winNoti;
+                return;
+        }
+        endScreen.SetActive(true);
+    }
+
+    void DisplayPauseGameScreen(bool pauseState)
+    {
+        pauseScreen.SetActive(pauseState);
     }
 }
