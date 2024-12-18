@@ -12,9 +12,7 @@ public class MenuUIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (GameManager.instance != null)
-            Destroy(GameManager.instance.gameObject);
-        CommonUtils.Instance.onlyOneMode = false;
+        CommonUtils.Instance.SetOnlyOneMode(this, false);
     }
 
     private void OnEnable()
@@ -121,7 +119,7 @@ public class MenuUIManager : MonoBehaviour
     {
         if (hasAnotherSelected)
         {
-            CommonUtils.Instance.onlyOneMode = !CommonUtils.Instance.onlyOneMode;
+            CommonUtils.Instance.SetOnlyOneMode(this, !CommonUtils.Instance.onlyOneMode);
             doneButton.SetActive(!doneButton.activeSelf);
             ToDisplayQuitButton();
         }

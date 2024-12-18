@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,15 +15,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        instance = this;
         eventsDictionary = new Dictionary<TypeOfEvent, Delegate>();
     }
 
@@ -41,10 +32,26 @@ public class GameManager : MonoBehaviour
     {
         gamePause = !gamePause;
         if (gamePause)
+        {
             Time.timeScale = 0;
+        }
         else
+        {
+            LockTheCursor();
             Time.timeScale = 1;
+        }
         Notify(TypeOfEvent.GamePause, gamePause);
+    }
+
+    void LockTheCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    void UnlockTheCursor()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     public void OnAttack(GameObject attacker, GameObject damageTaker)
@@ -70,7 +77,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        LockTheCursor();
         ArrangeRailsCoordinate();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftAlt) && !gamePause)
+            UnlockTheCursor();
+        if (Input.GetKeyUp(KeyCode.LeftAlt) && !gamePause)
+            LockTheCursor();
     }
 
     float[] railsXCoordinate = new float[4];

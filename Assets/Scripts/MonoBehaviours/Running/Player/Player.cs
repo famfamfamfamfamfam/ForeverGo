@@ -34,6 +34,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     DefaultValue numberOfUnitInCooldown, resetMarkTime_countBySecond;
     bool isInCooldown;
     int hitCount;
+    bool onlyMode;
 
     void Start()
     {
@@ -55,7 +56,9 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         }
         stateNames = null;
 
-        if (CommonUtils.Instance.onlyOneMode)
+        onlyMode = CommonUtils.Instance.onlyOneMode;
+
+        if (onlyMode)
         {
             health = playerOnOnlyModeProperties.properties._health;
             playerCount = 1;
@@ -83,7 +86,8 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     bool isAutoSwitchingOnDying;
     void Update()
     {
-        if (GameManager.instance.gameOver || GameManager.instance.gamePause || isAutoSwitchingOnDying)
+        if (GameManager.instance.gameOver || GameManager.instance.gamePause || isAutoSwitchingOnDying
+            || (Cursor.lockState != CursorLockMode.Locked && Cursor.visible))
             return;
         inputProcessor.SetAxisInputValue
             (Input.GetAxis("Horizontal"),
@@ -98,7 +102,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
                                            ref hitCount);
         inputProcessor.ToAnimateComboAttack(Input.GetMouseButtonDown(0), gameObject);
         inputProcessor.ToTurnOnSuperAttack(Input.GetKeyDown(KeyCode.E), ref isInCooldown);
-        inputProcessor.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !CommonUtils.Instance.onlyOneMode,
+        inputProcessor.ToChangeThePower(Input.GetKeyDown(KeyCode.F) && !onlyMode,
                                         ref currentPowerKind, powerKind.selectedPowerKinds, playerChar,
                                         ref health, ref hitCount, playerData, playerRenderer);
     }
@@ -115,6 +119,8 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
 
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
+        if (isAutoSwitchingOnDying)
+            return;
         if (mark != null)
         {
             CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, defaltDamagePercentageOfEnemy.value);
@@ -158,7 +164,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         container.TurnOnTemporaryAnimation(dieTransitionHash, dieStateHash);
         if (playerCount == 1)
         {
-            CommonUtils.Instance.onlyOneMode = true;
+            onlyMode = true;
         }
         else
         {

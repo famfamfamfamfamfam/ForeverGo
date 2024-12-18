@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using TMPro;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,6 +27,7 @@ public class GamePlayUIManager : MonoBehaviour
     private void OnEnable()
     {
         instance = this;
+
         monsterTotalHealth = monsters.properties._health;
         GameManager.instance.Subscribe<(Renderer, MaterialPropertyBlock, float)>(TypeOfEvent.MonstersHPChange, data => UpdateMonsterHealthBar(data));
 
@@ -127,7 +124,8 @@ public class GamePlayUIManager : MonoBehaviour
     TextMeshProUGUI resultText;
     void DisplayResult(GameOverState state)
     {
-        switch(state)
+        endScreen.SetActive(true);
+        switch (state)
         {
             case GameOverState.Lose:
                 resultText.text = loseNoti;
@@ -136,7 +134,6 @@ public class GamePlayUIManager : MonoBehaviour
                 resultText.text = winNoti;
                 return;
         }
-        endScreen.SetActive(true);
     }
 
     void DisplayPauseGameScreen(bool pauseState)

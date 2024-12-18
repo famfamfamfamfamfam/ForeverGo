@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -10,6 +8,7 @@ public class SwitchSceneButton : MonoBehaviour, IPointerDownHandler
     int destinationSceneIndex;
     public void OnPointerDown(PointerEventData eventData)
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(destinationSceneIndex);
     }
 }

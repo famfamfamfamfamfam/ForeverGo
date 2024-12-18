@@ -7,8 +7,12 @@ public class PlayerAttackBehaviours : StateMachineBehaviour
     public GameObject playerWeapon { get; set; }
     public int[] stateHashes { get; set; }
 
+    int canInterruptParamHash = Animator.StringToHash("canInterrupt");
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (attackState == AttackState.UniqueSkill)
+            animator.SetBool(canInterruptParamHash, false);
         GameManager.instance.SetCurrentAttackState(attackState, animator.gameObject);
         playerWeapon.SetActive(true);
     }
@@ -23,5 +27,7 @@ public class PlayerAttackBehaviours : StateMachineBehaviour
         }
         playerWeapon.SetActive(false);
         GameManager.instance.SetCurrentAttackState(null, animator.gameObject);
+        if (attackState == AttackState.UniqueSkill)
+            animator.SetBool(canInterruptParamHash, true);
     }
 }

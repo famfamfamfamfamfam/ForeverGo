@@ -13,7 +13,13 @@ public class CommonUtils
     public SelectedPowerKind playerPower { get; set; }
     public SelectedPowerKind monstersPower { get; set; }
 
-    public bool onlyOneMode { get; set; }
+    public bool onlyOneMode { get; private set; }
+
+    public void SetOnlyOneMode(MonoBehaviour thisInstance, bool value)
+    {
+        if (thisInstance is MenuUIManager)
+            onlyOneMode = value;
+    }
 
     public int enumCount { get; private set; }
 

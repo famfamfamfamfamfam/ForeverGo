@@ -11,6 +11,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: isSprinting
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: canInterrupt
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1418967993080441544}
   m_Solo: 0
@@ -112,6 +115,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: react
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: canInterrupt
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8691038349676812305}
@@ -404,6 +410,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: nAttack
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: canInterrupt
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4312305911008202087}
   m_Solo: 0
@@ -592,6 +601,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: nAttack
     m_EventTreshold: 2
+  - m_ConditionMode: 1
+    m_ConditionEvent: canInterrupt
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7240131930678973881}
   m_Solo: 0
@@ -808,6 +820,12 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: canInterrupt
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
@@ -1048,6 +1066,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 6
     m_ConditionEvent: nAttack
     m_EventTreshold: 1
+  - m_ConditionMode: 1
+    m_ConditionEvent: canInterrupt
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4479483184020535496}
   m_Solo: 0
@@ -1266,6 +1287,9 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: sAttack
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: canInterrupt
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6733982283211241443}
