@@ -23,10 +23,6 @@ public class GamePlayUIManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI playerCurrentMark, playerMainDamageDealt, playerBonusDamage, playerStrangeCubeHitCount;
-
-    [SerializeField]
-    TextMeshProUGUI notifsForPlayer;
-
     private void OnEnable()
     {
         instance = this;
@@ -57,8 +53,6 @@ public class GamePlayUIManager : MonoBehaviour
 
         GameManager.instance.Subscribe<GameOverState>(TypeOfEvent.GameOver, state => DisplayResult(state));
         GameManager.instance.Subscribe<bool>(TypeOfEvent.GamePause, pauseState => DisplayPauseGameScreen(pauseState));
-        notifsForPlayer.text = null;
-        GameManager.instance.Subscribe<(NotiType, string)>(TypeOfEvent.HasNotiForPlayer, data => UpdateNotiForPlayer(data));
     }
     private void OnDisable()
     {
@@ -123,32 +117,9 @@ public class GamePlayUIManager : MonoBehaviour
         playerBonusDamage.text = null;
     }
 
-    Coroutine notiCoroutine;
-    string temp;
-    void UpdateNotiForPlayer((NotiType notiType, string noti) data)//CHƯA TEST
-    {
-        notifsForPlayer.text = data.noti;
-        if (data.notiType == NotiType.Command)
-            temp = data.noti;
-        else if (data.notiType == NotiType.ReleaseCommand)
-            temp = null;
-        if (notiCoroutine != null)
-            StopCoroutine(notiCoroutine);
-        notiCoroutine = StartCoroutine(NotiCountDownToDisapear(data.notiType, temp));
-    }
-
-    IEnumerator NotiCountDownToDisapear(NotiType notiType, string previousNoti)
-    {
-        if (notiType == NotiType.Command)
-            yield break;
-        yield return new WaitForSecondsRealtime(waitTime);
-        notifsForPlayer.text = temp;
-    }
-
     string loseNoti = "YOU LOSE!";
     string winNoti = "YOU WIN!";
-    [SerializeField]
-    TextMeshProUGUI resultText;
+    public TextMeshProUGUI resultText;
     void DisplayResult(GameOverState state)
     {
         endScreen.SetActive(true);
@@ -167,11 +138,4 @@ public class GamePlayUIManager : MonoBehaviour
     {
         pauseScreen.SetActive(pauseState);
     }
-}
-
-public enum NotiType
-{
-    Command,
-    ReleaseCommand,
-    Announce
 }

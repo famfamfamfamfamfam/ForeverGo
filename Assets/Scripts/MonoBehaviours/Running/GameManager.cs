@@ -99,6 +99,8 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitUntil(() => player.transform.position.y < ground.transform.position.y - fallingDistance);
         SetGameOverState(GameOverState.Lose);
+        yield return new WaitForSecondsRealtime(1);
+        player.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     float[] railsXCoordinate = new float[4];
@@ -164,7 +166,6 @@ public enum TypeOfEvent
     PlayerUniqueSkillStatusChange,
     RangedMonstersHittableCountChange,
     HasPlayerDamageDealt,
-    HasNotiForPlayer,
     GameOver,
     GamePause
 }
