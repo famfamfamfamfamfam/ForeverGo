@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     GameObject player;
+    [SerializeField]
+    GameObject ground;
     [SerializeField]
     Transform[] rails;
 
@@ -25,6 +28,7 @@ public class GameManager : MonoBehaviour
     public void SetGameOverState(GameOverState state)
     {
         Notify(TypeOfEvent.GameOver, state);
+        UnlockTheCursor();
         gameOver = true;
     }
 
@@ -79,14 +83,22 @@ public class GameManager : MonoBehaviour
     {
         LockTheCursor();
         ArrangeRailsCoordinate();
+        StartCoroutine(LoseDueToFalling());
     }
 
+    float fallingDistance = 7.5f;
     private void Update()
     {
         if (Input.GetKey(KeyCode.LeftAlt) && !gamePause)
             UnlockTheCursor();
         if (Input.GetKeyUp(KeyCode.LeftAlt) && !gamePause)
             LockTheCursor();
+    }
+
+    IEnumerator LoseDueToFalling()
+    {
+        yield return new WaitUntil(() => player.transform.position.y < ground.transform.position.y - fallingDistance);
+        SetGameOverState(GameOverState.Lose);
     }
 
     float[] railsXCoordinate = new float[4];
@@ -131,6 +143,10 @@ public class GameManager : MonoBehaviour
         eventsDictionary = null;
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
 }
 
 public enum GameOverState
@@ -148,6 +164,7 @@ public enum TypeOfEvent
     PlayerUniqueSkillStatusChange,
     RangedMonstersHittableCountChange,
     HasPlayerDamageDealt,
+    HasNotiForPlayer,
     GameOver,
     GamePause
 }

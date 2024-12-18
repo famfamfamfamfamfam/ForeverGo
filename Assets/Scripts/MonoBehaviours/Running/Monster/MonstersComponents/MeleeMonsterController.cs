@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.UI;
 
 public class MeleeMonsterController : MonsterController
 {
@@ -215,7 +213,6 @@ public class MeleeMonsterController : MonsterController
     }
 
     RaycastHit hit;
-    Transform[] currentTransforms = new Transform[2];
     public void OnFleeAnimating()
     {
         if (Physics.Raycast(raycastOriginHeight * transform.up + transform.position, transform.forward, out hit, 1f, combineMask))
@@ -229,9 +226,7 @@ public class MeleeMonsterController : MonsterController
     public void TrampleAnimationEvent()
     {
         if (Physics.CheckSphere(chip._leftFoot.position, checkRadius, playerLayerMask))
-        {
             GameManager.instance.OnAttack(gameObject, GameManager.instance._player);
-        }
     }
     #endregion
 }
