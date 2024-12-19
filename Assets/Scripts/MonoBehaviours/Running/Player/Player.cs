@@ -38,7 +38,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
 
     void Start()
     {
-        powerKind = CommonUtils.Instance.playerPower;
+        powerKind = CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Player);
         currentPowerKind = powerKind.selectedPowerKinds[0];
 
         stateNames = new string[13] { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",

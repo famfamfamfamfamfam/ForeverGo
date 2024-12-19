@@ -45,7 +45,7 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
     void InitMonsterInFirstLevel()
     {
         monsters = new List<GameObject>();
-        monsterPowerKinds = CommonUtils.Instance.monstersPower.selectedPowerKinds;
+        monsterPowerKinds = CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds;
         monsterFightTypes = new Type[2]
         {
             typeof(MeleeMonsterController),

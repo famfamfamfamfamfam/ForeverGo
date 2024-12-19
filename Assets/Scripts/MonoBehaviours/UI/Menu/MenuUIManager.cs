@@ -38,11 +38,9 @@ public class MenuUIManager : MonoBehaviour
     }
     private void Start()
     {
-        CommonUtils.Instance.playerPower = new SelectedPowerKind();
-        CommonUtils.Instance.monstersPower = new SelectedPowerKind();
-        CommonUtils.Instance.monstersPower.selectedPowerKinds[0] = CommonUtils.Instance.RandomMonsterKind();
-        CommonUtils.Instance.monstersPower.selectedPowerKinds[1] = CommonUtils.Instance.RandomMonsterKind();
-        monsterPortrait.sprite = RefToAssets.refs._avtsDictionary[CommonUtils.Instance.monstersPower.selectedPowerKinds[0]];
+        CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0] = CommonUtils.Instance.RandomMonsterKind();
+        CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[1] = CommonUtils.Instance.RandomMonsterKind();
+        monsterPortrait.sprite = RefToAssets.refs._avtsDictionary[CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0]];
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
     }
@@ -87,9 +85,9 @@ public class MenuUIManager : MonoBehaviour
     int index = 0;
     public void ToSetUpTheSelectedPower(PowerKind powerKind)
     {
-        CommonUtils.Instance.playerPower.selectedPowerKinds[index] = powerKind;
-        CommonUtils.Instance.SetUpNextValue(ref index, CommonUtils.Instance.playerPower.selectedPowerKinds.Length);
-        Debug.Log(CommonUtils.Instance.playerPower.selectedPowerKinds[0] + "" + CommonUtils.Instance.playerPower.selectedPowerKinds[1]);
+        CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds[index] = powerKind;
+        CommonUtils.Instance.SetUpNextValue(ref index, CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds.Length);
+        Debug.Log(CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0] + "" + CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds[1]);
     }
 
     public PowerKind ToGetKindOfPower(int id)

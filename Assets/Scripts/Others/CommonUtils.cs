@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CommonUtils
@@ -7,17 +8,37 @@ public class CommonUtils
     public static CommonUtils Instance { get => instance; }
     private CommonUtils()
     {
+        playerPower = new SelectedPowerKind();
+        monstersPower = new SelectedPowerKind();
+
+        selectedPowersDictionary = new Dictionary<CharacterKind, SelectedPowerKind>()
+        {
+            { CharacterKind.Player, playerPower },
+            { CharacterKind.Monster, monstersPower },
+        };
+
         enumCount = Enum.GetValues(typeof(PowerKind)).Length;
     }
 
-    public SelectedPowerKind playerPower { get; set; }
-    public SelectedPowerKind monstersPower { get; set; }
+    SelectedPowerKind playerPower;
+    SelectedPowerKind monstersPower;
+
+    Dictionary<CharacterKind, SelectedPowerKind> selectedPowersDictionary;
+
+    public SelectedPowerKind GetSelectedPower(MonoBehaviour callingInstance, CharacterKind character)
+    {
+        if (callingInstance is MenuUIManager)
+            return selectedPowersDictionary[character];
+        SelectedPowerKind clone = new SelectedPowerKind();
+        Array.Copy(selectedPowersDictionary[character].selectedPowerKinds, clone.selectedPowerKinds, selectedPowersDictionary[character].selectedPowerKinds.Length);
+        return clone;
+    }
 
     public bool onlyOneMode { get; private set; }
 
-    public void SetOnlyOneMode(MonoBehaviour thisInstance, bool value)
+    public void SetOnlyOneMode(MonoBehaviour callingInstance, bool value)
     {
-        if (thisInstance is MenuUIManager)
+        if (callingInstance is MenuUIManager)
             onlyOneMode = value;
     }
 

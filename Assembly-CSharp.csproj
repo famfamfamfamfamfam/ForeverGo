@@ -83,8 +83,8 @@
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\FollowCam.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Monster\Others\TheStrangeCube.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Monster\MonstersComponents\RangedMonsterController.cs" />
-    <Compile Include="Assets\Scripts\Components\ScriptableObjects\SkillsUsingCondition.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\LevelInitializer.cs" />
+    <Compile Include="Assets\Scripts\Components\ScriptableObjects\SkillsUsingCondition.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\LevelManager.cs" />
     <Compile Include="Assets\Packages\Joystick Pack\Scripts\Base\Joystick.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\UI\Menu\PowerSelectButtons.cs" />
