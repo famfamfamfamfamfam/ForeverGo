@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GamePlayUIManager : MonoBehaviour
+public class GamePlayUIManager : MonoBehaviour, ILoadingInLevel
 {
     public static GamePlayUIManager instance;
 
@@ -23,10 +25,21 @@ public class GamePlayUIManager : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI playerCurrentMark, playerMainDamageDealt, playerBonusDamage, playerStrangeCubeHitCount;
-    private void OnEnable()
+
+    public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
+    {
+        { 1, () => InitDefaultDisplayAndSubscribeEvents()},
+
+    };
+
+
+    private void Awake()
     {
         instance = this;
+    }
 
+    void InitDefaultDisplayAndSubscribeEvents()
+    {
         monsterTotalHealth = monsters.properties._health;
         GameManager.instance.Subscribe<(Renderer, MaterialPropertyBlock, float)>(TypeOfEvent.MonstersHPChange, data => UpdateMonsterHealthBar(data));
 
@@ -54,6 +67,7 @@ public class GamePlayUIManager : MonoBehaviour
         GameManager.instance.Subscribe<GameOverState>(TypeOfEvent.GameOver, state => DisplayResult(state));
         GameManager.instance.Subscribe<bool>(TypeOfEvent.GamePause, pauseState => DisplayPauseGameScreen(pauseState));
     }
+
     private void OnDisable()
     {
         GameManager.instance.UnsubscirbeAll();
@@ -120,6 +134,7 @@ public class GamePlayUIManager : MonoBehaviour
     string loseNoti = "YOU LOSE!";
     string winNoti = "YOU WIN!";
     public TextMeshProUGUI resultText;
+
     void DisplayResult(GameOverState state)
     {
         endScreen.SetActive(true);

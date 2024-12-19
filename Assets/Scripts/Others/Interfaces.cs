@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public interface ILateUpdateMethodWaitingToRun
 {
@@ -28,4 +29,9 @@ public interface IPowerKindGettable
 public interface IHitCountForUsingSkillSettable
 {
     void SetHitCount();
+}
+
+public interface ILoadingInLevel
+{
+    Dictionary<int, Action> initActionsInLevel { get; }
 }

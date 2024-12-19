@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-public class MonstersManager : MonoBehaviour
+public class MonstersManager : MonoBehaviour, ILoadingInLevel
 {
     public static MonstersManager instance;
 
@@ -23,17 +23,16 @@ public class MonstersManager : MonoBehaviour
     Type[] monsterFightTypes;
     PowerKind[] monsterPowerKinds;
 
+    public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
+    {
+        { 1, () => InitMonsterInFirstLevel()},
+    };
+
     private void Awake()
     {
         instance = this;
-        monsters = new List<GameObject>();
-        monsterPowerKinds = CommonUtils.Instance.monstersPower.selectedPowerKinds;
-        monsterFightTypes = new Type[2]
-        {
-            typeof(MeleeMonsterController),
-            typeof(RangedMonsterController)
-        };
     }
+
     private void OnDisable()
     {
         StopAllCoroutines();
@@ -42,8 +41,17 @@ public class MonstersManager : MonoBehaviour
 
     int monstersCountInLevel = 4;
     MonsterController monsterController;
-    private void Start()
+
+    void InitMonsterInFirstLevel()
     {
+        monsters = new List<GameObject>();
+        monsterPowerKinds = CommonUtils.Instance.monstersPower.selectedPowerKinds;
+        monsterFightTypes = new Type[2]
+        {
+            typeof(MeleeMonsterController),
+            typeof(RangedMonsterController)
+        };
+
         Vector3 standPosition;
         for (int i = 0; i < monstersCountInLevel; i++)
         {
@@ -74,9 +82,9 @@ public class MonstersManager : MonoBehaviour
         }
     }
 
+
     public List<MeleeMonsterController> _meleeMonsters { get => meleeMonsters; }
     public List<RangedMonsterController> _rangedMonsters { get => rangedMonsters; }
-
 
     List<MeleeMonsterController> meleeMonsters = new List<MeleeMonsterController>();
     Vector3 currentCenter, directionToTear;

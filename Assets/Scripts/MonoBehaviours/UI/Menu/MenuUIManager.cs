@@ -12,6 +12,12 @@ public class MenuUIManager : MonoBehaviour
 
     private void Awake()
     {
+        if (LevelManager.instance != null)
+        {
+            Destroy(LevelManager.instance.gameObject);
+            LevelManager.instance = null;
+        }
+
         CommonUtils.Instance.SetOnlyOneMode(this, false);
     }
 

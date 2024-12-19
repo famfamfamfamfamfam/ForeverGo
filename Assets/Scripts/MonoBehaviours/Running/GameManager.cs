@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, ILoadingInLevel
 {
     public static GameManager instance;
 
@@ -19,11 +19,21 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        eventsDictionary = new Dictionary<TypeOfEvent, Delegate>();
     }
 
     public bool gameOver { get; private set; }
     public bool gamePause { get; private set; }
+
+    public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
+    {
+        { 1,  () =>
+            {
+                eventsDictionary = new Dictionary<TypeOfEvent, Delegate>();
+                ArrangeRailsCoordinate();
+            }
+        },
+        
+    };
 
     public void SetGameOverState(GameOverState state)
     {
@@ -82,7 +92,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         LockTheCursor();
-        ArrangeRailsCoordinate();
         StartCoroutine(LoseDueToFalling());
     }
 
