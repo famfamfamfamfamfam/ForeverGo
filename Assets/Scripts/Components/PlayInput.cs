@@ -124,7 +124,7 @@ public class PlayInput
     int currentPowerKindIndex = 0;
     void ProcessSwitching(ref PowerKind currentPowerKind, PowerKind[] powerKinds)
     {
-        CommonUtils.Instance.SetUpNextValue(ref currentPowerKindIndex, powerKinds.Length);
+        CommonUtils.instance.SetUpNextValue(ref currentPowerKindIndex, powerKinds.Length);
         currentPowerKind = powerKinds[currentPowerKindIndex];
     }
     void SetUpStateAfterSwitch(PowerKind currentPowerKind, SwitchData playerData, ref float health, ref int hitCount, Renderer renderer, CharacterKind character)

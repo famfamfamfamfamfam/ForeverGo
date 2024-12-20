@@ -25,7 +25,7 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
 
     public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
     {
-        { 1, () => InitMonsterInFirstLevel()},
+        { 1, () => InitMonstersInFirstLevel() },
     };
 
     private void Awake()
@@ -42,10 +42,10 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
     int monstersCountInLevel = 4;
     MonsterController monsterController;
 
-    void InitMonsterInFirstLevel()
+    void InitMonstersInFirstLevel()
     {
         monsters = new List<GameObject>();
-        monsterPowerKinds = CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds;
+        monsterPowerKinds = PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds;
         monsterFightTypes = new Type[2]
         {
             typeof(MeleeMonsterController),
@@ -65,9 +65,9 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
         {
             MonsterChip monsterChip = monster.GetComponent<MonsterChip>();
             monsterChip?.Init(monsterPowerKinds[subIndex], monsterFightTypes[index], animatorControllers[index]);
-            CommonUtils.Instance.SetUpNextValue(ref index, monsterFightTypes.Length);
+            CommonUtils.instance.SetUpNextValue(ref index, monsterFightTypes.Length);
             if (index % 2 == 0)
-                CommonUtils.Instance.SetUpNextValue(ref subIndex, monsterPowerKinds.Length);
+                CommonUtils.instance.SetUpNextValue(ref subIndex, monsterPowerKinds.Length);
             monsterController = monster.GetComponent<MonsterController>();
             if (monsterController is RangedMonsterController rangedMonster)
             {
@@ -154,7 +154,7 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
         {
             monster.gameObject.GetComponent<Animator>().applyRootMotion = false;
             int index = monster.transformSign;
-            CommonUtils.Instance.SetUpNextValue(ref index, wayPoints.Length - centerPointCount);
+            CommonUtils.instance.SetUpNextValue(ref index, wayPoints.Length - centerPointCount);
             monster.transform.position = wayPoints[index].transform.position;
         }
     }

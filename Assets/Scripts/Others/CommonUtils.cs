@@ -4,42 +4,10 @@ using UnityEngine;
 
 public class CommonUtils
 {
-    static CommonUtils instance = new CommonUtils();
-    public static CommonUtils Instance { get => instance; }
+    public static CommonUtils instance = new CommonUtils();
     private CommonUtils()
     {
-        playerPower = new SelectedPowerKind();
-        monstersPower = new SelectedPowerKind();
-
-        selectedPowersDictionary = new Dictionary<CharacterKind, SelectedPowerKind>()
-        {
-            { CharacterKind.Player, playerPower },
-            { CharacterKind.Monster, monstersPower },
-        };
-
         enumCount = Enum.GetValues(typeof(PowerKind)).Length;
-    }
-
-    SelectedPowerKind playerPower;
-    SelectedPowerKind monstersPower;
-
-    Dictionary<CharacterKind, SelectedPowerKind> selectedPowersDictionary;
-
-    public SelectedPowerKind GetSelectedPower(MonoBehaviour callingInstance, CharacterKind character)
-    {
-        if (callingInstance is MenuUIManager)
-            return selectedPowersDictionary[character];
-        SelectedPowerKind clone = new SelectedPowerKind();
-        Array.Copy(selectedPowersDictionary[character].selectedPowerKinds, clone.selectedPowerKinds, selectedPowersDictionary[character].selectedPowerKinds.Length);
-        return clone;
-    }
-
-    public bool onlyOneMode { get; private set; }
-
-    public void SetOnlyOneMode(MonoBehaviour callingInstance, bool value)
-    {
-        if (callingInstance is MenuUIManager)
-            onlyOneMode = value;
     }
 
     public int enumCount { get; private set; }

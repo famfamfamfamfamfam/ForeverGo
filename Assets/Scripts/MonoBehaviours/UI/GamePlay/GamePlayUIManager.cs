@@ -28,7 +28,7 @@ public class GamePlayUIManager : MonoBehaviour, ILoadingInLevel
 
     public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
     {
-        { 1, () => InitDefaultDisplayAndSubscribeEvents()},
+        { 1, () => DefaultDisplayAndSubscribeEvents()},
 
     };
 
@@ -38,12 +38,12 @@ public class GamePlayUIManager : MonoBehaviour, ILoadingInLevel
         instance = this;
     }
 
-    void InitDefaultDisplayAndSubscribeEvents()
+    void DefaultDisplayAndSubscribeEvents()
     {
         monsterTotalHealth = monsters.properties._health;
         GameManager.instance.Subscribe<(Renderer, MaterialPropertyBlock, float)>(TypeOfEvent.MonstersHPChange, data => UpdateMonsterHealthBar(data));
 
-        if (CommonUtils.Instance.onlyOneMode)
+        if (PlayerSelectionData.Instance.onlyOneMode)
             playerHealthBar.maxValue = playerOnlyMode.properties._health;
         else
             playerHealthBar.maxValue = playerSwitchMode.properties._health;

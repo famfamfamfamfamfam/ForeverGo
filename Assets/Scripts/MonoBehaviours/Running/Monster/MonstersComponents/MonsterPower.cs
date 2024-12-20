@@ -43,8 +43,8 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         if (theMonster is RangedMonsterController rangedMonster)
             rangedMonster.ToDiscoverPlayer();
 
-        float percentage = CommonUtils.Instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
-        CommonUtils.Instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
+        float percentage = CommonUtils.instance.GetPercentage(enemyCurrentAttackState.Value, enemyCurrentPower, CharacterKind.Player);
+        CommonUtils.instance.ToDealDamage(powerKind, enemyCurrentPower, CharacterKind.Player, ref health, percentage);
         
         GameManager.instance.Notify(TypeOfEvent.MonstersHPChange, (chip._renderer, chip.HPBarProperties, health));
         

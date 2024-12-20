@@ -38,7 +38,7 @@ public class AnimationContainer
         if (!IsRunning(stateHashes[stateIndex]))
         {
             animController.SetInteger(transitionHash, intParamValue);
-            CommonUtils.Instance.SetUpNextValue(ref stateIndex, stateHashes.Length);
+            CommonUtils.instance.SetUpNextValue(ref stateIndex, stateHashes.Length);
             intParamValue = stateIndex;
         }
     }

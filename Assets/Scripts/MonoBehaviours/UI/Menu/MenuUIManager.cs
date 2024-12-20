@@ -17,8 +17,9 @@ public class MenuUIManager : MonoBehaviour
             Destroy(LevelManager.instance.gameObject);
             LevelManager.instance = null;
         }
+        PlayerSelectionData.EmptyTheInstance(this);
 
-        CommonUtils.Instance.SetOnlyOneMode(this, false);
+        PlayerSelectionData.Instance.SetOnlyOneMode(this, false);
     }
 
     private void OnEnable()
@@ -38,9 +39,9 @@ public class MenuUIManager : MonoBehaviour
     }
     private void Start()
     {
-        CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0] = CommonUtils.Instance.RandomMonsterKind();
-        CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[1] = CommonUtils.Instance.RandomMonsterKind();
-        monsterPortrait.sprite = RefToAssets.refs._avtsDictionary[CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0]];
+        PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0] = CommonUtils.instance.RandomMonsterKind();
+        PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[1] = CommonUtils.instance.RandomMonsterKind();
+        monsterPortrait.sprite = RefToAssets.refs._avtsDictionary[PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0]];
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
     }
@@ -85,9 +86,9 @@ public class MenuUIManager : MonoBehaviour
     int index = 0;
     public void ToSetUpTheSelectedPower(PowerKind powerKind)
     {
-        CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds[index] = powerKind;
-        CommonUtils.Instance.SetUpNextValue(ref index, CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds.Length);
-        Debug.Log(CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0] + "" + CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds[1]);
+        PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds[index] = powerKind;
+        CommonUtils.instance.SetUpNextValue(ref index, PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds.Length);
+        Debug.Log(PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0] + "" + PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds[1]);
     }
 
     public PowerKind ToGetKindOfPower(int id)
@@ -123,7 +124,7 @@ public class MenuUIManager : MonoBehaviour
     {
         if (hasAnotherSelected)
         {
-            CommonUtils.Instance.SetOnlyOneMode(this, !CommonUtils.Instance.onlyOneMode);
+            PlayerSelectionData.Instance.SetOnlyOneMode(this, !PlayerSelectionData.Instance.onlyOneMode);
             doneButton.SetActive(!doneButton.activeSelf);
             ToDisplayQuitButton();
         }

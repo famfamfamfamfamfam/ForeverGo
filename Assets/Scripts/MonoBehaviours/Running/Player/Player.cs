@@ -38,7 +38,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
 
     void Start()
     {
-        powerKind = CommonUtils.Instance.GetSelectedPower(this, CharacterKind.Player);
+        powerKind = PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Player);
         currentPowerKind = powerKind.selectedPowerKinds[0];
 
         stateNames = new string[13] { "Base Layer.Idling", "Base Layer.Walking", "Base Layer.Sprinting",
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         }
         stateNames = null;
 
-        onlyMode = CommonUtils.Instance.onlyOneMode;
+        onlyMode = PlayerSelectionData.Instance.onlyOneMode;
 
         if (onlyMode)
         {
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             return;
         if (mark != null)
         {
-            CommonUtils.Instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, defaltDamagePercentageOfEnemy.value);
+            CommonUtils.instance.ToDealDamage(mark.Value, enemyCurrentPower, CharacterKind.Monster, ref health, defaltDamagePercentageOfEnemy.value);
             playerData.SetHealth(currentPowerKind, health);
         }
         else

@@ -20,7 +20,7 @@ public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler, IDragHandl
     bool turn, status;
     public void OnPointerDown(PointerEventData eventData)
     {
-        if ((!status && MenuUIManager.instance.DoneButtonIsActived()) || CommonUtils.Instance.onlyOneMode)
+        if ((!status && MenuUIManager.instance.DoneButtonIsActived()) || PlayerSelectionData.Instance.onlyOneMode)
             return;
         turn = !turn;
         MenuUIManager.instance.ToReceiveSelection(turn, ref status, gameObject);
