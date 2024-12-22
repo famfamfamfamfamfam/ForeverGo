@@ -52,6 +52,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             stateHashes[i] = Animator.StringToHash(stateNames[i]);
         }
         stateNames = null;
+        CommonConfig.instance.InitAnimationContainerDictionary(animator, stateHashes);
 
         onlyMode = PlayerSelectionData.Instance.onlyOneMode;
 
@@ -66,8 +67,8 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             playerCount = 2;
         }
         playerData = new SwitchData(animator, stateHashes, health, hitCount);
-        container = playerData.GetYourAnimationContainer(currentPowerKind);
-        playerRenderer.sharedMaterial = RefToAssets.refs._skinsDictionary[(currentPowerKind, playerChar)];
+        container = CommonConfig.instance.playerAnimationContainer[currentPowerKind];
+        playerRenderer.sharedMaterial = CommonConfig.instance._skinsDictionary[(currentPowerKind, playerChar)];
         inputProcessor = new PlayInput(container, stateHashes);
         PlayerAttackBehaviours[] animatorStateMachineClones = animator.GetBehaviours<PlayerAttackBehaviours>();
         foreach (PlayerAttackBehaviours clone in animatorStateMachineClones)

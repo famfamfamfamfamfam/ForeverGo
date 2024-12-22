@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RefToAssets : MonoBehaviour
+public class CommonConfig : MonoBehaviour
 {
     [SerializeField]
     List<Skin> skins;
@@ -11,7 +11,7 @@ public class RefToAssets : MonoBehaviour
     [SerializeField]
     List<Damage> damageConfig;
 
-    public static RefToAssets refs;
+    public static CommonConfig instance;
     Dictionary<(PowerKind, CharacterKind), Material> skinsDictionary;
     public Dictionary<(PowerKind, CharacterKind), Material> _skinsDictionary { get => skinsDictionary; }
 
@@ -20,11 +20,13 @@ public class RefToAssets : MonoBehaviour
     Dictionary<(PowerKind, CharacterKind), DamageConfig> damageDictionary;
     public Dictionary<(PowerKind, CharacterKind), DamageConfig> _damageDictionary { get => damageDictionary; }
 
+    public Dictionary<PowerKind, AnimationContainer> playerAnimationContainer;
+
     private void Awake()
     {
-        if (refs != null)
-            Destroy(refs.gameObject);
-        refs = this;
+        if (instance != null)
+            Destroy(instance.gameObject);
+        instance = this;
         DontDestroyOnLoad(this);
         ConvertListToDictionary<Skin, (PowerKind, CharacterKind), Material>(skins, ref skinsDictionary,
             skin => (skin.kind, skin.character),
@@ -59,5 +61,13 @@ public class RefToAssets : MonoBehaviour
         avtsDictionary = null;
     }
 
-
+    public void InitAnimationContainerDictionary(Animator animator, int[] stateHashes)
+    {
+        playerAnimationContainer = new Dictionary<PowerKind, AnimationContainer>()
+        {
+            { PowerKind.Fire, new FireAnimationContainer(animator, stateHashes[11]) },
+            { PowerKind.Water, new WaterAnimationContainer(animator, stateHashes[10]) },
+            { PowerKind.Wind, new WindAnimationContainer(animator, stateHashes[9]) }
+        };
+    }
 }

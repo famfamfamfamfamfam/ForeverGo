@@ -30,7 +30,7 @@ public class CommonUtils
 
     public void ToDealDamage(PowerKind damageTakerPower, PowerKind attackerPower, CharacterKind attacker, ref float ingredientHealth, float percentage)
     {
-        DamageConfig damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
+        DamageConfig damageData = CommonConfig.instance._damageDictionary[(attackerPower, attacker)];
         int bonusDamage = damageData.bonusDamageDictionary[damageTakerPower];
         if (attacker == CharacterKind.Player)
             GameManager.instance.Notify(TypeOfEvent.HasPlayerDamageDealt, (percentage, ingredientHealth, bonusDamage));
@@ -39,7 +39,7 @@ public class CommonUtils
 
     public float GetPercentage(AttackState attackSate, PowerKind attackerPower, CharacterKind attacker)
     {
-        DamageConfig damageData = RefToAssets.refs._damageDictionary[(attackerPower, attacker)];
+        DamageConfig damageData = CommonConfig.instance._damageDictionary[(attackerPower, attacker)];
         return damageData.percentageDamageDictionary[attackSate];
     }
 

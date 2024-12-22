@@ -30,7 +30,7 @@ public class MenuUIManager : MonoBehaviour
     List<GameObject> objRunningOnDisable;
     void OnDestroy()
     {
-        RefToAssets.refs.ReleaseAvatarsDictionary();
+        CommonConfig.instance.ReleaseAvatarsDictionary();
         foreach (GameObject obj in objRunningOnDisable)
         {
             Destroy(obj);
@@ -41,7 +41,7 @@ public class MenuUIManager : MonoBehaviour
     {
         PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0] = CommonUtils.instance.RandomMonsterKind();
         PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[1] = CommonUtils.instance.RandomMonsterKind();
-        monsterPortrait.sprite = RefToAssets.refs._avtsDictionary[PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0]];
+        monsterPortrait.sprite = CommonConfig.instance._avtsDictionary[PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0]];
         goToGameScreen.SetActive(false);
         doneButton.SetActive(false);
     }

@@ -67,10 +67,10 @@ public class RangedMonsterController : MonsterController
     Coroutine coroutine;
     public void OnReachNewWayPoint(int indexInWayPointsList)
     {
-        animator.applyRootMotion = true;
         MonstersManager.instance.ToAttachToWayPoint(transform, indexInWayPointsList);
         transformSign = indexInWayPointsList;
         transform.rotation = MonstersManager.instance.RotationLookingToCenterPoint(transform.position);
+        animator.applyRootMotion = true;
         if (coroutine != null)
             StopCoroutine(coroutine);
         coroutine = StartCoroutine(Roar());

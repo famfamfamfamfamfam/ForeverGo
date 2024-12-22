@@ -15,7 +15,7 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         powerKind = kind;
         foreach (Renderer renderer in monsterRenderers)
         {
-            renderer.sharedMaterial = RefToAssets.refs._skinsDictionary[(kind, monsterChar)];
+            renderer.sharedMaterial = CommonConfig.instance._skinsDictionary[(kind, monsterChar)];
         }
         theMonster = gameObject.GetComponent<MonsterController>();
         chip = gameObject.GetComponent<MonsterChip>();

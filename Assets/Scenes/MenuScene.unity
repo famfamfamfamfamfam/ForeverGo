@@ -671,7 +671,7 @@ GameObject:
   - component: {fileID: 218307037}
   - component: {fileID: 218307038}
   m_Layer: 0
-  m_Name: RefToAssets
+  m_Name: CommonConfig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -701,7 +701,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 218307036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e176707ca8ec844fbd7fa1cc03dc559, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f6870e0b13779b41982e54471f6aa63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skins:
@@ -712,9 +712,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 27fd290f491676c4eba46e8f48c7f2c5, type: 2}
   - {fileID: 11400000, guid: 26b5b415aab078b44a711153ebcd4974, type: 2}
   avatars:
-  - {fileID: 11400000, guid: 2caf80cdba3ba6a4eab1855b20beabbf, type: 2}
   - {fileID: 11400000, guid: 572582c9d55ad654ca2ee99003e35e4d, type: 2}
   - {fileID: 11400000, guid: 643215c0bb0f2e64e9c7849836afad26, type: 2}
+  - {fileID: 11400000, guid: 2caf80cdba3ba6a4eab1855b20beabbf, type: 2}
   damageConfig:
   - {fileID: 11400000, guid: c3edb2fcf13f39546859965b8f36ed30, type: 2}
   - {fileID: 11400000, guid: dfe98b6657861b041a4f2d324f708118, type: 2}

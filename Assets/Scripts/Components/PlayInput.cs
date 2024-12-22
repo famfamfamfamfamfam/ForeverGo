@@ -129,9 +129,9 @@ public class PlayInput
     }
     void SetUpStateAfterSwitch(PowerKind currentPowerKind, SwitchData playerData, ref float health, ref int hitCount, Renderer renderer, CharacterKind character)
     {
-        animationController = playerData.GetYourAnimationContainer(currentPowerKind);
+        animationController = CommonConfig.instance.playerAnimationContainer[currentPowerKind];
         health = playerData.GetHealth(currentPowerKind);
         hitCount = playerData.GetHitCount(currentPowerKind);
-        renderer.sharedMaterial = RefToAssets.refs._skinsDictionary[(currentPowerKind, character)];
+        renderer.sharedMaterial = CommonConfig.instance._skinsDictionary[(currentPowerKind, character)];
     }
 }
