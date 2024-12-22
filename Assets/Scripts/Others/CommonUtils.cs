@@ -12,9 +12,9 @@ public class CommonUtils
 
     public int enumCount { get; private set; }
 
-    public void SetUpNextValue(ref int currentValue, int numberOfCombo)
+    public void SetUpNextIndex(ref int currentValue, int collectionSize)
     {
-        if (currentValue == numberOfCombo - 1)
+        if (currentValue == collectionSize - 1)
             currentValue = 0;
         else
             currentValue++;
@@ -24,7 +24,7 @@ public class CommonUtils
     {
         int powerIndex = UnityEngine.Random.Range(0, 3);
         int unselectedKindIndex = powerIndex;
-        SetUpNextValue(ref unselectedKindIndex, enumCount);
+        SetUpNextIndex(ref unselectedKindIndex, enumCount);
         return (PowerKind)powerIndex;
     }
 

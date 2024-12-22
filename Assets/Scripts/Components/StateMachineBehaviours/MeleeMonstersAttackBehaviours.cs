@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class MeleeMonstersAttackBehaviours : StateMachineBehaviour
@@ -8,12 +5,15 @@ public class MeleeMonstersAttackBehaviours : StateMachineBehaviour
     [SerializeField]
     bool isJumping;
 
+    MeleeMonsterController controller;
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (isJumping)
             animator.SetBool("isJumping", true);
-        MeleeMonsterController controller = animator.gameObject.GetComponent<MeleeMonsterController>();
-        ToTurnDamagingToolForMeleeMonsters(controller, stateInfo);
+        if (controller == null)
+            controller = animator.gameObject.GetComponent<MeleeMonsterController>();
+        ToTurnDamagingToolForMeleeMonsters(stateInfo);
         controller.SetNewForwardVector(GameManager.instance._player.transform.position);
     }
 
@@ -21,11 +21,10 @@ public class MeleeMonstersAttackBehaviours : StateMachineBehaviour
     {
         if (isJumping)
             animator.SetBool("isJumping", false);
-        MeleeMonsterController controller = animator.gameObject.GetComponent<MeleeMonsterController>();
-        ToTurnDamagingToolForMeleeMonsters(controller, stateInfo);
+        ToTurnDamagingToolForMeleeMonsters(stateInfo);
     }
 
-    void ToTurnDamagingToolForMeleeMonsters(MeleeMonsterController controller, AnimatorStateInfo stateInfo)
+    void ToTurnDamagingToolForMeleeMonsters(AnimatorStateInfo stateInfo)
     {
         controller.TurnDamagingTool(stateInfo.fullPathHash);
     }

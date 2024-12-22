@@ -65,9 +65,9 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
         {
             MonsterChip monsterChip = monster.GetComponent<MonsterChip>();
             monsterChip?.Init(monsterPowerKinds[subIndex], monsterFightTypes[index], animatorControllers[index]);
-            CommonUtils.instance.SetUpNextValue(ref index, monsterFightTypes.Length);
+            CommonUtils.instance.SetUpNextIndex(ref index, monsterFightTypes.Length);
             if (index % 2 == 0)
-                CommonUtils.instance.SetUpNextValue(ref subIndex, monsterPowerKinds.Length);
+                CommonUtils.instance.SetUpNextIndex(ref subIndex, monsterPowerKinds.Length);
             monsterController = monster.GetComponent<MonsterController>();
             if (monsterController is RangedMonsterController rangedMonster)
             {
@@ -154,7 +154,7 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
         {
             monster.gameObject.GetComponent<Animator>().applyRootMotion = false;
             int index = monster.transformSign;
-            CommonUtils.instance.SetUpNextValue(ref index, wayPoints.Length - centerPointCount);
+            CommonUtils.instance.SetUpNextIndex(ref index, wayPoints.Length - centerPointCount);
             monster.transform.position = wayPoints[index].transform.position;
         }
     }

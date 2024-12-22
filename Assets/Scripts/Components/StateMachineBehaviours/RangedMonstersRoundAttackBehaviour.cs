@@ -6,20 +6,18 @@ public class RangedMonstersRoundAttackBehaviour : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        rangedMonsterController = animator.gameObject.GetComponent<RangedMonsterController>();
-        if (rangedMonsterController != null)
-            rangedMonsterController.OnRoundAttackAnimationEnter();
+        if (rangedMonsterController == null)
+            rangedMonsterController = animator.gameObject.GetComponent<RangedMonsterController>();
+        rangedMonsterController.OnRoundAttackAnimationEnter();
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (rangedMonsterController != null)
-            rangedMonsterController.OnRoundAttackAnimating();
+        rangedMonsterController.OnRoundAttackAnimating();
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (rangedMonsterController != null)
-            rangedMonsterController.OnRoundAttackAnimationExit();
+        rangedMonsterController.OnRoundAttackAnimationExit();
     }
 }

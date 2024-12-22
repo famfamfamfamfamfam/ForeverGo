@@ -87,7 +87,7 @@ public class MenuUIManager : MonoBehaviour
     public void ToSetUpTheSelectedPower(PowerKind powerKind)
     {
         PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds[index] = powerKind;
-        CommonUtils.instance.SetUpNextValue(ref index, PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds.Length);
+        CommonUtils.instance.SetUpNextIndex(ref index, PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds.Length);
         Debug.Log(PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Monster).selectedPowerKinds[0] + "" + PlayerSelectionData.Instance.GetSelectedPower(this, CharacterKind.Player).selectedPowerKinds[1]);
     }
 
