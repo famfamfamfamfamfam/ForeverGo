@@ -66,7 +66,7 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
             health = playerOnSwitchModeProperties.properties._health;
             playerCount = 2;
         }
-        playerData = new SwitchData(animator, stateHashes, health, hitCount);
+        playerData = new SwitchData(health, hitCount);
         container = CommonConfig.instance.playerAnimationContainer[currentPowerKind];
         playerRenderer.sharedMaterial = CommonConfig.instance._skinsDictionary[(currentPowerKind, playerChar)];
         inputProcessor = new PlayInput(container, stateHashes);

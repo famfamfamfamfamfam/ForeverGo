@@ -5,7 +5,7 @@ using UnityEngine;
 public class SwitchData
 {
     Dictionary<PowerKind, PlayerData> data;
-    public SwitchData(Animator animator, int[] stateHashes, float health, int hitCount)
+    public SwitchData(float health, int hitCount)
     {
         data = new Dictionary<PowerKind, PlayerData>()
         {
