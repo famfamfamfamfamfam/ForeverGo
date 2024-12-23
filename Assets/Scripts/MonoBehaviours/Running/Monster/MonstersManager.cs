@@ -71,13 +71,9 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
                 CommonUtils.instance.SetUpNextIndex(ref subIndex, monsterPowerKinds.Length);
             monsterController = monster.GetComponent<MonsterController>();
             if (monsterController is RangedMonsterController rangedMonster)
-            {
                 rangedMonsters.Add(rangedMonster);
-            }
             else if (monsterController is MeleeMonsterController meleeMonster)
-            {
                 meleeMonsters.Add(meleeMonster);
-            }
             sqrOverlapLength = overlapLength * overlapLength;
             StartCoroutine(CheckDistancesAndTearMeleeMonstersCollider());
         }
