@@ -70,7 +70,7 @@ public class RangedMonsterController : MonsterController
         MonstersManager.instance.ToAttachToWayPoint(transform, indexInWayPointsList);
         transformSign = indexInWayPointsList;
         transform.rotation = MonstersManager.instance.RotationLookingToCenterPoint(transform.position);
-        laserStartPoint.rotation = MonstersManager.instance.RotationLookingToCenterPoint(laserStartPoint.position);
+        laserStartPoint.localRotation = Quaternion.identity;
         animator.applyRootMotion = true;
         if (coroutine != null)
             StopCoroutine(coroutine);
