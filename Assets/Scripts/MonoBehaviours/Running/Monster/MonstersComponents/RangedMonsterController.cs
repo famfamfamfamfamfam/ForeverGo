@@ -70,6 +70,7 @@ public class RangedMonsterController : MonsterController
         MonstersManager.instance.ToAttachToWayPoint(transform, indexInWayPointsList);
         transformSign = indexInWayPointsList;
         transform.rotation = MonstersManager.instance.RotationLookingToCenterPoint(transform.position);
+        laserStartPoint.rotation = MonstersManager.instance.RotationLookingToCenterPoint(laserStartPoint.position);
         animator.applyRootMotion = true;
         if (coroutine != null)
             StopCoroutine(coroutine);
@@ -79,7 +80,6 @@ public class RangedMonsterController : MonsterController
 
     public void OnRoundAttackAnimationEnter()
     {
-        laserStartPoint.rotation = MonstersManager.instance.RotationLookingToCenterPoint(laserStartPoint.position);
         lineRenderer.enabled = true;
     }
 

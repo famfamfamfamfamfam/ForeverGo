@@ -15,14 +15,14 @@ public class DieBehaviour : StateMachineBehaviour
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Player player = animator.gameObject.GetComponent<Player>();
-        if (player != null)
+        if (monster != null)
         {
-            player.AutoChangePlayerCharacterAsDie();
+            monster.gameObject.SetActive(false);
+            if (MonstersManager.instance.monsters.Count == 0)
+                GameManager.instance.SetGameOverState(GameOverState.Win);
             return;
         }
-        monster?.gameObject.SetActive(false);
-        if (MonstersManager.instance.monsters.Count == 0)
-            GameManager.instance.SetGameOverState(GameOverState.Win);
+
+        animator.gameObject.GetComponent<Player>().AutoChangePlayerCharacterAsDie();
     }
 }
