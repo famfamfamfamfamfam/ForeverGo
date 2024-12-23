@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class MonsterChip : MonoBehaviour
@@ -34,7 +32,6 @@ public class MonsterChip : MonoBehaviour
     public MaterialPropertyBlock HPBarProperties { get; private set; }
     void OnEnable()
     {
-        MonstersManager.instance.monsters.Add(gameObject);
         _leftHand = leftHand.GetComponent<Collider>();
         _rightHand = rightHand.GetComponent<Collider>();
         _distancePoint = distancePoint.GetComponent<BoxCollider>();

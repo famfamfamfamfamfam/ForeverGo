@@ -6,6 +6,7 @@ public class RangedMonsterController : MonsterController
     private new void Awake()
     {
         base.Awake();
+        Init();
     }
 
     public int transformSign { get; private set; }
@@ -13,7 +14,7 @@ public class RangedMonsterController : MonsterController
     LineRenderer lineRenderer;
     Transform laserStartPoint;
 
-    private void Start()
+    private void Init()
     {
         MonsterChip chip = GetComponent<MonsterChip>();
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -26,6 +27,10 @@ public class RangedMonsterController : MonsterController
         distance = chip._rangedMonstersDefaultValues.laserLength.value;
         interval = (int)chip._rangedMonstersDefaultValues.roarFrequency_countBySecond.value;
         layerMask = LayerMask.GetMask("Player");
+    }
+
+    private void Start()
+    {
         animator.SetBool("isScreamming", false);
     }
 

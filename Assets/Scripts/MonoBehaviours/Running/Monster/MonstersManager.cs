@@ -41,7 +41,7 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
 
     int monstersCountInLevel = 4;
     MonsterController monsterController;
-
+    
     void InitMonstersInFirstLevel()
     {
         monsters = new List<GameObject>();
@@ -56,7 +56,8 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
         for (int i = 0; i < monstersCountInLevel; i++)
         {
             standPosition = wayPoints[i].position;
-            Instantiate(prefab, standPosition, RotationLookingToCenterPoint(standPosition));
+            GameObject monster = Instantiate(prefab, standPosition, RotationLookingToCenterPoint(standPosition));
+            monsters.Add(monster);
         }
         strangeCubeInScene = Instantiate(strangeCubePrefab);
         int index = 0;

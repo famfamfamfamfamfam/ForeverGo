@@ -70,7 +70,6 @@ public class GamePlayUIManager : MonoBehaviour, ILoadingInLevel
 
     private void OnDisable()
     {
-        GameManager.instance.UnsubscirbeAll();
         instance = null;
     }
 

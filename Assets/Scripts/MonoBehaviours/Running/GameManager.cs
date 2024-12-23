@@ -149,14 +149,11 @@ public class GameManager : MonoBehaviour, ILoadingInLevel
             action.Invoke(param);
     }
 
-    public void UnsubscirbeAll()
-    {
-        eventsDictionary = null;
-    }
-
     private void OnDisable()
     {
+        eventsDictionary = null;
         StopAllCoroutines();
+        instance = null;
     }
 }
 

@@ -33,6 +33,9 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
     MonsterController theMonster;
     public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
+        if (health <= 0)
+            return;
+
         currentResistance--;
         if (currentResistance == 0)
         {
