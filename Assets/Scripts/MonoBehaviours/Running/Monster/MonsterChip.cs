@@ -52,19 +52,12 @@ public class MonsterChip : MonoBehaviour
     private void OnDisable()
     {
         if (MonstersManager.instance != null)
-        {
-            MonstersManager.instance.monsters.Remove(gameObject);
-            MonsterController controller = GetComponent<MonsterController>();
-            if (controller is RangedMonsterController rangedController)
-                MonstersManager.instance._rangedMonsters.Remove(rangedController);
-            else if (controller is MeleeMonsterController meleeController)
-                MonstersManager.instance._meleeMonsters.Remove(meleeController);
-        }
+            MonstersManager.instance.RemoveMonsterFromList(gameObject);
     }
 
 }
 
-[System.Serializable]
+[Serializable]
 public class MeleeMonstersDefaultValues
 {
     public DefaultValue healthPercentageToFlee;
@@ -77,7 +70,7 @@ public class MeleeMonstersDefaultValues
     public DefaultValue radiusOfTheRangeOfTrampleAttacking;
 }
 
-[System.Serializable]
+[Serializable]
 public class RangedMonstersDefaultValues
 {
     public DefaultValue laserWidth;

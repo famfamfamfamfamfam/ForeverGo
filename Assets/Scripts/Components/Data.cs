@@ -138,7 +138,7 @@ public enum PowerKind
 }
 
 
-[System.Serializable]
+[Serializable]
 public class GeneralConfig
 {
     [SerializeField]

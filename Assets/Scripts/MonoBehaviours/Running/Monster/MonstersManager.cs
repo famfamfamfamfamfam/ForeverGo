@@ -79,9 +79,15 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
         }
     }
 
-
-    public List<MeleeMonsterController> _meleeMonsters { get => meleeMonsters; }
-    public List<RangedMonsterController> _rangedMonsters { get => rangedMonsters; }
+    public void RemoveMonsterFromList(GameObject monster)
+    {
+        monsters.Remove(monster);
+        MonsterController monsterController = monster.GetComponent<MonsterController>();
+        if (monsterController is RangedMonsterController rangedController)
+            rangedMonsters.Remove(rangedController);
+        if (monsterController is MeleeMonsterController meleeController)
+            meleeMonsters.Remove(meleeController);
+    }
 
     List<MeleeMonsterController> meleeMonsters = new List<MeleeMonsterController>();
     Vector3 currentCenter, directionToTear;
