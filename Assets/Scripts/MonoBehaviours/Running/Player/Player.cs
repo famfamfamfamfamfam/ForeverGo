@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPowerKindGettable, IAttackStateGettable, IHitCountForUsingSkillSettable
+public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IGetForAttacking, IHitCountForUsingSkillSettable
 {
     SelectedPowerKind powerKind;
     PowerKind currentPowerKind;
@@ -180,16 +180,6 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
         playerCurrentAttack = newAttackState;
     }
 
-    public PowerKind GetPowerKind()
-    {
-        return currentPowerKind;
-    }
-
-    public AttackState? GetAttackState()
-    {
-        return playerCurrentAttack;
-    }
-
     public void AutoChangePlayerCharacterAsDie()
     {
         if (playerCount > 0)
@@ -230,6 +220,11 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IPower
     void OnDisable()
     {
         StopAllCoroutines();
+    }
+
+    public (PowerKind powerKind, AttackState? attackState) GetDataForAttacking()
+    {
+        return (currentPowerKind, playerCurrentAttack);
     }
 }
 public enum AttackState

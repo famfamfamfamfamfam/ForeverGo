@@ -16,14 +16,9 @@ public interface IAttackStateSettable
     void SetAttackState(AttackState? newAttackState);
 }
 
-public interface IAttackStateGettable
+public interface IGetForAttacking
 {
-    AttackState? GetAttackState();
-}
-
-public interface IPowerKindGettable
-{
-    PowerKind GetPowerKind();
+    (PowerKind powerKind, AttackState? attackState) GetDataForAttacking();
 }
 
 public interface IHitCountForUsingSkillSettable

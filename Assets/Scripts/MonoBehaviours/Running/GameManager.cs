@@ -72,12 +72,11 @@ public class GameManager : MonoBehaviour, ILoadingInLevel
     {
         if (!gamePause && !gameOver)
         {
-            IPowerKindGettable iAttacker = attacker.GetComponent<IPowerKindGettable>();
+            IGetForAttacking iAttacker = attacker.GetComponent<IGetForAttacking>();
             if (iAttacker == null)
                 return;
-            PowerKind attackerPowerKind = iAttacker.GetPowerKind();
-            IAttackStateGettable iAttack = attacker.GetComponent<IAttackStateGettable>();
-            AttackState? attackerAttackState = iAttack?.GetAttackState();
+            PowerKind attackerPowerKind = iAttacker.GetDataForAttacking().powerKind;
+            AttackState? attackerAttackState = iAttacker.GetDataForAttacking().attackState;
             damageTaker.GetComponent<IOnAttackable>()?.OnBeAttacked(attackerPowerKind, attackerAttackState);
             attacker.GetComponent<IHitCountForUsingSkillSettable>()?.SetHitCount();
         }

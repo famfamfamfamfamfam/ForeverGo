@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
+public class MonsterPower : MonoBehaviour, IOnAttackable, IGetForAttacking
 {
     PowerKind powerKind;
     CharacterKind monsterChar = CharacterKind.Monster;
@@ -62,8 +62,8 @@ public class MonsterPower : MonoBehaviour, IOnAttackable, IPowerKindGettable
         Debug.Log(health);
     }
 
-    public PowerKind GetPowerKind()
+    public (PowerKind powerKind, AttackState? attackState) GetDataForAttacking()
     {
-        return powerKind;
+        return (powerKind, null);
     }
 }
