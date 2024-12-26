@@ -4,7 +4,7 @@ public class FollowCam : MonoBehaviour, ILateUpdateMethodWaitingToRun
 {
     [SerializeField]
     Transform followedObj;
-    float rotateSpeed = 240;
+    float rotateSpeed = 12;
     float backDistance = 4f;
     float upwardDistance = 0.5f;
 
