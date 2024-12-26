@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\LateUpdateRunOrder.cs" />
     <Compile Include="Assets\Scripts\Components\ScriptableObjects\Skin.cs" />
     <Compile Include="Assets\Packs\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
+    <Compile Include="Assets\Scripts\MonoBehaviours\Running\TriggerEvents\PointsMovingFromBoss.cs" />
     <Compile Include="Assets\Scripts\Components\ScriptableObjects\Avatar.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\LaserStartPoint.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\UI\SwitchSceneButton.cs" />
