@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\GameManager.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\MonstersHealthBar.cs" />
     <Compile Include="Assets\Scripts\Components\StateMachineBehaviours\RangedMonstersRoundAttackBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Components\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\LateUpdateRunOrder.cs" />
     <Compile Include="Assets\Scripts\Components\ScriptableObjects\Skin.cs" />
     <Compile Include="Assets\Packs\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\TriggerEvents\MonsterReactionsADistanceAway.cs" />
     <Compile Include="Assets\Scripts\Components\StateMachineBehaviours\MeleeMonstersFleeBehaviour.cs" />
     <Compile Include="Assets\Packs\Joystick Pack\Examples\JoystickSetterExample.cs" />
+    <Compile Include="Assets\Scripts\MonoBehaviours\Running\Boss\RocksSpawner.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Monster\MonstersComponents\MonsterController.cs" />
     <Compile Include="Assets\Packs\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\FollowHead.cs" />
