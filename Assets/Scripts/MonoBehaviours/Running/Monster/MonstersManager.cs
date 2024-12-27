@@ -23,14 +23,15 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
     Type[] monsterFightTypes;
     PowerKind[] monsterPowerKinds;
 
-    string bossPrefabPath = "Boss.prefab";
+    public GameObject boss { get; private set; }
+    string bossPrefabPath = "Boss";
     public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
     {
         { 1, () => InitMonstersInFirstLevel() },
         { 2, () =>
             {
                 GameObject bossPrefab = Resources.Load<GameObject>(bossPrefabPath);
-                Instantiate(bossPrefab, wayPoints[4].position, Quaternion.identity);
+                boss = Instantiate(bossPrefab, wayPoints[4].position, Quaternion.identity);
             }
         }
     };

@@ -76,6 +76,10 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IGetFo
             clone.playerWeapon = weapon;
             clone.stateHashes = stateHashes;
         }
+        CapsuleCollider capsuleCollider = GetComponent<CapsuleCollider>();
+        PlayerDashBehaviour playerDashBehaviour = animator.GetBehaviour<PlayerDashBehaviour>();
+        playerDashBehaviour.playerCapsuleCollider = capsuleCollider;
+
         resetMarkTime = (int)resetMarkTime_countBySecond.value;
         numberOfUnit = (int)numberOfUnitInCooldown.value;
         StartCoroutine(AfterCooldown());
