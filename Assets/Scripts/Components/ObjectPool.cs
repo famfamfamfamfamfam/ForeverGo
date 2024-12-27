@@ -6,18 +6,18 @@ public class ObjectPool
 {
     List<GameObject> objs;
     GameObject obj;
-    public ObjectPool(GameObject spawnedObject, uint amount)
+    public ObjectPool(GameObject spawnedObject, uint amount, Transform parent = null)
     {
         objs = new List<GameObject>();
         obj = spawnedObject;
-        CreatePool(amount);
+        CreatePool(amount, parent);
     }
 
-    void CreatePool(uint amount)
+    void CreatePool(uint amount, Transform parent)
     {
         for (int i = 0; i < amount; i++)
         {
-            GameObject gObj = UnityEngine.Object.Instantiate(obj);
+            GameObject gObj = UnityEngine.Object.Instantiate(obj, parent);
             gObj.SetActive(false);
             objs.Add(gObj);
         }

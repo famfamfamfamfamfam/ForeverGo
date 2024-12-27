@@ -23,9 +23,16 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
     Type[] monsterFightTypes;
     PowerKind[] monsterPowerKinds;
 
+    string bossPrefabPath = "Boss.prefab";
     public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
     {
         { 1, () => InitMonstersInFirstLevel() },
+        { 2, () =>
+            {
+                GameObject bossPrefab = Resources.Load<GameObject>(bossPrefabPath);
+                Instantiate(bossPrefab, wayPoints[4].position, Quaternion.identity);
+            }
+        }
     };
 
     private void Awake()
@@ -187,5 +194,13 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
         {
             monster.hitTakableCount--;
         }
+    }
+
+
+    [SerializeField]
+    GameObject rockSpawner;
+    public void TurnRockSpawnerOnBossStates()
+    {
+        rockSpawner.SetActive(!rockSpawner.activeSelf);
     }
 }

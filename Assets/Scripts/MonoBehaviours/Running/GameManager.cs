@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,14 +26,24 @@ public class GameManager : MonoBehaviour, ILoadingInLevel
 
     public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
     {
-        { 1,  () =>
+        { 1,  () => CommonInit() },
+        { 2, () =>
             {
-                eventsDictionary = new Dictionary<TypeOfEvent, Delegate>();
-                ArrangeRailsCoordinate();
+                CommonInit();
+                mapRendered = MapPoints(out maxKeyOfMapPoints);
             }
-        },
-        
+        }
     };
+
+    void CommonInit()
+    {
+        eventsDictionary = new Dictionary<TypeOfEvent, Delegate>();
+        ArrangeRailsCoordinate();
+    }
+
+    public Dictionary<int, Vector3> mapRendered { get; private set; }
+    int maxKeyOfMapPoints;
+    public int maxKeyInMapRenderDictionary { get => maxKeyOfMapPoints; }
 
     public void SetGameOverState(GameOverState state)
     {
@@ -131,6 +141,28 @@ public class GameManager : MonoBehaviour, ILoadingInLevel
         return isOutOnX || isOutOnZ;
     }
 
+    [SerializeField]
+    Transform centerPoint;
+    Dictionary<int, Vector3> MapPoints(out int maxKey)
+    {
+        maxKey = 0;
+        int rowCount = (int)railsXCoordinate[railsXCoordinate.Length - 1];
+        int colCount = (int)railsZCoordinate[railsZCoordinate.Length - 1];
+        Dictionary<int, Vector3> result = new Dictionary<int, Vector3>();
+        result.Add(maxKey, centerPoint.position);
+        for (int i = 1 - colCount; i < colCount; i++)
+        {
+            for (int j = 1 - rowCount; j < rowCount; j++)
+            {
+                if (i == 0 && j == 0)
+                    continue;
+                maxKey++;
+                result.Add(maxKey, centerPoint.position + new Vector3(j, 0, i));
+            }
+        }
+        return result;
+    }
+
 
     Dictionary<TypeOfEvent, Delegate> eventsDictionary;
 
@@ -151,7 +183,7 @@ public class GameManager : MonoBehaviour, ILoadingInLevel
     private void OnDisable()
     {
         eventsDictionary = null;
-        StopAllCoroutines();
+        Resources.UnloadUnusedAssets();
         instance = null;
     }
 }

@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Recorder.Input;
 using UnityEngine;
 
 public class RocksSpawner : MonoBehaviour
@@ -8,16 +6,32 @@ public class RocksSpawner : MonoBehaviour
     ObjectPool pool;
     string rockPrefabPath = "Stone.prefab";
     uint rockCount = 20;
-    void Start()
+    void OnEnable()
+    {
+        if (pool != null)
+            StartCoroutine(SpawnRandomly(0.5f, 3f));
+    }
+    private void Start()
     {
         GameObject rockPrefab = Resources.Load<GameObject>(rockPrefabPath);
-        pool = new ObjectPool(rockPrefab, rockCount);
+        pool = new ObjectPool(rockPrefab, rockCount, gameObject.transform);
+        StartCoroutine(SpawnRandomly(0.5f, 3f));
     }
 
-    IEnumerator SpawnRock()
+    Vector3 spawnPosition;
+    IEnumerator SpawnRandomly(float minTime, float maxTime)
     {
-        yield return null;
-        
+        while (!GameManager.instance.gameOver)
+        {
+            yield return new WaitForSeconds(Random.Range(minTime, maxTime));
+            int randomKey = Random.Range(0, GameManager.instance.maxKeyInMapRenderDictionary + 1);
+            spawnPosition = GameManager.instance.mapRendered[randomKey];
+            pool.ObjectFromPool(obj => obj.transform.position = spawnPosition);
+        }
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
 }

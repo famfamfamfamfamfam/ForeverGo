@@ -63,13 +63,12 @@
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Player\Player.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\TriggerEvents\DamageProcess.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Components\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\MonstersHealthBar.cs" />
     <Compile Include="Assets\Scripts\Components\StateMachineBehaviours\RangedMonstersRoundAttackBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Components\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\LateUpdateRunOrder.cs" />
     <Compile Include="Assets\Scripts\Components\ScriptableObjects\Skin.cs" />
     <Compile Include="Assets\Packs\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
-    <Compile Include="Assets\Scripts\MonoBehaviours\Running\TriggerEvents\PointsMovingFromBoss.cs" />
     <Compile Include="Assets\Scripts\Components\ScriptableObjects\Avatar.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Setting\LaserStartPoint.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\UI\SwitchSceneButton.cs" />
@@ -77,6 +76,7 @@
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Monster\MonstersManager.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Monster\MonstersComponents\MonsterPower.cs" />
     <Compile Include="Assets\Scripts\Others\Interfaces.cs" />
+    <Compile Include="Assets\Scripts\MonoBehaviours\Running\Boss\PointsMovingFromBoss.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Monster\MonstersComponents\MeleeMonsterController.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Monster\MonsterChip.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\UI\GamePlay\GamePlayUIManager.cs" />

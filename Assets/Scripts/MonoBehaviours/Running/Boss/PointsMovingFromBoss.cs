@@ -12,7 +12,7 @@ public class PointsMovingFromBoss : MonoBehaviour
     LineRenderer lineRenderer;
     //Tắt capsule collider của player khi dash
     bool isMovingOut, isMovingIn;
-    float moveSpeed = 15f;
+    float moveSpeed = 5f;
 
     private void Start()
     {
@@ -56,7 +56,8 @@ public class PointsMovingFromBoss : MonoBehaviour
         AttachLineToPoints();
         if (pointsMoving[0].transform.position == currentTarget[0])
             isMoving = false;
-        isMoving = true;
+        else
+            isMoving = true;
     }
 
     private void Update()
@@ -75,6 +76,7 @@ public class PointsMovingFromBoss : MonoBehaviour
                 isMovingOut = false;
                 isMovingIn = true;
             }
+            //else => raycast
         }
     }
 
