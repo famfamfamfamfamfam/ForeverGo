@@ -10,8 +10,7 @@ public class PointsMovingFromBoss : MonoBehaviour
     Vector3[] targetPointsPosition;
 
     LineRenderer lineRenderer;
-    //Tắt capsule collider của player khi dash
-    bool isMovingOut, isMovingIn;
+    bool isMovingOut, isMovingIn, hasStopped;
     float moveSpeed = 5f;
 
     private void Start()
@@ -27,12 +26,6 @@ public class PointsMovingFromBoss : MonoBehaviour
             targetPointsPosition[i] = targetPoints[i].transform.position;
             targetPointsPosition[i].y = pointsStartPosition[i].y;
         }
-    }
-
-    private void OnEnable()
-    {
-        isMovingOut = true;
-        isMovingIn = false;
     }
 
     void AttachLineToPoints()
@@ -60,13 +53,29 @@ public class PointsMovingFromBoss : MonoBehaviour
             isMoving = true;
     }
 
+    BossPower bossPower;
+    public void AttackWithDynamicRange(BossPower bossComponent)
+    {
+        isMovingOut = true;
+        isMovingIn = false;
+        hasStopped = false;
+        if (bossPower == null)
+            bossPower = bossComponent;
+        bossPower.SetTakeDamageState(true);
+    }
+
     private void Update()
     {
+        if (hasStopped)
+            return;
         if (isMovingIn)
         {
             Move(pointsStartPosition, out bool isMoving);
             if (!isMoving)
-                return;
+            {
+                hasStopped = true;
+                bossPower?.SetTakeDamageState(false);
+            }
         }
         if (isMovingOut)
         {
@@ -76,7 +85,6 @@ public class PointsMovingFromBoss : MonoBehaviour
                 isMovingOut = false;
                 isMovingIn = true;
             }
-            //else => raycast
         }
     }
 

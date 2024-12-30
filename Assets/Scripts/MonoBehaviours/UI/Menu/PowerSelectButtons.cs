@@ -17,16 +17,16 @@ public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler, IDragHandl
         startPosition = transform.position;
     }
 
-    bool turn, status;
+    bool turn, state;
     public void OnPointerDown(PointerEventData eventData)
     {
-        if ((!status && MenuUIManager.instance.DoneButtonIsActived()) || PlayerSelectionData.Instance.onlyOneMode)
+        if ((!state && MenuUIManager.instance.DoneButtonIsActived()) || PlayerSelectionData.Instance.onlyOneMode)
             return;
         turn = !turn;
-        MenuUIManager.instance.ToReceiveSelection(turn, ref status, gameObject);
-        MenuUIManager.instance.ToUnselect(turn, ref status, gameObject);
+        MenuUIManager.instance.ToReceiveSelection(turn, ref state, gameObject);
+        MenuUIManager.instance.ToUnselect(turn, ref state, gameObject);
         MenuUIManager.instance.ToDisplayQuitButton();
-        if (status)
+        if (state)
             image.color = Color.white;
         else
             image.color = Color.gray;
@@ -34,7 +34,7 @@ public class PowerSelectButtons : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     void OnDisable()
     {
-        if (status)
+        if (state)
             MenuUIManager.instance.ToSetUpTheSelectedPower(powerKind);
     }
 

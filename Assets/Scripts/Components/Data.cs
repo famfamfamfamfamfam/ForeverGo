@@ -31,14 +31,14 @@ public class SwitchData
     public int GetHitCount(PowerKind powerKind)
     {
         int currentHitCount = data[powerKind].hitCountForUsingSkill;
-        GameManager.instance.Notify(TypeOfEvent.PlayerUniqueSkillStatusChange, currentHitCount);
+        GameManager.instance.Notify(TypeOfEvent.PlayerUniqueSkillStateChange, currentHitCount);
         return currentHitCount;
     }
 
     public void SetHitCount(PowerKind powerKind, int newNumber)
     {
         data[powerKind].SetHitCountForUsingSkill(newNumber);
-        GameManager.instance.Notify(TypeOfEvent.PlayerUniqueSkillStatusChange, newNumber);
+        GameManager.instance.Notify(TypeOfEvent.PlayerUniqueSkillStateChange, newNumber);
     }
 }
 

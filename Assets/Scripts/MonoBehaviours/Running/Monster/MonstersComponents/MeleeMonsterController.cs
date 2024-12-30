@@ -99,12 +99,15 @@ public class MeleeMonsterController : MonsterController
 
     Quaternion oldAngle, targetAngle;
     float elapsedTime;
+    float maxAngle = 100f;
     public void NavigateMonster(Transform player)
     {
         targetAngle = Quaternion.LookRotation(player.position - transform.position);
         targetAngle = Quaternion.Euler(0, targetAngle.eulerAngles.y, 0);
         if (elapsedTime == 0)
             oldAngle = transform.rotation;
+        if (Quaternion.Angle(oldAngle, targetAngle) > maxAngle)
+            targetAngle = Quaternion.RotateTowards(oldAngle, targetAngle, maxAngle);
         elapsedTime = Mathf.Clamp01(elapsedTime + Time.deltaTime);
         transform.rotation = Quaternion.Slerp(oldAngle, targetAngle, elapsedTime);
         if (elapsedTime == 1)
@@ -133,11 +136,11 @@ public class MeleeMonsterController : MonsterController
         if (targetToFlee != null)
             SetNewForwardVector(targetToFlee.position);
     }
-    float raycastOriginHeight = 0.25f;
+    float rayOriginHeight = 0.25f;
     void FindTheFarestDistance(Vector3 checkedDirection, int i)
     {
         RaycastHit hit;
-        if (Physics.Raycast(raycastOriginHeight * transform.up + transform.position, checkedDirection, out hit, raycastDistance, combineMask))
+        if (Physics.Raycast(rayOriginHeight * transform.up + transform.position, checkedDirection, out hit, raycastDistance, combineMask))
         {
             distances[i] = Vector3.SqrMagnitude(hit.transform.position - transform.position);
             transformsBehindTheDistances[i] = hit.transform;
@@ -213,10 +216,18 @@ public class MeleeMonsterController : MonsterController
     }
 
     RaycastHit hit;
+    Ray ray;
+    int castSphereFrequency_countByFrame = 3;
+    float sphereCastDistance = 1.25f;
+    float sphereCastRadius = 0.75f;
     public void OnFleeAnimating()
     {
-        if (Physics.Raycast(raycastOriginHeight * transform.up + transform.position, transform.forward, out hit, 1f, combineMask))
-            ToFleeOnLowHP();
+        if (Time.frameCount % castSphereFrequency_countByFrame == 0)
+        {
+            ray = new Ray(rayOriginHeight * transform.up + transform.position, transform.forward);
+            if (Physics.SphereCast(ray, sphereCastRadius, out hit, sphereCastDistance, combineMask))
+                ToFleeOnLowHP();
+        }
     }
 
 

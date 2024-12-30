@@ -7,10 +7,10 @@ public class CommonUtils
     public static CommonUtils instance = new CommonUtils();
     private CommonUtils()
     {
-        enumCount = Enum.GetValues(typeof(PowerKind)).Length;
+        powerKindEnumCount = Enum.GetValues(typeof(PowerKind)).Length;
     }
 
-    public int enumCount { get; private set; }
+    public int powerKindEnumCount { get; private set; }
 
     public void SetUpNextIndex(ref int currentValue, int collectionSize)
     {
@@ -24,7 +24,7 @@ public class CommonUtils
     {
         int powerIndex = UnityEngine.Random.Range(0, 3);
         int unselectedKindIndex = powerIndex;
-        SetUpNextIndex(ref unselectedKindIndex, enumCount);
+        SetUpNextIndex(ref unselectedKindIndex, powerKindEnumCount);
         return (PowerKind)powerIndex;
     }
 

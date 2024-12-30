@@ -54,9 +54,9 @@ public class GamePlayUIManager : MonoBehaviour, ILoadingInLevel
         GameManager.instance.Subscribe<string>(TypeOfEvent.PlayerMarkChange, markName => UpdatePlayerMark(markName));
 
         playerSuperSkillBar.maxValue = playerSuperSkill.cooldown_second;
-        GameManager.instance.Subscribe<float>(TypeOfEvent.PlayerSuperSkillStatusChange, data => UpdatePlayerSuperSkillBar(data));
+        GameManager.instance.Subscribe<float>(TypeOfEvent.PlayerSuperSkillStateChange, data => UpdatePlayerSuperSkillBar(data));
         playerUniqueSkillBar.maxValue = playerUniqueSkill.afterHitCount;
-        GameManager.instance.Subscribe<int>(TypeOfEvent.PlayerUniqueSkillStatusChange, data => UpdatePlayerUniqueSkillBar(data));
+        GameManager.instance.Subscribe<int>(TypeOfEvent.PlayerUniqueSkillStateChange, data => UpdatePlayerUniqueSkillBar(data));
 
         GameManager.instance.Subscribe<int>(TypeOfEvent.RangedMonstersHittableCountChange, data => UpdateStrangeCubeHitCount(data));
 

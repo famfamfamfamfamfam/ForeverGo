@@ -23,6 +23,9 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
     Type[] monsterFightTypes;
     PowerKind[] monsterPowerKinds;
 
+    [SerializeField]
+    GameObject bossDynamicAttackRangeController;
+
     public GameObject boss { get; private set; }
     string bossPrefabPath = "Boss";
     public Dictionary<int, Action> initActionsInLevel => new Dictionary<int, Action>()
@@ -32,6 +35,7 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
             {
                 GameObject bossPrefab = Resources.Load<GameObject>(bossPrefabPath);
                 boss = Instantiate(bossPrefab, wayPoints[4].position, Quaternion.identity);
+                bossDynamicAttackRangeController.SetActive(true);
             }
         }
     };

@@ -204,11 +204,11 @@ public class Player : MonoBehaviour, IOnAttackable, IAttackStateSettable, IGetFo
             yield return new WaitUntil(() => isInCooldown == true);
             for (int i = 0; i < numberOfUnit; i++)
             {
-                GameManager.instance.Notify(TypeOfEvent.PlayerSuperSkillStatusChange, elapsedTime);
+                GameManager.instance.Notify(TypeOfEvent.PlayerSuperSkillStateChange, elapsedTime);
                 yield return new WaitForSeconds(superSkill.cooldown_second / numberOfUnit);
                 elapsedTime += superSkill.cooldown_second / numberOfUnit;
             }
-            GameManager.instance.Notify(TypeOfEvent.PlayerSuperSkillStatusChange, elapsedTime);
+            GameManager.instance.Notify(TypeOfEvent.PlayerSuperSkillStateChange, elapsedTime);
             elapsedTime = 0;
             isInCooldown = false;
         }

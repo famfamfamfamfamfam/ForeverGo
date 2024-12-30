@@ -47,7 +47,7 @@ public class MenuUIManager : MonoBehaviour
     }
 
     public bool hasAnotherSelected { get; private set; }
-    public void ToReceiveSelection(bool selected, ref bool status, GameObject obj)
+    public void ToReceiveSelection(bool selected, ref bool state, GameObject obj)
     {
         if (selected)
         {
@@ -57,16 +57,16 @@ public class MenuUIManager : MonoBehaviour
                 doneButton.SetActive(true);
             else
                 hasAnotherSelected = true;
-            status = true;
+            state = true;
             Debug.Log(obj + "selected");
         }
     }
 
-    public void ToUnselect(bool selected, ref bool status, GameObject obj)
+    public void ToUnselect(bool selected, ref bool state, GameObject obj)
     {
         if (!selected)
         {
-            status = false;
+            state = false;
             if (doneButton.activeSelf)
             {
                 doneButton.SetActive(false);
