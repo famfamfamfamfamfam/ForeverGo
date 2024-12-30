@@ -15,6 +15,11 @@ public class PlayInput
 
     public void SetAxisInputValue(float horizontalInput, float verticalInput)
     {
+        if (horizontalInput != 0)
+            GameManager.instance._playerFollowCam.SetSmoothTime(0);
+        else if (GameManager.instance._playerFollowCam.SmoothTimeIsZeroCurrently())
+            GameManager.instance._playerFollowCam.ResetSmoothTimeToDefault();
+
         horizontalValue = horizontalInput;
         verticalValue = verticalInput;
     }

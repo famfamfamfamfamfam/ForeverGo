@@ -13,8 +13,11 @@ public class GameManager : MonoBehaviour, ILoadingInLevel
     GameObject ground;
     [SerializeField]
     Transform[] rails;
+    [SerializeField]
+    FollowCam playerFollowCam;
 
     public GameObject _player { get => player; }
+    public FollowCam _playerFollowCam { get => playerFollowCam; }
 
     private void Awake()
     {

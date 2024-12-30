@@ -1,7 +1,7 @@
 using System.Resources;
 using UnityEngine;
 
-public class BossPower : MonoBehaviour, IGetForAttacking
+public class BossPower : MonoBehaviour, IGetForAttacking, IOnAttackable
 {
     public (PowerKind powerKind, AttackState? attackState) GetDataForAttacking()
     {
@@ -11,13 +11,14 @@ public class BossPower : MonoBehaviour, IGetForAttacking
     PowerKind mark;
     bool canTakeDamage;
 
-    void Start()
+    public void OnBeAttacked(PowerKind enemyCurrentPower, AttackState? enemyCurrentAttackState)
     {
-        
+
     }
 
     public void SetTakeDamageState(bool state)
     {
         canTakeDamage = state;
     }
+
 }

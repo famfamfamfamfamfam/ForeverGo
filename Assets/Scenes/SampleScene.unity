@@ -846,6 +846,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objsWaitingToRun:
   - {fileID: 1021314820}
+  - {fileID: 1617744054}
   - {fileID: 963194225}
 --- !u!1 &341781397
 GameObject:
@@ -2471,7 +2472,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 291f1ac80b3892249bb03f6727553248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followedObj: {fileID: 1021314821}
+  controlHead: {fileID: 1021314821}
+  camHead: {fileID: 1617744056}
 --- !u!1 &978529095
 GameObject:
   m_ObjectHideFlags: 0
@@ -2669,7 +2671,7 @@ GameObject:
   - component: {fileID: 1021314821}
   - component: {fileID: 1021314822}
   m_Layer: 0
-  m_Name: head
+  m_Name: ControlHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3400,6 +3402,7 @@ MonoBehaviour:
   - {fileID: 1401503853}
   - {fileID: 667331395}
   - {fileID: 432331086}
+  playerFollowCam: {fileID: 963194229}
   centerPoint: {fileID: 5342621}
 --- !u!1 &1316270746
 GameObject:
@@ -4485,6 +4488,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607995553}
   m_CullTransparentMesh: 1
+--- !u!1 &1617744054
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1617744056}
+  - component: {fileID: 1617744055}
+  m_Layer: 0
+  m_Name: CamHead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1617744055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617744054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb74712b40aafa849be0373fc97757af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 5220239111676424992}
+--- !u!4 &1617744056
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617744054}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1625869735
 GameObject:
   m_ObjectHideFlags: 0
@@ -5729,6 +5777,7 @@ MonoBehaviour:
   - {fileID: 5342621}
   prefab: {fileID: 855697913656182472, guid: c5238005e10cc5a49af76e414eabe57b, type: 3}
   strangeCubePrefab: {fileID: 8717561513578498369, guid: 8a30dcf19b0237b49aec33855721dc78, type: 3}
+  bossDynamicAttackRangeController: {fileID: 0}
   rockSpawner: {fileID: 0}
 --- !u!1 &2029918291
 GameObject:
@@ -75086,6 +75135,7 @@ SceneRoots:
   - {fileID: 1148093689}
   - {fileID: 5220239111676424992}
   - {fileID: 1021314821}
+  - {fileID: 1617744056}
   - {fileID: 332332582}
   - {fileID: 1292958496}
   - {fileID: 1954821507}

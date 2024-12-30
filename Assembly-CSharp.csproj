@@ -109,6 +109,7 @@
     <Compile Include="Assets\Scripts\MonoBehaviours\Running\Boss\BossController.cs" />
     <Compile Include="Assets\Scripts\Components\Data.cs" />
     <Compile Include="Assets\Scripts\Others\CommonUtils.cs" />
+    <Compile Include="Assets\Scripts\Components\StateMachineBehaviours\CameraSmoothing.cs" />
     <Compile Include="Assets\Scripts\Components\ScriptableObjects\CharacterProperties.cs" />
     <Compile Include="Assets\Scripts\MonoBehaviours\UI\GamePlay\OnSwitchingPauseState.cs" />
     <Compile Include="Assets\Scripts\Components\ScriptableObjects\Damage.cs" />
