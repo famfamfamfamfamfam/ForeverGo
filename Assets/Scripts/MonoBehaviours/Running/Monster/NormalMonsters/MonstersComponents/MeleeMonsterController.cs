@@ -224,7 +224,7 @@ public class MeleeMonsterController : MonsterController
     {
         if (Time.frameCount % castSphereFrequency_countByFrame == 0)
         {
-            ray = new Ray(rayOriginHeight * transform.up + transform.position, transform.forward);
+            ray = new Ray(transform.position, transform.forward);
             if (Physics.SphereCast(ray, sphereCastRadius, out hit, sphereCastDistance, combineMask))
                 ToFleeOnLowHP();
         }

@@ -84,16 +84,16 @@ public class RangedMonsterController : MonsterController
         lineRenderer.enabled = true;
     }
 
-    RaycastHit hit;
+    RaycastHit[] hit = new RaycastHit[1];
     float distance;
     LayerMask layerMask;
     public void OnRoundAttackAnimating()
     {
         lineRenderer.SetPosition(0, laserStartPoint.position);
         lineRenderer.SetPosition(1, laserStartPoint.position + laserStartPoint.forward * distance);
-        if (Physics.Raycast(laserStartPoint.position, laserStartPoint.forward, out hit, distance, layerMask))
+        if (Physics.RaycastNonAlloc(laserStartPoint.position, laserStartPoint.forward, hit, distance, layerMask) > 0)
         {
-            GameManager.instance.OnAttack(animator.gameObject, hit.collider.gameObject);
+            GameManager.instance.OnAttack(animator.gameObject, hit[0].collider.gameObject);
         }
     }
 

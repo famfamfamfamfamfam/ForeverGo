@@ -24,7 +24,7 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
     PowerKind[] monsterPowerKinds;
 
     [SerializeField]
-    GameObject bossDynamicAttackRangeController;
+    PointsMovingFromBoss bossDynamicRangeAttackController;
 
     public GameObject boss { get; private set; }
     string bossPrefabPath = "Boss";
@@ -35,7 +35,7 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
             {
                 GameObject bossPrefab = Resources.Load<GameObject>(bossPrefabPath);
                 boss = Instantiate(bossPrefab, wayPoints[4].position, Quaternion.identity);
-                bossDynamicAttackRangeController.SetActive(true);
+                bossDynamicRangeAttackController.gameObject.SetActive(true);
             }
         }
     };
@@ -203,9 +203,16 @@ public class MonstersManager : MonoBehaviour, ILoadingInLevel
 
 
     [SerializeField]
-    GameObject rockSpawner;
-    public void TurnRockSpawnerOnBossStates()
+    RocksSpawner rockSpawner;
+    float minSpawnRockHeight = 5f;
+    float maxSpawnRockHeight = 8f;
+    public void BossRockAttack(int currentRockCountToSpawn)
     {
-        rockSpawner.SetActive(!rockSpawner.activeSelf);
+        rockSpawner.SpawnRandomly(minSpawnRockHeight, maxSpawnRockHeight, currentRockCountToSpawn);
+    }
+
+    public void BossRangeAttack(BossPower power)
+    {
+        bossDynamicRangeAttackController.AttackWithDynamicRange(power);
     }
 }

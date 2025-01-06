@@ -29,9 +29,4 @@ public class RocksSpawner : MonoBehaviour
         }
         randomKeys.Clear();
     }
-
-    private void OnDisable()
-    {
-        StopAllCoroutines();
-    }
 }

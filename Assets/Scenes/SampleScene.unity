@@ -5777,8 +5777,8 @@ MonoBehaviour:
   - {fileID: 5342621}
   prefab: {fileID: 855697913656182472, guid: c5238005e10cc5a49af76e414eabe57b, type: 3}
   strangeCubePrefab: {fileID: 8717561513578498369, guid: 8a30dcf19b0237b49aec33855721dc78, type: 3}
-  bossDynamicAttackRangeController: {fileID: 0}
-  rockSpawner: {fileID: 0}
+  bossDynamicRangeAttackController: {fileID: 7591701813611893489}
+  rockSpawner: {fileID: 1238759857}
 --- !u!1 &2029918291
 GameObject:
   m_ObjectHideFlags: 0
