@@ -27,7 +27,7 @@ public class FollowCam : MonoBehaviour, ILateUpdateMethodWaitingToRun
             controlHead.Rotate(0, currentMouseXRotation, 0);
             camHead.Rotate(-Input.GetAxis("Mouse Y") * yRotateSpeed * Time.deltaTime, currentMouseXRotation, 0);
             transform.rotation = Quaternion.LookRotation(camHead.position - transform.position);
-            if (transform.position.y > 0.1f)
+            if (transform.position.y > 0.15f)
                 return;
             transform.position = new Vector3(transform.position.x, 0.1f, transform.position.z);
         }

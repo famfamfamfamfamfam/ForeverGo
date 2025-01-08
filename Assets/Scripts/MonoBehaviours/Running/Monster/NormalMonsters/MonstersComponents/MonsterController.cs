@@ -12,9 +12,10 @@ public class MonsterController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void Init(RuntimeAnimatorController animatorController)
+    public void Init(RuntimeAnimatorController animatorController = null)
     {
-        animator.runtimeAnimatorController = animatorController;
+        if (animatorController != null)
+            animator.runtimeAnimatorController = animatorController;
         container = new AnimationContainer(animator);
         animator.SetBool("isDying", false);
     }
